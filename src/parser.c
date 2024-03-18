@@ -1,6 +1,6 @@
 #include "../inc/parsing.h"
 
-t_group *parser(char *line)
+t_group *parser(char *line, char **envp)
 {
 	char **token_tab;
 	t_tokens *token_list;
@@ -34,7 +34,7 @@ t_group *parser(char *line)
 		print_token_list(token_list);
 		printf("\n");
 		token_list = start;
-		group = get_group_list(token_list);
+		group = get_group_list(token_list, envp);
 		// print_group(group); //shoudn't work for non-existing cmd
 		//free_tokens(list);
 	}

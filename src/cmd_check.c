@@ -1,39 +1,5 @@
 #include "../inc/parsing.h"
 
-int only_spaces(char *str)
-{
-	// if(!str[0])
-	// 	return (1);
-	while(*str == ' ')
-		str++;
-	if(*str == '\0')
-		return (1);
-	return (0);
-}
-
-int    is_built(char *str)
-{
-    int        i;
-    char    *tab[7];
-
-    i = 0;
-    tab[0] = "env";
-    tab[1] = "pwd";
-    tab[2] = "echo";
-	tab[3] = "unset";
-	tab[4] = "export";
-	tab[5] = "cd";
-	tab[6] = "exit";
-    while (str[i] && i <= 6)
-    {
-        if (ft_strncmp(str, tab[i], ft_strlen(tab[i])) == 0)
-            return (1);
-        i++;
-    }
-    return (0);
-}
-
-
 char	**get_path(char **envp)
 {
 	char	**res;

@@ -41,6 +41,7 @@ char **get_cmd_tab(t_tokens *list)
 		list = list->next;
 	}
 	cmd_tab[i] = NULL;
+
     // printf("Here is the group->cmd : ");
     // print_tab(cmd_tab);
 	// printf("\n\n");
@@ -81,7 +82,7 @@ t_tokens *move_after_pipe(t_tokens *list)
 	return (list->next);
 }
 
-t_group *get_group(t_tokens *list)
+t_group *get_group(t_tokens *list, char **envp)
 {
 	t_tokens *start;
 	t_group *group;
@@ -92,17 +93,31 @@ t_group *get_group(t_tokens *list)
 		return (NULL); //malloc pb
     group = invalid_group(0);
 	group->cmd = get_cmd_tab(list);
+	//cmd_check
+	if(!group->cmd)
+		return (invalid_group(1)); //malloc pb
+	if(is_built(group->cmd[0]) == 0)
+	{
+		group->cmd[0] = cmd_check(group->cmd, envp);
+		if(group->cmd[0] == NULL)
+		{
+			// free(group);
+			printf("Command not found\n");
+			return (invalid_group(127)); //cmd not found
+		}
+	}
+
 	list = start;
 	group = get_files(list, group);
 	return (group);
 }
 
-t_group *get_group_list(t_tokens *list)
+t_group *get_group_list(t_tokens *list, char **envp)
 {
 	t_group *begin_gr;
 	t_group *curr_gr;
 
-	begin_gr = get_group(list);
+	begin_gr = get_group(list, envp);
 
     // printf("Print first group : \n");
     // print_group(begin_gr);
@@ -119,7 +134,7 @@ t_group *get_group_list(t_tokens *list)
 
             if(list == NULL) //должно входить в проверку синтаксиса раньше
                 break;		
-			begin_gr->next = get_group(list);
+			begin_gr->next = get_group(list, envp);
 			begin_gr = begin_gr->next;
 		}
     }

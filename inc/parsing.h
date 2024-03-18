@@ -48,7 +48,7 @@ char *infile_access(t_tokens *list, char *str);
 
 //get_group
 t_group *invalid_group(int flag);
-t_group *get_group_list(t_tokens *list);
+t_group *get_group_list(t_tokens *list, char **envp);
 
 //сheck cmd and files
 char	**get_path(char **envp);

@@ -9,7 +9,7 @@ int	is_exit(const char *line)
 		return (1);
 }
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_group *group;
@@ -23,13 +23,18 @@ int	main(int ac, char **av)
 		if (line && *line)
 			add_history(line);
 		
-		group = parser(line);
+		group = parser(line, envp);
 		if(!group)
-			exit(EXIT_FAILURE); //malloc pb
+			exit(EXIT_FAILURE); //malloc pb => разве должен exit??
 		if(group->flag_fail != 0)
+		{
+			free(line);
 			line = NULL;
+			//менять значение int status в зависимости от flag_fail
+		}
 		else
 		{
+			//execve
 			printf("Parsed :\n");
     		print_group(group);
     		printf("\n");
