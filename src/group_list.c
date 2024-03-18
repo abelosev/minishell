@@ -1,25 +1,6 @@
 #include "../inc/parsing.h"
 #include "../inc/minishell.h"
 
-t_group *invalid_group(int flag)
-{
-	t_group *group;
-	group = malloc(sizeof(t_group));
-	if(!group || group == NULL) //to remove "group == NULL" ?
-	{
-		perror("group malloc");
-		return (NULL);
-	}
-	group->flag_fail = flag;
-	//free(group);
-	group->cmd = NULL;
-	group->redir_in = NULL;
-	group->redir_out = NULL;
-	group->app_out = NULL;
-	group->next = NULL;
-	return (group);
-}
-
 int get_group_nb(t_tokens *list)
 {
     int group_nb;
@@ -44,6 +25,7 @@ char **get_cmd_tab(t_tokens *list) //stops on the next non-WORD element of the l
 	len = 0;
 	i = 0;
 	start = list;
+
 	while(list->type == 0 && list != NULL)
 	{
 		len++;
@@ -61,8 +43,8 @@ char **get_cmd_tab(t_tokens *list) //stops on the next non-WORD element of the l
 		list = list->next;
 	}
 	cmd_tab[i] = NULL;
-    // printf("Here is the group->cmd :\n");
-    // print_tab(cmd_tab);
+    printf("Here is the group->cmd :\n");
+    print_tab(cmd_tab);
 	return (cmd_tab);
 }
 

@@ -17,10 +17,10 @@ t_tokens *get_node(char **token_tab, int i)
 		node->type = REDIR_IN;
 	else if(ft_strncmp(node->value, ">", 1) == 0)
 		node->type = REDIR_OUT;
-	else if(ft_strncmp(node->value, "<<", 1) == 0)
-		node->type = APP_IN;
-	else if(ft_strncmp(node->value, ">>", 1) == 0)
-		node->type = APP_OUT;
+	// else if(ft_strncmp(node->value, "<<", 1) == 0)
+	// 	node->type = APP_IN;
+	// else if(ft_strncmp(node->value, ">>", 1) == 0)
+	// 	node->type = APP_OUT;
 	else
 		node->type = WORD;
 	node->next = NULL;

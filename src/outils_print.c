@@ -39,7 +39,7 @@ void print_group(t_group *group)
 {
 	while(group != NULL)
 	{
-		printf("cmd:\n");
+		printf("cmd: ");
 		print_tab(group->cmd);
 		printf("flag: %d\n", group->flag_fail);
 		printf("fichier redir_in: %s\n", group->redir_in);

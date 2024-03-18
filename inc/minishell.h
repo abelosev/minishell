@@ -36,6 +36,8 @@ typedef struct s_list_env
 
 //parsing
 t_group *parser(char *line);
+t_group *invalid_group(int flag);
+
 
 //envp parsing
 t_list_env *get_list(char **tab);
