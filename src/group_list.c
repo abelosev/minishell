@@ -15,7 +15,7 @@ int get_group_nb(t_tokens *list)
     return (group_nb);
 }
 
-char **get_cmd_tab(t_tokens *list) // не обрабатывает cmd из 2 элементов
+char **get_cmd_tab(t_tokens *list)
 {
 	int len;
 	int i;
@@ -25,33 +25,25 @@ char **get_cmd_tab(t_tokens *list) // не обрабатывает cmd из 2 �
 	len = 0;
 	i = 0;
 	start = list;
-	while(list->type != 0 && list != NULL)
-		list = list->next;
-	start = list;
-	//синтаксические ошибки будут проверяться раньше
-
-	while(list->type == 0 && list != NULL) 
+	while (list != NULL && list->type == 0) //найти кол-во элементов таблицы cmd
 	{
 		len++;
 		list = list->next;
 	}
-	// printf("len : %d\n", len);
-	cmd_tab = malloc(sizeof(char *) * (len));
+	cmd_tab = malloc(sizeof(char *) * (len + 1));
 	if(!cmd_tab)
 		return (NULL);
 	list = start;
-	// printf("list->value : %s\n", list->value);
 	while(i < len && list != NULL)
 	{
 		cmd_tab[i] = ft_strdup(list->value);
-		printf("cmd_tab[%d] : %s\n", i, cmd_tab[i]);
 		i++;
 		list = list->next;
 	}
 	cmd_tab[i] = NULL;
-    printf("Here is the group->cmd : ");
-    print_tab(cmd_tab);
-	printf("\n\n");
+    // printf("Here is the group->cmd : ");
+    // print_tab(cmd_tab);
+	// printf("\n\n");
 	return (cmd_tab);
 }
 
@@ -61,48 +53,32 @@ t_group *get_files(t_tokens *list, t_group *group)
 	{
 		if (list->type == 1  && list->next->type == 0)
 			{
-				group->redir_in = ft_strdup(list->next->value);
 				group->redir_in = infile_access(list, group->redir_in);
 				if(group->redir_in == NULL)
 					return (invalid_group(1));
 			}
 			else if (list->type == 2  && list->next->type == 0)
 			{
-				group->redir_out = ft_strdup(list->next->value);
 				group->redir_out = outfile_access(list, group->redir_out);
 				if(group->redir_out == NULL)
 					return (invalid_group(1));
 			}
 			else if (list->type == 4  && list->next->type == 0)
 			{
-				group->app_out = ft_strdup(list->next->value);
 				group->app_out = outfile_access(list, group->app_out);
 				if(group->app_out == NULL)
 					return (invalid_group(1));
 			}
-			list = list->next->next;
+			list = list->next;
 	}
 	return (group);
 }
 
-t_tokens *move_after_pipe(t_tokens *list) //одна и та же запись?
+t_tokens *move_after_pipe(t_tokens *list)
 {
 	while(list->type != 5 && list->next != NULL)
 		list = list->next;
-
-	if(list->next != NULL)
-	{
-		list = list->next;
-		return (list);
-	}
-	else
-		return (NULL);
-
-	// list = list->next;
-	// if(list == NULL)
-	// 	return (NULL);
-	// else
-	// 	return (list);
+	return (list->next);
 }
 
 t_group *get_group(t_tokens *list)
@@ -123,48 +99,29 @@ t_group *get_group(t_tokens *list)
 
 t_group *get_group_list(t_tokens *list)
 {
-	int nb;
 	t_group *begin_gr;
 	t_group *curr_gr;
 
 	begin_gr = get_group(list);
 
-    printf("Print first group : \n");
-    print_group(begin_gr);
-    printf("\n");
+    // printf("Print first group : \n");
+    // print_group(begin_gr);
+    // printf("\n");
 
     if(get_group_nb(list) == 1)
         return (begin_gr);
     else
-    {
-        curr_gr = begin_gr;
-        curr_gr->cmd = copy_tab(begin_gr->cmd);
-		if(curr_gr->app_out)
-        	curr_gr->app_out = ft_strdup(begin_gr->app_out);
-		if(curr_gr->redir_in)
-        	curr_gr->redir_in = ft_strdup(begin_gr->redir_in);
-		if(curr_gr->redir_out)
-        	curr_gr->redir_out = ft_strdup(begin_gr->redir_out);
-        curr_gr->flag_fail = begin_gr->flag_fail;
-        curr_gr->next = NULL;
-
-        nb = 2; //???
-        while( nb <= get_group_nb(list) && move_after_pipe(list))
+	{
+		curr_gr = begin_gr;
+        while(get_group_nb(list))
         {
-            list = move_after_pipe(list);
+            list = move_after_pipe(list); //мб избыточно, учитывая условие while
 
             if(list == NULL) //должно входить в проверку синтаксиса раньше
-                break;
-            curr_gr->next = malloc(sizeof(t_group));
-			if(!curr_gr->next)
-				return (NULL); //malloc pb
-			curr_gr = curr_gr->next;
-			curr_gr = get_group(list);
-			nb++;
+                break;		
+			begin_gr->next = get_group(list);
+			begin_gr = begin_gr->next;
 		}
     }
-	printf("Print group_list : \n");
-    print_group(begin_gr);
-    printf("\n");
-	return (begin_gr);
+	return (curr_gr);
 }

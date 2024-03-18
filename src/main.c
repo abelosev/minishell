@@ -30,9 +30,9 @@ int	main(int ac, char **av)
 			line = NULL;
 		else
 		{
-			printf("Parsed: ");
-			print_tab(group->cmd);
-			line = NULL;
+			printf("Parsed :\n");
+    		print_group(group);
+    		printf("\n");
 		}
 		line = readline(">$ ");
 	}
