@@ -1,0 +1,187 @@
+paul-f3Ar3s1% make valgrind
+valgrind -q --suppressions=/mnt/nfs/homes/abelosev/minishell/ignore_readline --trace-children=yes \
+        --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
+        ./minishell
+>$ pwd
+new line : pwd
+Parsed: /usr/bin/pwd 
+>$ wc -l Makefile
+new line : wc -l Makefile
+==701105== Invalid read of size 8
+==701105==    at 0x40195B: free_tokens (free.c:35)
+==701105==    by 0x402B32: parser (parser.c:297)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105==  Address 0x4b667f0 is 16 bytes inside a block of size 24 free'd
+==701105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x40197C: free_tokens (free.c:37)
+==701105==    by 0x402B32: parser (parser.c:297)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105==  Block was alloc'd at
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x402872: lexer (parser.c:211)
+==701105==    by 0x402AEB: parser (parser.c:282)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+==701105== Invalid read of size 8
+==701105==    at 0x401967: free_tokens (free.c:36)
+==701105==    by 0x402B32: parser (parser.c:297)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105==  Address 0x4b667e8 is 8 bytes inside a block of size 24 free'd
+==701105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x40197C: free_tokens (free.c:37)
+==701105==    by 0x402B32: parser (parser.c:297)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105==  Block was alloc'd at
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x402872: lexer (parser.c:211)
+==701105==    by 0x402AEB: parser (parser.c:282)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+==701105== Invalid read of size 8
+==701105==    at 0x401974: free_tokens (free.c:37)
+==701105==    by 0x402B32: parser (parser.c:297)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105==  Address 0x4b667f0 is 16 bytes inside a block of size 24 free'd
+==701105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x40197C: free_tokens (free.c:37)
+==701105==    by 0x402B32: parser (parser.c:297)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105==  Block was alloc'd at
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x402872: lexer (parser.c:211)
+==701105==    by 0x402AEB: parser (parser.c:282)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+Parsed: /usr/bin/wc -l Makefile 
+>$ echo "abcd"
+==701105== Invalid read of size 1
+==701105==    at 0x4024A7: new_spaces_nb (parser.c:106)
+==701105==    by 0x402577: spaces_before_meta (parser.c:133)
+==701105==    by 0x4027B4: remove_quotes (parser.c:187)
+==701105==    by 0x402A78: parser (parser.c:271)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105==  Address 0x4b67b4c is 0 bytes after a block of size 12 alloc'd
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x48AEBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==701105==    by 0x488C694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==701105==    by 0x4896D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==701105==    by 0x401ED2: main (main.c:34)
+==701105== 
+==701105== Invalid write of size 1
+==701105==    at 0x402730: spaces_before_meta (parser.c:167)
+==701105==    by 0x4027B4: remove_quotes (parser.c:187)
+==701105==    by 0x402A78: parser (parser.c:271)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105==  Address 0x4b67c9c is 0 bytes after a block of size 12 alloc'd
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x40259D: spaces_before_meta (parser.c:135)
+==701105==    by 0x4027B4: remove_quotes (parser.c:187)
+==701105==    by 0x402A78: parser (parser.c:271)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+new line : echo  abcd 
+Parsed: /usr/bin/echo abcd 
+>$ echo "abcd">file
+new line : echo  abcd  > file
+Parsed: /usr/bin/echo abcd > file 
+>$ echo a b           c
+new line : echo a b           c
+Parsed: /usr/bin/echo a b c 
+>$ echo "hbjhj'"kjk"
+==701105== Invalid read of size 1
+==701105==    at 0x402332: quotes_ok (parser.c:55)
+==701105==    by 0x402552: spaces_before_meta (parser.c:130)
+==701105==    by 0x4027B4: remove_quotes (parser.c:187)
+==701105==    by 0x402A78: parser (parser.c:271)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105==  Address 0x4b6d062 is 0 bytes after a block of size 18 alloc'd
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x48AEBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==701105==    by 0x488C694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==701105==    by 0x4896D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==701105==    by 0x401ED2: main (main.c:34)
+==701105== 
+Invalid syntax: quotes
+==701105== Invalid read of size 4
+==701105==    at 0x401E88: main (main.c:26)
+==701105==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==701105== 
+==701105== 
+==701105== Process terminating with default action of signal 11 (SIGSEGV)
+==701105==  Access not within mapped region at address 0x0
+==701105==    at 0x401E88: main (main.c:26)
+==701105==  If you believe this happened as a result of a stack
+==701105==  overflow in your program's main thread (unlikely but
+==701105==  possible), you can try to increase the size of the
+==701105==  main thread stack using the --main-stacksize= flag.
+==701105==  The main thread stack size used in this run was 8388608.
+==701105== FILE DESCRIPTORS: 6 open (3 std) at exit.
+==701105== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==701105==    <inherited from parent>
+==701105== 
+==701105== Open file descriptor 39: /usr/share/code/resources/app/node_modules.asar
+==701105==    <inherited from parent>
+==701105== 
+==701105== Open file descriptor 38: /mnt/nfs/homes/abelosev/.config/Code/logs/20240312T150217/ptyhost.log
+==701105==    <inherited from parent>
+==701105== 
+==701105== 
+==701105== 22 bytes in 5 blocks are definitely lost in loss record 16 of 91
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x401F63: ft_strdup (outils.c:19)
+==701105==    by 0x402BF3: get_tab (tokens_outils.c:27)
+==701105==    by 0x40294D: get_group (parser.c:236)
+==701105==    by 0x402B25: parser (parser.c:296)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+==701105== 35 bytes in 9 blocks are indirectly lost in loss record 22 of 91
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x401F63: ft_strdup (outils.c:19)
+==701105==    by 0x402BF3: get_tab (tokens_outils.c:27)
+==701105==    by 0x40294D: get_group (parser.c:236)
+==701105==    by 0x402B25: parser (parser.c:296)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+==701105== 67 bytes in 5 blocks are indirectly lost in loss record 28 of 91
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x40210D: ft_strjoin (outils.c:57)
+==701105==    by 0x4012D0: path_check (cmd_check.c:39)
+==701105==    by 0x4013D7: cmd_check (cmd_check.c:90)
+==701105==    by 0x402994: get_group (parser.c:242)
+==701105==    by 0x402B25: parser (parser.c:296)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+==701105== 71 bytes in 5 blocks are definitely lost in loss record 29 of 91
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x40259D: spaces_before_meta (parser.c:135)
+==701105==    by 0x4027B4: remove_quotes (parser.c:187)
+==701105==    by 0x402A78: parser (parser.c:271)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+==701105== 120 bytes in 5 blocks are definitely lost in loss record 37 of 91
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x402805: lexer (parser.c:201)
+==701105==    by 0x402AEB: parser (parser.c:282)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+==701105== 152 bytes in 5 blocks are indirectly lost in loss record 39 of 91
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x402BBA: get_tab (tokens_outils.c:22)
+==701105==    by 0x40294D: get_group (parser.c:236)
+==701105==    by 0x402B25: parser (parser.c:296)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+==701105== 374 (120 direct, 254 indirect) bytes in 5 blocks are definitely lost in loss record 46 of 91
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x402919: get_group (parser.c:230)
+==701105==    by 0x402B25: parser (parser.c:296)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+==701105== 384 bytes in 5 blocks are definitely lost in loss record 47 of 91
+==701105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==701105==    by 0x401C60: ft_split1 (ft_split.c:60)
+==701105==    by 0x402AB7: parser (parser.c:276)
+==701105==    by 0x401E7F: main (main.c:25)
+==701105== 
+make: *** [Makefile:39: valgrind] Segmentation fault (core dumped)
+paul-f3Ar3s1% 
