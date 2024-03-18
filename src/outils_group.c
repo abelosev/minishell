@@ -28,7 +28,9 @@ char *outfile_access(t_tokens *list, char *str)
 		str = NULL;
 	}
 	str = ft_strdup(list->next->value);
-	if(access(str, R_OK | W_OK ) != 0)
+	if(access(str, F_OK ) != 0)
+		return (str);
+	else if(access(str, R_OK | W_OK ) != 0)
 	{
 		printf("Permission denied\n");
 		return (NULL);
