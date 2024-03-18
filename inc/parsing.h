@@ -42,6 +42,8 @@ char *file_access(t_tokens *list, char *str);
 
 //token_list
 t_tokens *lexer(char **token_tab);
+char *outfile_access(t_tokens *list, char *str);
+char *infile_access(t_tokens *list, char *str);
 
 
 //get_group

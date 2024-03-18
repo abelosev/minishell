@@ -27,7 +27,7 @@ void print_tab(char **tab)
 	int i;
 
 	i = 0;
-	while(tab[i])
+	while(tab[i] != NULL)
 	{
 		printf("%s ", tab[i]);
 		i++;

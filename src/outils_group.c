@@ -20,3 +20,39 @@ t_group *invalid_group(int flag)
 	return (group);
 }
 
+char *outfile_access(t_tokens *list, char *str)
+{
+	if(str != NULL)
+	{
+		free(str);
+		str = NULL;
+	}
+	str = ft_strdup(list->next->value);
+	if(access(str, R_OK | W_OK ) != 0)
+	{
+		printf("Permission denied\n");
+		return (NULL);
+	}
+	return (str);
+}
+
+char *infile_access(t_tokens *list, char *str)
+{
+	if(str != NULL)
+	{
+		free(str);
+		str = NULL;
+	}
+	str = ft_strdup(list->next->value);
+	if(access(str, F_OK) != 0)
+	{
+		printf("No such file or directory\n");
+		return (NULL);
+	}
+	else if(access(str, R_OK | W_OK ) != 0)
+	{
+		printf("Permission denied\n");
+		return (NULL);
+	}
+	return (str);
+}
