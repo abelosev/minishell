@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **envp)
 		
 		group = parser(line, envp);
 		if(!group)
-			exit(EXIT_FAILURE); //malloc pb => разве должен exit??
+			exit(EXIT_FAILURE); //malloc pb => разве должен exit?? 
 		if(group->flag_fail != 0)
 		{
 			free(line);
@@ -35,9 +35,9 @@ int	main(int ac, char **av, char **envp)
 		else
 		{
 			//execve
-			printf("Parsed :\n");
-    		print_group(group);
-    		printf("\n");
+			// printf("Parsed :\n");
+    		// print_group(group);
+    		// printf("\n");
 		}
 		line = readline(">$ ");
 	}

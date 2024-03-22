@@ -24,6 +24,8 @@ char **get_cmd_tab(t_tokens *list)
 
 	len = 0;
 	i = 0;
+	while(list != NULL && list->next != 0 && list->type != 0 && list->next->type == 0)
+		list = list->next->next;
 	start = list;
 	while (list != NULL && list->type == 0) //найти кол-во элементов таблицы cmd
 	{
@@ -47,6 +49,7 @@ char **get_cmd_tab(t_tokens *list)
 	// printf("\n\n");
 	return (cmd_tab);
 }
+
 
 t_group *get_files(t_tokens *list, t_group *group)
 {
@@ -93,11 +96,12 @@ t_group *get_group(t_tokens *list, char **envp)
 		return (NULL); //malloc pb
     group = invalid_group(0);
 	group->cmd = get_cmd_tab(list);
-	//cmd_check
+
 	if(!group->cmd)
 		return (invalid_group(1)); //malloc pb
 	if(is_built(group->cmd[0]) == 0)
 	{
+		////конвертировать envp из листа в таблицу или нет
 		group->cmd[0] = cmd_check(group->cmd, envp);
 		if(group->cmd[0] == NULL)
 		{
@@ -106,7 +110,6 @@ t_group *get_group(t_tokens *list, char **envp)
 			return (invalid_group(127)); //cmd not found
 		}
 	}
-
 	list = start;
 	group = get_files(list, group);
 	return (group);

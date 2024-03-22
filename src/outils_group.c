@@ -32,7 +32,7 @@ char *outfile_access(t_tokens *list, char *str)
 		return (str);
 	else if(access(str, R_OK | W_OK ) != 0)
 	{
-		printf("Permission denied\n");
+		printf("Permission denied\n"); //выводить сообщения без printf
 		return (NULL);
 	}
 	return (str);
