@@ -13,17 +13,29 @@ void free_tab(char **tab)
 	free(tab);
 }
 
-void free_group(t_group *lg)
+
+//is it possible to combine these 3 functions ?
+
+void free_group_list(t_group *group)
 {
-	if(lg)
+	t_group *tmp;
+	while(group != NULL)
 	{
-		if(lg->cmd)
-			free_tab(lg->cmd);
-		// if(lg->source != NULL)
-		// 	free(lg->source);
-		// if(lg->destination != NULL)
-		// 	free(lg->destination);
-		free(lg);
+		tmp = group->next;
+		if(group->cmd)
+			free_tab(group->cmd);
+		if(group->app_out)
+			free(group->app_out);
+		if(group->redir_in)
+			free(group->redir_in);
+		if(group->redir_out)
+			free(group->redir_out);
+		//if(group->app_in)
+		///
+		// if(group->next)
+		// 	free(group->next);
+		free(group);				//should we have it here?
+		group = tmp; 				//why dont't we free the starting node? 
 	}
 }
 
@@ -36,6 +48,7 @@ void free_tokens(t_tokens *list)
 		free(list->value);
 		if(list->next)
 			free(list->next);
+		free(list);				//should we have it here?
 		list = tmp;
 	}
 }
@@ -48,7 +61,8 @@ void free_envp_list(t_list_env *list)
 		tmp = list->next;
 		free(list->key);
 		free(list->value);
-		free(list->next);
+		if(list->next)
+			free(list->next);
 		list = tmp;
 	}
 }

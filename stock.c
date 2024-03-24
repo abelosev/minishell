@@ -176,35 +176,3 @@ int main()
     free(tab);
     return (0);
 }
-
-
-////////////
-
-int is_meta(char *str) //gere tout sauf >> <<
-{
-	if(*str == '|')
-		return (5);
-	else if(*str == '>')
-	{
-		str++;
-		if(*str && *str == '>')
-			return (4);
-		else
-		{
-			return (2);
-		}
-	}
-	else if(*str == '<')
-	{
-		str++;
-		if(*str && *str == '<')
-			return (3);
-		else
-		{
-			return (1);
-		}
-	}
-	else
-		return (0);
-	// return(c == '>' || c == '<' || c == '|');
-}

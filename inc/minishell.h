@@ -35,16 +35,16 @@ typedef struct s_list_env
 ////////////////// FONCTIONS //////////////////
 
 //parsing
-t_group *parser(char *line, char **envp);
-t_group *invalid_group(int flag);
+t_group	*parser(char *line, char **envp);
+t_group	*invalid_group(int flag);
 
 //envp parsing
-t_list_env *get_list(char **tab);
-char **get_envp(t_list_env *list);
+t_list_env	*get_list(char **tab);
+char		**get_envp(t_list_env *list);
 
 //free
-void free_tab(char **tab);
-void free_envp_list(t_list_env *list);
-void free_group(t_group *lg);
+void	free_tab(char **tab);
+void	free_envp_list(t_list_env *list);
+void	free_group_list(t_group *group);
 
 #endif

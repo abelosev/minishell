@@ -4,7 +4,7 @@ int only_spaces(char *str)
 {
 	// if(!str[0])
 	// 	return (1);
-	while(*str == ' ')
+	while(*str == ' ' || *str == '\t')
 		str++;
 	if(*str == '\0')
 		return (1);

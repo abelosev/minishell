@@ -7,7 +7,6 @@ t_group *invalid_group(int flag)
 	group = malloc(sizeof(t_group));
 	if(!group || group == NULL) //to remove "group == NULL" ?
 	{
-		perror("group malloc");
 		return (NULL);
 	}
 	group->flag_fail = flag;
@@ -32,7 +31,7 @@ char *outfile_access(t_tokens *list, char *str)
 		return (str);
 	else if(access(str, R_OK | W_OK ) != 0)
 	{
-		printf("Permission denied\n"); //выводить сообщения без printf
+		printf("Permission denied\n");
 		return (NULL);
 	}
 	return (str);

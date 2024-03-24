@@ -1,5 +1,10 @@
 #include "../inc/parsing.h"
 
+void ft_putstr_err(char *str)
+{
+	write(2, str, ft_strlen(str));
+}
+
 void print_list(t_list_env *list)
 {
 	while(list != NULL)
@@ -27,6 +32,8 @@ void print_tab(char **tab)
 	int i;
 
 	i = 0;
+	if(tab == NULL)
+		return ;
 	while(tab[i] != NULL)
 	{
 		printf("%s ", tab[i]);
@@ -37,15 +44,14 @@ void print_tab(char **tab)
 
 void print_group(t_group *group)
 {
-	while(group != NULL)
-	{
-		printf("\ncmd: ");
-		print_tab(group->cmd);
-		printf("flag: %d\n", group->flag_fail);
+	if(group == NULL)
+		return ;
 
-		printf("fichier redir_in: %s\n", group->redir_in);
-		printf("fichier redir_out: %s\n", group->redir_out);
-		printf("fichier app_out: %s\n", group->app_out);
-		group = group->next;
-	}
+	printf("\ncmd: ");
+	print_tab(group->cmd);
+	printf("flag: %d\n", group->flag_fail);
+
+	printf("fichier redir_in: %s\n", group->redir_in);
+	printf("fichier redir_out: %s\n", group->redir_out);
+	printf("fichier app_out: %s\n", group->app_out);
 }
