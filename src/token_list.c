@@ -34,14 +34,14 @@ t_tokens *lexer(char **token_tab)
 	t_tokens *begin;
 	t_tokens *curr;
 
-	begin = get_node(token_tab, 0); //HERE
+	begin = get_node(token_tab, 0);
 	if(!begin)
 		return (NULL);
 	curr = begin;
 	i = 1;
 	while(token_tab[i] != NULL)
 	{
-		curr->next = get_node(token_tab, i); //HERE
+		curr->next = get_node(token_tab, i);
 		if(!curr->next)
 		{
 			free_tokens(begin); //is it necessary?

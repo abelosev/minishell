@@ -20,7 +20,7 @@ char **cmd;
 char *redir_in;
 char *redir_out;
 char *app_out;
-// app_in (heredoc)
+char *app_in; //heredoc
 struct s_group *next;
 } t_group;
 
@@ -35,8 +35,8 @@ typedef struct s_list_env
 ////////////////// FONCTIONS //////////////////
 
 //parsing
-t_group	*parser(char *line, char **envp);
-t_group	*invalid_group(int flag);
+t_group	*parser(char *line, t_list_env *env);
+void invalid_group(t_group *group, int flag);
 
 //envp parsing
 t_list_env	*get_list(char **tab);

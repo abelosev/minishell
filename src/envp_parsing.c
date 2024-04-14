@@ -111,7 +111,7 @@ int get_node_nb(t_list_env *list)
 	return (node_nb);
 }
 
-char **get_envp(t_list_env *list) //разбить на функции поменьше
+char **get_envp(t_list_env *list)
 {
 	char **envp;
 	char *tmp1;

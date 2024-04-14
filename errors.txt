@@ -1,47 +1,411 @@
-==553009== 5 bytes in 2 blocks are indirectly lost in loss record 3 of 86
-==553009==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==553009==    by 0x4029A3: ft_strdup (outils_libft.c:19)
-==553009==    by 0x4038A9: get_node (token_list.c:13)
-==553009==    by 0x403AB0: lexer (token_list.c:44)
-==553009==    by 0x403170: parser (parser.c:61)
-==553009==    by 0x40248D: main (main.c:21)
-==553009== 
-==553009== 6 bytes in 2 blocks are definitely lost in loss record 4 of 86
-==553009==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==553009==    by 0x4029A3: ft_strdup (outils_libft.c:19)
-==553009==    by 0x401FC3: get_cmd_tab (group_list.c:41)
-==553009==    by 0x402261: get_group (group_list.c:108)
-==553009==    by 0x40234C: get_group_list (group_list.c:135)
-==553009==    by 0x40320D: parser (parser.c:81)
-==553009==    by 0x40248D: main (main.c:21)
-==553009== 
-==553009== 9 bytes in 3 blocks are indirectly lost in loss record 8 of 86
-==553009==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==553009==    by 0x4029A3: ft_strdup (outils_libft.c:19)
-==553009==    by 0x4038A9: get_node (token_list.c:13)
-==553009==    by 0x403A66: lexer (token_list.c:37)
-==553009==    by 0x403170: parser (parser.c:61)
-==553009==    by 0x40248D: main (main.c:21)
-==553009== 
-==553009== 48 bytes in 2 blocks are indirectly lost in loss record 28 of 86
-==553009==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==553009==    by 0x403878: get_node (token_list.c:7)
-==553009==    by 0x403AB0: lexer (token_list.c:44)
-==553009==    by 0x403170: parser (parser.c:61)
-==553009==    by 0x40248D: main (main.c:21)
-==553009== 
-==553009== 96 bytes in 2 blocks are definitely lost in loss record 33 of 86
-==553009==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==553009==    by 0x402231: get_group (group_list.c:104)
-==553009==    by 0x40234C: get_group_list (group_list.c:135)
-==553009==    by 0x40320D: parser (parser.c:81)
-==553009==    by 0x40248D: main (main.c:21)
-==553009== 
-==553009== 134 (72 direct, 62 indirect) bytes in 3 blocks are definitely lost in loss record 36 of 86
-==553009==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==553009==    by 0x403878: get_node (token_list.c:7)
-==553009==    by 0x403A66: lexer (token_list.c:37)
-==553009==    by 0x403170: parser (parser.c:61)
-==553009==    by 0x40248D: main (main.c:21)
-==553009== 
-make: *** [Makefile:39: valgrind] Interrupt
+paul-f3Br3s6% make valgrind
+valgrind -q --suppressions=/mnt/nfs/homes/abelosev/minishell_leaks/ignore_readline --trace-children=yes \
+        --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
+        ./minishell
+l;kj;oj>$ l;kj;oj
+no quotes + expand: l;kj;oj
+Token list:
+0=l;kj;oj
+
+debut de get_group
+Command not found
+==163105== Invalid read of size 4
+==163105==    at 0x401FF6: get_files (group_list.c:56)
+==163105==    by 0x402313: get_group (group_list.c:132)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65230 is 0 bytes inside a block of size 24 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x403978: get_node (token_list.c:7)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+==163105== Invalid read of size 8
+==163105==    at 0x402006: get_files (group_list.c:56)
+==163105==    by 0x402313: get_group (group_list.c:132)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65240 is 16 bytes inside a block of size 24 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x403978: get_node (token_list.c:7)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+==163105== Invalid read of size 4
+==163105==    at 0x401E1E: get_group_nb (group_list.c:11)
+==163105==    by 0x40237A: get_group_list (group_list.c:153)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65230 is 0 bytes inside a block of size 24 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x403978: get_node (token_list.c:7)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+==163105== Invalid read of size 8
+==163105==    at 0x401E34: get_group_nb (group_list.c:13)
+==163105==    by 0x40237A: get_group_list (group_list.c:153)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65240 is 16 bytes inside a block of size 24 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x403978: get_node (token_list.c:7)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+==163105== Invalid read of size 8
+==163105==    at 0x4019BB: free_tokens (free.c:47)
+==163105==    by 0x40238C: get_group_list (group_list.c:155)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65240 is 16 bytes inside a block of size 24 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x403978: get_node (token_list.c:7)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+==163105== Invalid read of size 8
+==163105==    at 0x4019C7: free_tokens (free.c:48)
+==163105==    by 0x40238C: get_group_list (group_list.c:155)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65238 is 8 bytes inside a block of size 24 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x403978: get_node (token_list.c:7)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+==163105== Invalid free() / delete / delete[] / realloc()
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019CF: free_tokens (free.c:48)
+==163105==    by 0x40238C: get_group_list (group_list.c:155)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65290 is 0 bytes inside a block of size 8 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019CF: free_tokens (free.c:48)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x402A83: ft_strdup (outils_libft.c:19)
+==163105==    by 0x4039A9: get_node (token_list.c:13)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+==163105== Invalid free() / delete / delete[] / realloc()
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x40238C: get_group_list (group_list.c:155)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65230 is 0 bytes inside a block of size 24 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x403978: get_node (token_list.c:7)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+==163105== Invalid read of size 8
+==163105==    at 0x4019BB: free_tokens (free.c:47)
+==163105==    by 0x403313: parser (parser.c:83)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65240 is 16 bytes inside a block of size 24 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x403978: get_node (token_list.c:7)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+==163105== Invalid read of size 8
+==163105==    at 0x4019C7: free_tokens (free.c:48)
+==163105==    by 0x403313: parser (parser.c:83)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65238 is 8 bytes inside a block of size 24 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x403978: get_node (token_list.c:7)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+==163105== Invalid free() / delete / delete[] / realloc()
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019CF: free_tokens (free.c:48)
+==163105==    by 0x403313: parser (parser.c:83)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65290 is 0 bytes inside a block of size 8 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019CF: free_tokens (free.c:48)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x402A83: ft_strdup (outils_libft.c:19)
+==163105==    by 0x4039A9: get_node (token_list.c:13)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+==163105== Invalid free() / delete / delete[] / realloc()
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x403313: parser (parser.c:83)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Address 0x4b65230 is 0 bytes inside a block of size 24 free'd
+==163105==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x4019D8: free_tokens (free.c:51)
+==163105==    by 0x4022EA: get_group (group_list.c:126)
+==163105==    by 0x40234C: get_group_list (group_list.c:141)
+==163105==    by 0x403306: parser (parser.c:82)
+==163105==    by 0x40250F: main (main.c:32)
+==163105==  Block was alloc'd at
+==163105==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163105==    by 0x403978: get_node (token_list.c:7)
+==163105==    by 0x403B66: lexer (token_list.c:37)
+==163105==    by 0x403260: parser (parser.c:61)
+==163105==    by 0x40250F: main (main.c:32)
+==163105== 
+fichier redir_in: (null)
+fichier redir_out: (null)
+fichier app_out: (null)
+
+
+////////////////////////
+
+
+>$ <poijoijoij echo
+no quotes + expand:  < poijoijoij echo
+Token list:
+1=<
+0=poijoijoij
+0=echo
+
+debut de get_group
+No such file or directory
+==163452== Invalid read of size 8
+==163452==    at 0x4019BB: free_tokens (free.c:47)
+==163452==    by 0x403313: parser (parser.c:83)
+==163452==    by 0x40250F: main (main.c:32)
+==163452==  Address 0x4b65350 is 16 bytes inside a block of size 24 free'd
+==163452==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163452==    by 0x4019D8: free_tokens (free.c:51)
+==163452==    by 0x40238C: get_group_list (group_list.c:155)
+==163452==    by 0x403306: parser (parser.c:82)
+==163452==    by 0x40250F: main (main.c:32)
+==163452==  Block was alloc'd at
+==163452==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163452==    by 0x403978: get_node (token_list.c:7)
+==163452==    by 0x403B66: lexer (token_list.c:37)
+==163452==    by 0x403260: parser (parser.c:61)
+==163452==    by 0x40250F: main (main.c:32)
+==163452== 
+==163452== Invalid read of size 8
+==163452==    at 0x4019C7: free_tokens (free.c:48)
+==163452==    by 0x403313: parser (parser.c:83)
+==163452==    by 0x40250F: main (main.c:32)
+==163452==  Address 0x4b65348 is 8 bytes inside a block of size 24 free'd
+==163452==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163452==    by 0x4019D8: free_tokens (free.c:51)
+==163452==    by 0x40238C: get_group_list (group_list.c:155)
+==163452==    by 0x403306: parser (parser.c:82)
+==163452==    by 0x40250F: main (main.c:32)
+==163452==  Block was alloc'd at
+==163452==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163452==    by 0x403978: get_node (token_list.c:7)
+==163452==    by 0x403B66: lexer (token_list.c:37)
+==163452==    by 0x403260: parser (parser.c:61)
+==163452==    by 0x40250F: main (main.c:32)
+==163452== 
+==163452== Invalid free() / delete / delete[] / realloc()
+==163452==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163452==    by 0x4019CF: free_tokens (free.c:48)
+==163452==    by 0x403313: parser (parser.c:83)
+==163452==    by 0x40250F: main (main.c:32)
+==163452==  Address 0x4b653a0 is 0 bytes inside a block of size 2 free'd
+==163452==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163452==    by 0x4019CF: free_tokens (free.c:48)
+==163452==    by 0x40238C: get_group_list (group_list.c:155)
+==163452==    by 0x403306: parser (parser.c:82)
+==163452==    by 0x40250F: main (main.c:32)
+==163452==  Block was alloc'd at
+==163452==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163452==    by 0x402A83: ft_strdup (outils_libft.c:19)
+==163452==    by 0x4039A9: get_node (token_list.c:13)
+==163452==    by 0x403B66: lexer (token_list.c:37)
+==163452==    by 0x403260: parser (parser.c:61)
+==163452==    by 0x40250F: main (main.c:32)
+==163452== 
+==163452== Invalid free() / delete / delete[] / realloc()
+==163452==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163452==    by 0x4019D8: free_tokens (free.c:51)
+==163452==    by 0x403313: parser (parser.c:83)
+==163452==    by 0x40250F: main (main.c:32)
+==163452==  Address 0x4b65340 is 0 bytes inside a block of size 24 free'd
+==163452==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163452==    by 0x4019D8: free_tokens (free.c:51)
+==163452==    by 0x40238C: get_group_list (group_list.c:155)
+==163452==    by 0x403306: parser (parser.c:82)
+==163452==    by 0x40250F: main (main.c:32)
+==163452==  Block was alloc'd at
+==163452==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==163452==    by 0x403978: get_node (token_list.c:7)
+==163452==    by 0x403B66: lexer (token_list.c:37)
+==163452==    by 0x403260: parser (parser.c:61)
+==163452==    by 0x40250F: main (main.c:32)
+==163452== 
+
+Parsed :
+fichier redir_in: (null)
+fichier redir_out: (null)
+fichier app_out: (null)
+
+
+///////
+
+>$ echo 123$USER
+before-expand tokens :
+echo 123
+$USER
+
+==168278== Invalid write of size 8
+==168278==    at 0x403526: copy_tab (outils_libft.c:47)
+==168278==    by 0x402131: ft_expand (expand.c:185)
+==168278==    by 0x404148: remove_quotes (remove_quotes.c:118)
+==168278==    by 0x403CA1: parser (parser.c:52)
+==168278==    by 0x402EBC: main (main.c:34)
+==168278==  Address 0x4b6a4a0 is 0 bytes after a block of size 16 alloc'd
+==168278==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==168278==    by 0x4034B7: copy_tab (outils_libft.c:41)
+==168278==    by 0x402131: ft_expand (expand.c:185)
+==168278==    by 0x404148: remove_quotes (remove_quotes.c:118)
+==168278==    by 0x403CA1: parser (parser.c:52)
+==168278==    by 0x402EBC: main (main.c:34)
+==168278== 
+==168278== Invalid read of size 8
+==168278==    at 0x402147: ft_expand (expand.c:190)
+==168278==    by 0x404148: remove_quotes (remove_quotes.c:118)
+==168278==    by 0x403CA1: parser (parser.c:52)
+==168278==    by 0x402EBC: main (main.c:34)
+==168278==  Address 0x4b6a4a0 is 0 bytes after a block of size 16 alloc'd
+==168278==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==168278==    by 0x4034B7: copy_tab (outils_libft.c:41)
+==168278==    by 0x402131: ft_expand (expand.c:185)
+==168278==    by 0x404148: remove_quotes (remove_quotes.c:118)
+==168278==    by 0x403CA1: parser (parser.c:52)
+==168278==    by 0x402EBC: main (main.c:34)
+==168278== 
+after-expand tokens :
+echo 123
+abelosev
+==168278== Invalid read of size 8
+==168278==    at 0x4039D0: print_tab (outils_print.c:37)
+==168278==    by 0x4021D3: ft_expand (expand.c:197)
+==168278==    by 0x404148: remove_quotes (remove_quotes.c:118)
+==168278==    by 0x403CA1: parser (parser.c:52)
+==168278==    by 0x402EBC: main (main.c:34)
+==168278==  Address 0x4b6a4a0 is 0 bytes after a block of size 16 alloc'd
+==168278==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==168278==    by 0x4034B7: copy_tab (outils_libft.c:41)
+==168278==    by 0x402131: ft_expand (expand.c:185)
+==168278==    by 0x404148: remove_quotes (remove_quotes.c:118)
+==168278==    by 0x403CA1: parser (parser.c:52)
+==168278==    by 0x402EBC: main (main.c:34)
+==168278== 
+
+==168278== Invalid read of size 8
+==168278==    at 0x402014: from_tab_to_line (expand.c:158)
+==168278==    by 0x4021E4: ft_expand (expand.c:199)
+==168278==    by 0x404148: remove_quotes (remove_quotes.c:118)
+==168278==    by 0x403CA1: parser (parser.c:52)
+==168278==    by 0x402EBC: main (main.c:34)
+==168278==  Address 0x4b6a4a0 is 0 bytes after a block of size 16 alloc'd
+==168278==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==168278==    by 0x4034B7: copy_tab (outils_libft.c:41)
+==168278==    by 0x402131: ft_expand (expand.c:185)
+==168278==    by 0x404148: remove_quotes (remove_quotes.c:118)
+==168278==    by 0x403CA1: parser (parser.c:52)
+==168278==    by 0x402EBC: main (main.c:34)
+==168278== 
+NEW_STRING : echo 123abelosev
+no quotes + expand: echo 123abelosev
+Token list:
+0=echo
+0=123abelosev
+
+>$ 

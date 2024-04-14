@@ -59,7 +59,15 @@ char	*cmd_check(char **cmd, char **envp)
 	if (cmd[0][0] == '/' && (access(cmd[0], F_OK | X_OK) == 0)) //make sure that '|'
 		arg_w_path = ft_strdup(cmd[0]);
 	else
+	{
 		arg_w_path = path_check(path_list, cmd);
+		// if(access(path_check, F_OK | X_OK) == 0)
+		// 	arg_w_path = path_check(path_list, cmd);
+		// else
+		// 	arg_w_path = NULL;
+	}
+	free(cmd[0]);
+	// free_tab(cmd);
 	free_tab(path_list);
 	return (arg_w_path);
 }

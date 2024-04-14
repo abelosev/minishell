@@ -6,6 +6,8 @@ int	ft_is_delimiter1(char c, int flag)
 		return (c == ' ' || c == '\t');
 	else if (flag == 2)
 		return (c == ':');
+	else if (flag == 3)
+		return (c == 28);
 	else
 		return (0);
 }
@@ -75,12 +77,3 @@ char	**ft_split1(char *str, int flag)
 	split[idx] = NULL;
 	return (split);
 }
-
-/*
-int main()
-{
-	char *str = " ";
-	char **tab = ft_split1(str, 1);
-	printf("%s\n", tab[0]);
-	return 0;
-}*/
