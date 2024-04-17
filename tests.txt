@@ -39,7 +39,6 @@ $USER
 
 To fix :
 
-
 >$ echo 123 >>file1
 no_double : echo 123 >>file1
 spaces : echo 123  f file1

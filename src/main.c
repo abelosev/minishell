@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/15 21:13:30 by abelosev          #+#    #+#             */
+/*   Updated: 2024/04/17 00:53:17 by abelosev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 #include "../inc/parsing.h"
 
@@ -37,6 +49,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			if(line)
 				free(line);
+			free_envp_list(env);
 			exit(EXIT_FAILURE); //to think abt builtin exit application here
 		}
 		
@@ -47,6 +60,9 @@ int	main(int ac, char **av, char **envp)
 			if(group->flag_fail == 2 || (group->flag_fail == 127 && group->next == NULL)) //if syntax pb or the last cmd is not found
 			{
 				//changer global var en fonction de flag_fail
+				printf("\nParsed :\n");
+				print_group(group);
+				printf("\n");
 				break; 
 			}
 			else if(group->flag_fail == 0)
@@ -54,17 +70,18 @@ int	main(int ac, char **av, char **envp)
 				//exec magic
 				//changer global var en fonction de flag_fail
 			}
-			// printf("\nParsed :\n");
-			// print_group(group);
-			// printf("\n");
+			printf("\nParsed :\n");
+			print_group(group);
+			printf("\n");
 			group = group->next;
 		}
 		// print_group(start);
 		free_group_list(start); //FREE
-		free_envp_list(env);
 		if(line)
-			free(line); //do we really need it? (recheck with no other leaks)
+			free(line); //do we really need it? already freeing it in parser
 		line = readline(">$ ");
 	}
-	return 0;
+	free_envp_list(env);
+	//clean history !!!
+	return (0);
 }

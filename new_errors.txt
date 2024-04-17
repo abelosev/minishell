@@ -1,0 +1,116 @@
+>$ |
+==235058== Invalid read of size 1
+==235058==    at 0x403657: ft_strlen (outils_libft.c:20)
+==235058==    by 0x40369C: ft_strdup (outils_libft.c:32)
+==235058==    by 0x404979: get_node (token_list.c:25)
+==235058==    by 0x404B36: lexer (token_list.c:48)
+==235058==    by 0x403EDB: parser (parser.c:132)
+==235058==    by 0x402ACC: main (main.c:46)
+==235058==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==235058== 
+==235058== 
+==235058== Process terminating with default action of signal 11 (SIGSEGV)
+==235058==  Access not within mapped region at address 0x0
+==235058==    at 0x403657: ft_strlen (outils_libft.c:20)
+==235058==    by 0x40369C: ft_strdup (outils_libft.c:32)
+==235058==    by 0x404979: get_node (token_list.c:25)
+==235058==    by 0x404B36: lexer (token_list.c:48)
+==235058==    by 0x403EDB: parser (parser.c:132)
+==235058==    by 0x402ACC: main (main.c:46)
+==235058==  If you believe this happened as a result of a stack
+==235058==  overflow in your program's main thread (unlikely but
+==235058==  possible), you can try to increase the size of the
+==235058==  main thread stack using the --main-stacksize= flag.
+==235058==  The main thread stack size used in this run was 8388608.
+==235058== FILE DESCRIPTORS: 6 open (3 std) at exit.
+==235058== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==235058==    <inherited from parent>
+==235058== 
+==235058== Open file descriptor 39: /usr/share/code/resources/app/node_modules.asar
+==235058==    <inherited from parent>
+==235058== 
+==235058== Open file descriptor 38: /mnt/nfs/homes/abelosev/.config/Code/logs/20240416T204023/ptyhost.log
+==235058==    <inherited from parent>
+==235058== 
+==235058== 
+==235058== 2 bytes in 1 blocks are still reachable in loss record 1 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x4036B3: ft_strdup (outils_libft.c:33)
+==235058==    by 0x4016C0: from_tab_to_line (expand.c:80)
+==235058==    by 0x401830: ft_expand (expand.c:117)
+==235058==    by 0x40478B: quotes_expand (remove_quotes.c:237)
+==235058==    by 0x403E5A: parser (parser.c:119)
+==235058==    by 0x402ACC: main (main.c:46)
+==235058== 
+==235058== 3 bytes in 1 blocks are still reachable in loss record 3 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x4023E2: get_value (get_list_env.c:59)
+==235058==    by 0x4024B3: first_node (get_list_env.c:80)
+==235058==    by 0x4024F4: get_list (get_list_env.c:91)
+==235058==    by 0x402A72: main (main.c:38)
+==235058== 
+==235058== 8 bytes in 1 blocks are still reachable in loss record 7 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x401D70: ft_split1 (ft_split1.c:74)
+==235058==    by 0x403EA1: parser (parser.c:125)
+==235058==    by 0x402ACC: main (main.c:46)
+==235058== 
+==235058== 9 bytes in 1 blocks are still reachable in loss record 9 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x402300: get_key (get_list_env.c:37)
+==235058==    by 0x40249D: first_node (get_list_env.c:79)
+==235058==    by 0x4024F4: get_list (get_list_env.c:91)
+==235058==    by 0x402A72: main (main.c:38)
+==235058== 
+==235058== 24 bytes in 1 blocks are still reachable in loss record 19 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x402475: first_node (get_list_env.c:76)
+==235058==    by 0x4024F4: get_list (get_list_env.c:91)
+==235058==    by 0x402A72: main (main.c:38)
+==235058== 
+==235058== 24 bytes in 1 blocks are still reachable in loss record 24 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x403CE1: create_init_p (parser.c:61)
+==235058==    by 0x403E14: parser (parser.c:99)
+==235058==    by 0x402ACC: main (main.c:46)
+==235058== 
+==235058== 24 bytes in 1 blocks are still reachable in loss record 25 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x404948: get_node (token_list.c:19)
+==235058==    by 0x404B36: lexer (token_list.c:48)
+==235058==    by 0x403EDB: parser (parser.c:132)
+==235058==    by 0x402ACC: main (main.c:46)
+==235058== 
+==235058== 32 bytes in 6 blocks are definitely lost in loss record 27 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x4036B3: ft_strdup (outils_libft.c:33)
+==235058==    by 0x4035F3: get_cmd_tab (outils_cmd.c:71)
+==235058==    by 0x4027C9: get_group (group_list.c:45)
+==235058==    by 0x40295C: get_group_list (group_list.c:85)
+==235058==    by 0x403F5F: parser (parser.c:148)
+==235058==    by 0x402ACC: main (main.c:46)
+==235058== 
+==235058== 56 bytes in 1 blocks are still reachable in loss record 32 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x403D31: create_init_group (parser.c:72)
+==235058==    by 0x403E1D: parser (parser.c:100)
+==235058==    by 0x402ACC: main (main.c:46)
+==235058== 
+==235058== 1,070 bytes in 74 blocks are still reachable in loss record 61 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x402300: get_key (get_list_env.c:37)
+==235058==    by 0x402571: get_list (get_list_env.c:103)
+==235058==    by 0x402A72: main (main.c:38)
+==235058== 
+==235058== 1,776 bytes in 74 blocks are still reachable in loss record 64 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x402524: get_list (get_list_env.c:96)
+==235058==    by 0x402A72: main (main.c:38)
+==235058== 
+==235058== 1,827 bytes in 74 blocks are still reachable in loss record 65 of 93
+==235058==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==235058==    by 0x4023E2: get_value (get_list_env.c:59)
+==235058==    by 0x40258C: get_list (get_list_env.c:104)
+==235058==    by 0x402A72: main (main.c:38)
+==235058== 
+make: *** [Makefile:39: valgrind] Segmentation fault (core dumped)

@@ -4,10 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <string.h>
 #include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <sys/types.h>
+#include <dirent.h>
 
 ////////////////// STRUCTS //////////////////
 
@@ -35,8 +38,7 @@ typedef struct s_list_env
 ////////////////// FONCTIONS //////////////////
 
 //parsing
-t_group	*parser(char *line, t_list_env *env);
-void invalid_group(t_group *group, int flag);
+t_group *parser(char *input, t_list_env *env);
 
 //envp parsing
 t_list_env	*get_list(char **tab);

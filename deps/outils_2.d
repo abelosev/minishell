@@ -1,4 +1,4 @@
-obj/outils_group.o: src/outils_group.c src/../inc/parsing.h \
+obj/outils_2.o: src/outils_2.c src/../inc/parsing.h \
   src/../inc/minishell.h
 
 src/../inc/parsing.h:

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   remove_quotes.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/15 21:12:17 by abelosev          #+#    #+#             */
+/*   Updated: 2024/04/15 21:12:18 by abelosev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/parsing.h"
 
 int is_meta(char **str)
@@ -212,29 +224,20 @@ char *no_quotes(char *str, char c)
 
 char *quotes_expand(char *str, t_list_env *env)
 {
-	// char *first_expand;
-	char *no_double; // ??
+	char *no_double;
 	char *spaces;
-	// char *no_single;
-
-
-	// first_expand = ft_expand(str, env); //???
-	// printf("first_expand : %s\n", first_expand);
+	char *res;
 
 	no_double = no_quotes(str, 29);
-	printf("no_double : %s\n", no_double);
+	// printf("no_double : %s\n", no_double);
 
 	spaces = add_spaces(no_double);
-	printf("spaces : %s\n", spaces);
+	// printf("spaces : %s\n", spaces);
 
-	spaces = ft_expand(spaces, env);
-	printf("afer expand : %s\n", spaces);
-
-	// no_single = no_quotes(spaces, 30);
-	// printf("no_single : %s\n", no_single);
+	res = ft_expand(spaces, env);
+	// printf("afer expand : %s\n", res);
 
 	free(no_double);
-	// free(str);
-
-	return(spaces);
+	free(spaces);
+	return(res);
 }

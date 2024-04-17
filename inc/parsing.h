@@ -26,6 +26,21 @@ typedef struct s_tokens
 	struct s_tokens *next;
 } t_tokens;
 
+typedef struct s_tokenizer
+{
+	int len;
+	int i;
+	int k;
+	char *new;
+} t_tokenizer;
+
+typedef struct s_parser
+{
+	char **token_tab;
+	t_tokens *token_list;
+	char *line;
+} t_parser;
+
 
 ////////////////// FONCTIONS //////////////////
 
@@ -39,26 +54,33 @@ int    is_built(char *str);
 int only_spaces(char *str);
 
 //expand
+int delimiter_nb(char *str);
+t_tokenizer *init_data(char *s);
+void between_single(t_tokenizer *d, char *s);
 char *temp_tokenizer(char *str);
 
 //token_list
 int syntax_pb(t_tokens *list);
 t_tokens *lexer(char **token_tab);
-char *outfile_access(t_tokens *list, char *str);
-char *infile_access(t_tokens *list, char *str);
-char *ft_expand(char *str, t_list_env *env);
+char	*ft_expand(char *str, t_list_env *env);
 char *quotes_expand(char *str, t_list_env *env);
 
 //get_group
+void invalid_group(t_group *group, int flag);
 t_group *get_group_list(t_tokens *list, t_list_env *env);
+t_group *create_init_group(void);
+
 
 //сheck cmd and files
 char	**get_path(char **envp);
 char	*path_check(char **path_list, char **args_list);
 char	*cmd_check(char **cmd, char **envp);
+char **get_cmd_tab(t_tokens *list);
+int get_files(t_tokens *list, t_group *group);
 
 //free
 void free_tokens(t_tokens *list);
+void free_t_parser(t_parser *p);
 
 //outils
 void	print_tab(char **tab);
@@ -74,6 +96,7 @@ void	ft_putstr_err(char *str);
 char	*from_tab_to_line(char **tab);
 int		is_digit(char c);
 int		is_alpha(char c);
+int is_special(char c);
 
 
 #endif
