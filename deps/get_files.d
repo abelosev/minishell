@@ -1,6 +1,6 @@
-obj/get_files.o: src/get_files.c src/../inc/parsing.h \
-  src/../inc/minishell.h
+obj/get_files.o: src/src_pars/get_files.c \
+  src/src_pars/../../inc/parsing.h src/src_pars/../../inc/minishell.h
 
-src/../inc/parsing.h:
+src/src_pars/../../inc/parsing.h:
 
-src/../inc/minishell.h:
+src/src_pars/../../inc/minishell.h:

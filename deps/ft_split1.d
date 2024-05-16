@@ -1,6 +1,6 @@
-obj/ft_split1.o: src/ft_split1.c src/../inc/parsing.h \
-  src/../inc/minishell.h
+obj/ft_split1.o: src/src_pars/ft_split1.c \
+  src/src_pars/../../inc/parsing.h src/src_pars/../../inc/minishell.h
 
-src/../inc/parsing.h:
+src/src_pars/../../inc/parsing.h:
 
-src/../inc/minishell.h:
+src/src_pars/../../inc/minishell.h:

@@ -1,6 +1,6 @@
-obj/token_list.o: src/token_list.c src/../inc/parsing.h \
-  src/../inc/minishell.h
+obj/token_list.o: src/src_pars/token_list.c \
+  src/src_pars/../../inc/parsing.h src/src_pars/../../inc/minishell.h
 
-src/../inc/parsing.h:
+src/src_pars/../../inc/parsing.h:
 
-src/../inc/minishell.h:
+src/src_pars/../../inc/minishell.h:

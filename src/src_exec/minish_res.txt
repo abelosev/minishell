@@ -1,0 +1,45 @@
+//
+b~$ echo a | ls
+= ls on term
+
+m>$ echo a | ls
+= a on term then ls on term
+
+//
+b~$ echo a | ls > b
+= ls in b
+
+m>$ echo a | ls > b
+= a on term, ls in b
+
+//
+b~$ echo a > b | ls > c
+= a in b, ls in c
+
+m>$ echo a > b | ls > c
+= okay
+
+//
+b~$ echo a | ls > b | pwd > c
+= ls in b, pwd in c
+
+m>$ echo a | ls > b | pwd > c
+= >$ >$ + a on term, ls in b, pwd in c
+
+//
+b~$ ls | echo a > b
+= a in b
+
+m>$ ls | echo a > b
+= a and ls in b
+
+//
+b~$ ls > a | echo b
+= ls in a, b on term
+
+//
+b~$ ls > a | echo b > c
+= ls in a, b in c
+
+
+

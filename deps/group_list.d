@@ -1,6 +1,6 @@
-obj/group_list.o: src/group_list.c src/../inc/parsing.h \
-  src/../inc/minishell.h
+obj/group_list.o: src/src_pars/group_list.c \
+  src/src_pars/../../inc/parsing.h src/src_pars/../../inc/minishell.h
 
-src/../inc/parsing.h:
+src/src_pars/../../inc/parsing.h:
 
-src/../inc/minishell.h:
+src/src_pars/../../inc/minishell.h:

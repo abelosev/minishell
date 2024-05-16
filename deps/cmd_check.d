@@ -1,6 +1,6 @@
-obj/cmd_check.o: src/cmd_check.c src/../inc/parsing.h \
-  src/../inc/minishell.h
+obj/cmd_check.o: src/src_pars/cmd_check.c \
+  src/src_pars/../../inc/parsing.h src/src_pars/../../inc/minishell.h
 
-src/../inc/parsing.h:
+src/src_pars/../../inc/parsing.h:
 
-src/../inc/minishell.h:
+src/src_pars/../../inc/minishell.h:

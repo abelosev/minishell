@@ -1,6 +1,6 @@
-obj/outils_print.o: src/outils_print.c src/../inc/parsing.h \
-  src/../inc/minishell.h
+obj/outils_print.o: src/src_pars/outils_print.c \
+  src/src_pars/../../inc/parsing.h src/src_pars/../../inc/minishell.h
 
-src/../inc/parsing.h:
+src/src_pars/../../inc/parsing.h:
 
-src/../inc/minishell.h:
+src/src_pars/../../inc/minishell.h:
