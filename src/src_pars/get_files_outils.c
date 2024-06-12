@@ -17,7 +17,7 @@ void	create_file(char *str)
 {
 	int	fd;
 
-	fd = open(str, O_CREAT | O_WRONLY);
+	fd = open(str, O_CREAT | O_WRONLY, 0644);
 	if (fd < 0)
 		return ;
 	close(fd);

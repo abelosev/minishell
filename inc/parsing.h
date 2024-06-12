@@ -98,7 +98,7 @@ void		between_single(t_tokenizer *d, char *s);
 void		before_expand_or_special(t_tokenizer *d, char *s);
 
 //сheck cmd and files
-int			is_built(char *str);
+// int			is_built(char *str);
 int			only_spaces(char *str);
 int			is_folder(char *line);
 int			cmd_check(char **str, t_list_env *env);
@@ -122,10 +122,8 @@ int			ft_strncmp(const char *s1, const char *s2, int n);
 int			is_digit(char c);
 int			is_alpha(char c);
 int			is_special(char c);
-int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strjoin(char *s1, char *s2);
 char		**ft_split1(char *str, int flag);
-char		**copy_tab(char **tab);
 char		*from_tab_to_line(char **tab);
 char		*ft_strdup(char *s1);
 char		*ft_strchr(const char *s, int c);

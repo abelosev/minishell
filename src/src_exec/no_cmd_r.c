@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   no_cmd_r.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: memarign <memarign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 11:05:56 by memarign          #+#    #+#             */
-/*   Updated: 2024/06/07 18:43:21 by memarign         ###   ########.fr       */
+/*   Created: 2024/06/04 11:05:41 by memarign          #+#    #+#             */
+/*   Updated: 2024/06/07 18:10:30 by memarign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/exec.h"
 
-// Function to handle input redirection
-void redir_in(t_exec *exec, t_group *group)
+void redir_in2(t_exec *exec, t_group *group)
 {
     if (exec->fd_in > 0)
         close(exec->fd_in);
@@ -28,8 +27,7 @@ void redir_in(t_exec *exec, t_group *group)
     exec->fd_in = STDIN_FILENO;
 }
 
-// Function to handle output redirection
-void redir_out(t_exec *exec, t_group *group)
+void redir_out2(t_exec *exec, t_group *group)
 {
     if (exec->fd_out > 0 && exec->fd_out != STDOUT_FILENO)
         close(exec->fd_out);
@@ -44,8 +42,7 @@ void redir_out(t_exec *exec, t_group *group)
     exec->fd_out = STDOUT_FILENO;
 }
 
-// Function to handle append output redirection
-void append_out(t_exec *exec, t_group *group)
+void append_out2(t_exec *exec, t_group *group)
 {
     if (exec->fd_out > 0 && exec->fd_out != STDOUT_FILENO)
         close(exec->fd_out);
@@ -60,13 +57,12 @@ void append_out(t_exec *exec, t_group *group)
     exec->fd_out = STDOUT_FILENO;
 }
 
-// Function to handle redirections based on the group settings
-void ft_redir(t_exec *exec, t_group *group)
+void ft_redir2(t_exec *exec, t_group *group)
 {
     if (group->redir_in != NULL)
-        redir_in(exec, group);
+        redir_in2(exec, group);
     if (group->redir_out != NULL)
-        redir_out(exec, group);
+        redir_out2(exec, group);
     if (group->app_out != NULL)
-        append_out(exec, group);
+        append_out2(exec, group);
 }

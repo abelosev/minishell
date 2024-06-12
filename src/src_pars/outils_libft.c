@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outils_libft.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: memarign <memarign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:13:40 by abelosev          #+#    #+#             */
-/*   Updated: 2024/05/16 14:03:12 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/07 21:56:30 by memarign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ int	ft_strlen(const char *s)
 		return (0);
 	i = 0;
 	while (s[i] != '\0')
+	{
 		i++;
+	}
 	return (i);
 }
 

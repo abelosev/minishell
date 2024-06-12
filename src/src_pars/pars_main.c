@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pars_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:13:30 by abelosev          #+#    #+#             */
-/*   Updated: 2024/05/09 15:03:43 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:27:16 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../inc/parsing.h"
+
+unsigned int status;
 
 int	is_exit(char *line)
 {
@@ -73,8 +75,8 @@ int	main(int ac, char **av, char **envp)
 			}
 			if(group->flag_fail == 0)
 			{
-				//exec magic
 				//changer global var en fonction de flag_fail
+				//exec magic
 			}
 			printf("\nParsed :\n");
 			print_group(group);

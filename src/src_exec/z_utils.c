@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   z_utils.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/13 04:06:33 by memarign          #+#    #+#             */
+/*   Updated: 2024/06/11 20:14:05 by abelosev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/exec.h"
 
 void	ft_putstr_fd(char *cmd, char *s, int fd)
@@ -13,31 +25,12 @@ void	ft_putstr_fd(char *cmd, char *s, int fd)
 	write(fd, ": ", 2);
 }
 
-void	ft_putstr(char *str)
+void	ft_fd_putstr(char *str, int fd)
 {
-	int	i;
 
-	i = 0;
-	while (str[i])
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
+		write(fd, str, ft_strlen(str));
+
 }
-
-// int	ft_strcmp(char *s1, char *s2)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (s1[i] && s2[i])
-// 	{
-// 		if (s1[i] != s2[i])
-// 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 int	is_char(char *str, char c)
 {
@@ -65,52 +58,14 @@ int	is_empty(char *line)
 	}
 	return (0);
 }
-
-int	tab_size(char **tab)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	int	i;
+	unsigned char	*ptr;
 
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
+	ptr = (unsigned char *)s;
+	while (n-- > 0)
+		*(ptr++) = c;
+	return (s);
 }
 
-int	group_size(t_group *group)
-{
-	int	size;
 
-	size = 0;
-	while (group != NULL)
-	{
-		group = group->next;
-		size += 1;
-	}
-	return (size);
-}
-
-t_list_env	*ft_lstlast(t_list_env *lst)
-{
-	if (lst)
-		while (lst->next)
-			lst = lst->next;
-	return (lst);
-}
-
-void	ft_lstadd_back(t_list_env **lst, t_list_env *new)
-{
-	t_list_env	*tmp;
-
-	if (!new)
-		return ;
-	if (lst)
-	{
-		if (*lst)
-		{
-			tmp = ft_lstlast(*lst);
-			tmp->next = new;
-		}
-		else if (!*lst)
-			*lst = new;
-	}
-}

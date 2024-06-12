@@ -6,57 +6,85 @@
 /*   By: memarign <memarign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 04:31:37 by memarign          #+#    #+#             */
-/*   Updated: 2024/05/11 04:39:35 by memarign         ###   ########.fr       */
+/*   Updated: 2024/06/07 21:04:12 by memarign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../inc/minishell.h"
 #include "../../inc/exec.h"
 
-//add printf
-//add checks
-//think about exit
-int	ft_bin(t_exec *exec, t_group *group, t_list_env *env_lst)
-{
-	char	**envp;
-	pid_t	pid;
+#include "../../inc/minishell.h"
+#include "../../inc/exec.h"
 
-	envp = get_envp(env_lst);
-	pid = fork();
-	if (pid == -1)
-		perror("Error exec fork");
-	exec->pid = pid;
-	if (pid == 0)
+// add printf
+// add checks
+// think about exit
+int ft_bin(t_exec *exec, t_group *group, t_list_env *env_lst)
+{
+    char **envp;
+    pid_t pid;
+
+    envp = get_envp(env_lst);
+
+    pid = fork();
+    if (pid == -1)
+    {
+        perror("Error exec fork");
+        exit(EXIT_FAILURE);
+    }
+    if (pid == 0)
+    {
+        // Child process
+        ft_redir(exec, group);
+        exec->stat = execve(group->cmd[0], group->cmd, envp);
+        perror("execve failed");
+        exit(EXIT_FAILURE); // Exit if execve fails
+    }
+    else
+    {
+        // Parent process
+        waitpid(pid, &exec->stat, 0);
+        if (WIFEXITED(exec->stat))
+            exec->stat = WEXITSTATUS(exec->stat);
+        else if (WIFSIGNALED(exec->stat))
+            exec->stat = 128 + WTERMSIG(exec->stat);
+    }
+    free_tab(envp);
+    return (exec->stat);
+}
+
+
+int	simple_cmd(t_exec *exec, t_group *group, t_list_env **env_lst)
+{
+	t_built	fd;
+	char **tab;
+
+	if (group->app_in != NULL)
 	{
-		ft_redir(exec, group);
-		if (execve(group->cmd[0], group->cmd, envp) == 0)
+		tab = get_here_doc(exec, group);
+		if (!group->cmd)
 		{
-			if (access(group->cmd[0], F_OK | X_OK) == -1)
-			{
-				free_tab(envp);
-				return(126);
-			}
+			free_tab(tab);
+			return (0);
+		}
+		else
+		{
+			here_doc(exec, group);
+			free_tab(tab);
+			return (0);
 		}
 	}
-	else
-		waitpid(exec->pid, NULL, 0);
-	free_tab(envp);
-	return (0);
-}
-
-void	simple_cmd(t_exec *exec, t_group *group, t_list_env *env_lst)
-{
-	if (exec->pid == -1 && group_size(group) == 1)
+	if (!group->cmd)
 	{
-		if (is_built2(group->cmd[0]))
-			exec->status = ft_builtins(exec, group, env_lst);
-		else
-			exec->status = ft_bin(exec, group, env_lst);
-		return ;
+		ft_redir2(exec, group);
+		return (0);
 	}
-	else if (is_built2(group->cmd[0]))
-		exec->status = ft_builtins(exec, group, env_lst);
+	if (is_built(group->cmd[0]))
+	{
+		ft_redir_b(exec, group, &fd);
+		exec->stat = ft_builtins(exec, group, env_lst, &fd);
+	}
 	else
-		exec->status = ft_bin(exec, group, env_lst);
-	return ;
+		ft_bin(exec, group, *env_lst);
+	return (exec->stat);
 }
-

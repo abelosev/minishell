@@ -1,1 +1,1 @@
-#include "../../inc/exec.h"
+// #include "../../inc/minishell.h"

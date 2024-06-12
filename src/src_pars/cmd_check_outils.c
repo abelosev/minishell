@@ -18,16 +18,16 @@ int	is_built(char *str)
 	char	*tab[7];
 
 	i = 0;
-	tab[0] = "env";
-	tab[1] = "pwd";
-	tab[2] = "echo";
-	tab[3] = "unset";
-	tab[4] = "export";
-	tab[5] = "cd";
-	tab[6] = "exit";
+	tab[0] = "cd";
+	tab[1] = "env";
+	tab[2] = "pwd";
+	tab[3] = "echo";
+	tab[4] = "exit";
+	tab[5] = "unset";
+	tab[6] = "export";
 	while (i <= 6)
 	{
-		if (ft_strcmp(str, tab[i]) == 0)
+		if (ft_strlen(tab[i]) == ft_strlen(str) && ft_strcmp(str, tab[i]) == 0)
 			return (1);
 		i++;
 	}

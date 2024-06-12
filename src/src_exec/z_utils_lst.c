@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   b_env.c                                            :+:      :+:    :+:   */
+/*   z_utils_lst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: memarign <memarign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 11:04:33 by memarign          #+#    #+#             */
-/*   Updated: 2024/06/07 20:48:13 by memarign         ###   ########.fr       */
+/*   Created: 2024/05/13 04:07:50 by memarign          #+#    #+#             */
+/*   Updated: 2024/05/13 04:08:13 by memarign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/exec.h"
-#include "../../inc/minishell.h"
 
-int	builtin_env(t_group *group, t_list_env **env_lst)
+t_list_env	*ft_lstlast(t_list_env *lst)
 {
-	if (tab_size(group->cmd) > 1)
+	if (lst)
+		while (lst->next)
+			lst = lst->next;
+	return (lst);
+}
+
+void	ft_lstadd_back(t_list_env **lst, t_list_env *new)
+{
+	t_list_env	*tmp;
+
+	if (!new)
+		return ;
+	if (lst)
 	{
-		if (ft_strcmp(group->cmd[1], "env") != 0)
-			return (2);
+		if (*lst)
+		{
+			tmp = ft_lstlast(*lst);
+			tmp->next = new;
+		}
+		else if (!*lst)
+			*lst = new;
 	}
-	// if (ft_strncmp(group->cmd[0], "env", 3) == 0)
-	print_list(*env_lst);
-	return (0);
 }

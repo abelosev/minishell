@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   b_pwd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: memarign <memarign@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/04 11:04:49 by memarign          #+#    #+#             */
+/*   Updated: 2024/06/07 19:01:21 by memarign         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/exec.h"
 
-int	builtin_pwd(t_group *group)
+int	builtin_pwd(t_group *group, t_built *fd)
 {
 	size_t	size;
 	char	*buf;
@@ -17,7 +29,7 @@ int	builtin_pwd(t_group *group)
 	else
 	{
 		dir = getcwd(buf, size);
-		ft_putstr(dir);
+		ft_fd_putstr(dir, fd->out);
 		write(1, "\n", 1);
 		free(buf);
 		free(dir);

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/parsing.h"
+#include "../../inc/minishell.h"
 
 char	**get_path_tab(char **envp)
 {
@@ -99,6 +100,10 @@ int	cmd_check(char **str, t_list_env *env)
 	else if (ft_strchr(*str, '/') && (access(*str, F_OK | X_OK | R_OK) == 0))
 		code = 0;
 	else
+	{
 		code = 127;
+		ft_putstr_err(*str);
+		ft_putstr_err(": Command not found\n");
+	}
 	return (code);
 }

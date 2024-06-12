@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_echo.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: memarign <memarign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 02:56:38 by memarign          #+#    #+#             */
-/*   Updated: 2024/05/11 02:56:39 by memarign         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:10:25 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //function is_option?
 // echo \n word = \n word (sgould not print \)
 
-int	builtin_echo(t_group *group)
+int	builtin_echo(t_group *group, t_built *fd)
 {
 	int	i;
 	int	option;
@@ -23,7 +23,7 @@ int	builtin_echo(t_group *group)
 	i = 1;
 	option = 0;
 	if (tab_size(group->cmd) < 2)
-		write(1, "\n", 1);
+		write(fd->out, "\n", 1);
 	else
 	{
 		if (ft_strncmp(group->cmd[i], "-n", 2) == 0 \
@@ -34,13 +34,13 @@ int	builtin_echo(t_group *group)
 		}
 		while (group->cmd[i])
 		{
-			ft_putstr(group->cmd[i]);
-			if (group->cmd[i + 1] != NULL)
-				write(1, " ", 1);
+			ft_fd_putstr(group->cmd[i], fd->out);
+			// if (group->cmd[i + 1] != NULL)
+			// 	write(fd->out, " ", 1);
 			i++;
 		}
 		if (!option)
-			write(1, "\n", 1);
+			write(fd->out, "\n", 1);
 	}
 	return (0);
 }

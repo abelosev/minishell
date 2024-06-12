@@ -6,14 +6,12 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:13:01 by abelosev          #+#    #+#             */
-/*   Updated: 2024/05/16 14:02:34 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:35:22 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/parsing.h"
 #include "../../inc/minishell.h"
-
-unsigned int	status;
 
 char	*no_null(void)
 {
@@ -46,7 +44,7 @@ char	*expanded_token(char *str, t_list_env *env)
 	return (res);
 }
 
-void	replace_token(char **str, t_list_env *env)
+static void	replace_token(char **str, t_list_env *env)
 {
 	int		i;
 	char	*new;
