@@ -1,38 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils_find_char.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jo-tan <jo-tan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 18:25:57 by jo-tan            #+#    #+#             */
-/*   Updated: 2024/01/04 15:37:37 by jo-tan           ###   ########.fr       */
+/*   Created: 2024/01/03 14:45:06 by jo-tan            #+#    #+#             */
+/*   Updated: 2024/01/03 14:45:11 by jo-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_signal = 0;
-
-int	main(int argc, char **argv, char **envp)
+int	find_space(char *word)
 {
-	t_mini	*mini;
-	int		exit_status;
+	int	i;
 
-	(void)argv;
-	if (argc != 1)
-		return (ft_putstr_fd("HINT: ./minishell\n", 2), 1);
-	mini = mini_init(envp);
-	parent_signal();
-	while (1)
+	i = 0;
+	while (word[i])
 	{
-		signal(SIGQUIT, SIG_IGN);
-		g_signal = 0;
-		if (input_and_parse(mini))
-			continue ;
-		exit_status = ft_exec
-			(mini->cmd_table, mini->env, mini->exit_code, mini);
-		update_exit_status(mini, exit_status);
+		if (ft_isspace(word[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	find_quote(char *word)
+{
+	int	i;
+
+	i = 0;
+	while (word[i])
+	{
+		if (ft_isquote(word[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	find_dollar(char *word)
+{
+	int	i;
+
+	i = 0;
+	while (word[i])
+	{
+		if (word[i] == '$')
+			return (1);
+		i++;
 	}
 	return (0);
 }

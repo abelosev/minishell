@@ -1,106 +1,223 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jo-tan <jo-tan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/13 18:25:28 by jo-tan            #+#    #+#             */
+/*   Updated: 2024/01/04 12:32:22 by jo-tan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <string.h>
-# include <errno.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <dirent.h>
-# include <signal.h>
+# include <string.h>
+# include <errno.h>
+# include <sys/ioctl.h>
+# include <termios.h>
+# include <curses.h>
+# include <term.h>
+# include <limits.h>
+# include "libft.h"
 
-////////////////// ERRORS //////////////////
-# define ERR_SYNTX 2
-# define ERR_CMD 127
-# define ERR_DIR 126
-# define ERR_IDENTIF 1
+extern int	g_signal;
 
-////////////////// SIGNALS //////////////////
-# define CTRL_C 130
-# define CTRL_SLASH 131
+# define B_ECHO 1
+# define B_CD 2
+# define B_PWD 3
+# define B_EXPORT 4
+# define B_UNSET 5
+# define B_ENV 6
+# define B_EXIT 7
 
-extern unsigned int	status;
-
-////////////////// STRUCTS //////////////////
-
-//parsed ligne struct : REDO!!
-
-typedef struct s_group
+enum e_type
 {
-	unsigned int flag_fail;
-	char **cmd; 
-	char *redir_in;
-	char *redir_out;
-	char *app_out;
-	char *app_in;
-	struct s_group *next;
-} t_group;
+	NONE = 0,
+	ARG = 1,
+	PIPE = 2,
+	FILE_IN = 3,
+	DELIMITER = 4,
+	DELIMITER_Q = 5,
+	FILE_OUT = 6,
+	FILE_OUT_AP = 7
+};
 
-typedef struct s_list_env
+typedef struct s_token
 {
-	char *key;
-	char *value;
-	struct s_list_env *next;
-} t_list_env;
+	char			*word;
+	enum e_type		type;
+	int				fd;
+	struct s_token	*next;
+}	t_token;
 
-typedef struct s_exec
+typedef struct s_cmd
 {
-	int				stat;
-	int				infile;
-	int				outfile;
-	int				fd_in;
-	int				fd_out;
-	int				pfd_in;
-	int				pfd_out;
-	pid_t			pid;
-}	t_exec;
+	int				in_fd;
+	int				out_fd;
+	int				old_exit;
+	struct s_token	*tokens;
+	struct s_cmd	*next;
+}					t_cmd;
 
-////////////////// FONCTIONS //////////////////
+typedef struct s_env
+{
+	char			*line;
+	struct s_env	*next;
+}	t_env;
 
-//parsing
-int			only_spaces(char *str);
-t_group		*parser(char *input, t_list_env *env);
+typedef struct s_mini
+{
+	t_token			*token_lst;
+	t_env			*env;
+	char			*line;
+	int				exit_code;
+	char			*exit_code_str;
+	t_cmd			**cmd_table;
+}	t_mini;
 
-//envp parsing
-char		**get_envp(t_list_env *list);
-t_list_env	*get_list(char **tab);
-t_list_env	*env_lst_sos(void);
-t_list_env	*set_envp(char **envp);
+/*init_utils*/
+void	free_mini(t_mini **mini);
+int		exit_minishell(t_mini **mini, int exit_code);
+void	update_exit_status(t_mini *mini, int exit_status);
+int		input_and_parse(t_mini *mini);
+t_mini	*mini_init(char **envp);
 
-//exec
-int			is_built(char *str);
-void		minish(t_exec *exec, t_group *group, t_list_env **env);
-void		reset_minish(t_exec *exec);
-void		ft_redir(t_exec *exec, t_group *group);
-void		ft_redir2(t_exec *exec, t_group *group);
-void		ft_pipe(t_exec *exec);
-int			simple_cmd(t_exec *exec, t_group *group, t_list_env **env_lst);
-int			end_minish(t_exec *exec, t_group *group, t_list_env *env);
-void close_fds(t_exec *exec);
-// void		builtin_exit(t_exec *exec, t_group *group, t_list_env *env_lst);
+/*envp*/
+int		init_envp(t_mini *mini, char **envp);
+void	ft_free_envp(t_env *env);
 
-//fd
-void		init_exec(t_exec *exec);
-void		close_fds(t_exec *exec);
-void		set_io(t_exec *exec);
-void		init_std(t_exec *exec);
-void		close_std(t_exec *exec);
+/*signal*/
+void	sigquit_handler(int signum);
+void	parent_signal(void);
 
-//free
-void		free_tab(char **tab);
-void		free_envp_list(t_list_env *list);
-void		free_group_list(t_group *group);
+/*check valid input*/
+int		ft_check_quote_pair(const char *line);
+int		ft_valid_line(const char *line);
+int		ft_valid_syntax_order(t_token *token_lst);
 
-int			ft_strncmp(const char *s1, const char *s2, int n);
-int			ft_strcmp(const char *s1, const char *s2);
-void		print_list(t_list_env *list);
-char		*get_key(char *str);
-char		*get_value(char *str);
-int			ft_strlen(const char *s);
-char		*ft_strdup(char *s1);
+/*read_cmd*/
+int		ft_read_line(t_mini *mini);
+t_token	*ft_tokenizer(const char *line);
+int		ft_count_word_len(const char *line);
+void	ft_update_token_type(t_token *lst);
+
+/*parsing_utils*/
+char	*skip_spaces(char *str);
+int		end_of_cmd(int c);
+
+/*parsing*/
+void	clear_quote(char **word, t_env *env, int exit_code, t_mini *mini);
+char	*ft_combine(t_token *lst);
+void	ft_parsing(t_mini *mini, t_token *lst);
+
+/*parsing quotes*/
+int		ft_count_quote_len(char *string);
+t_token	*ft_break_string(char *string);
+void	process_quote(char **word);
+void	process_double(char	**word, t_env *env, int exit_code);
+void	ft_process_quote(t_token *lst, t_env *env, int exit_code);
+
+/*parsing expansion*/
+void	expansion(char **word, t_env *env, int exit_code);
+void	ft_process_env(t_token *pre, t_env *env, int exit_code);
+void	switch_arg_env(char	**word, t_env *env, int exit_code);
+char	*get_env_value(char *word, t_env *env);
+t_token	*ft_divide_arg_env(char *string);
+int		ft_count_parsing_len(char *word);
+int		check_expansion_sign(char *word);
+
+/*token list function*/
+t_token	*ft_newtoken(char *s);
+void	ft_addtoken(t_token *lst, t_token *token_lst);
+void	free_single_token(t_token *token);
+void	ft_token_free_lst(t_token *lst);
+
+/*cmd list function*/
+void	free_cmd(t_cmd *cmd);
+t_cmd	*ft_lstnew_cmd(t_token *tokens);
+t_cmd	*ft_lstlast_cmd(t_cmd *lst);
+void	ft_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
+void	free_cmd_list(t_cmd **lst);
+int		ft_lstsize_cmd(t_cmd *lst);
+
+/*create cmd table for execution*/
+t_token	*remove_current_token(t_token *prev, t_token *token);
+t_cmd	*split_into_simplecmds(t_token *tokens);
+t_cmd	**lst_to_arr(t_cmd *lst);
+t_cmd	**create_cmd_arr(t_token *tokens);
+
+/*EXEC*/
+int		ft_exec(t_cmd **cmd_list, t_env *env, int old_exit, t_mini *msh);
+void	ft_exec_msh_free(t_mini *msh);
+// exec_utils
+void	ft_close_all(t_cmd **cmd);
+void	ft_free_char_vector(char **args);
+int		ft_error(char *name, int type, int exit_code);
+void	ft_free_all(t_cmd **cmd_list, t_env *env);
+void	ft_free_char_vector_index(char **vector, int i);
+int		ft_str_contains_char(char *str, char c);
+void	ft_dup(t_cmd **cmd_list, int i, int single_flag);
+void	ft_ambig(char *str);
+int		find_space(char *word);
+int		find_quote(char *word);
+int		find_dollar(char *word);
+// exec_set_io
+int		ft_set_io(t_cmd **cmd, int i, int single_flag);
+int		ft_hdoc_write(char *str, int *pipe_ends);
+void	ft_hdoc_sig(char *limitor);
+int		ft_heredoc(
+			char *limitor, enum e_type type, int old_exit, t_env *msh_env);
+int		ft_set_hdoc(t_cmd **cmd_list, int e, t_env *msh_env);
+// hd_expansion
+int		ft_count_parsing_len_hd(char *word);
+t_token	*ft_divide_arg_env_hd(char *string);
+void	hd_expansion(char **word, t_env *env, int exit_code);
+char	*ft_heredoc_expand(
+			char *str, enum e_type type, t_env *env, int old_exit);
+// exec_pipeline
+int		ft_child(t_cmd **cmd_list, int i, t_env *env, int single_flag);
+int		ft_pipeline(t_cmd **cmd_list, int cmd_amt, t_env *env, t_mini *msh);
+// exec_child_path
+char	*ft_find_cmd_path(char *cmd_name, t_env *env);
+// exec_child_args
+char	**ft_make_args(t_token *tokens);
+int		ft_get_arg_amnt(t_token *tokens);
+// buildin
+int		ft_is_buildin(t_token *tokens);
+int		ft_do_buildin(char **args, t_env *env, t_cmd **list, int i);
+int		ft_cd(char **args, t_env *env, int fd);
+int		ft_echo(char **args, int fd);
+int		ft_env(char **args, t_env *env, int fd);
+int		ft_export(char **args, t_env *env, int fd);
+int		ft_pwd(int fd);
+int		ft_unset(char **args, t_env *env);
+int		ft_exit(char **args, t_cmd **cmd_list, int i);
+// env_utils
+t_env	*ft_new_env_node(char *s);
+void	ft_add_env(t_env *lst, t_env *new);
+int		ft_add_to_msh_env(t_env *env, char *new_str);
+t_env	*ft_find_in_env(t_env *env, char *target, int len);
+size_t	size_env(t_env *lst);
+char	*env_to_str(t_env *lst);
+char	*ft_get_env(t_env *env, char *var_name);
+char	**create_env_arr(t_env *env);
+
+/*Printf for checking progress*/
+void	ft_print_token_lst(t_token *token_lst);
+void	ft_print_env_list(t_env *env);
+void	print_cmd(t_cmd **arr);
 
 #endif

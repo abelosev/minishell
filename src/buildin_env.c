@@ -1,38 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   buildin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jo-tan <jo-tan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 18:25:57 by jo-tan            #+#    #+#             */
-/*   Updated: 2024/01/04 15:37:37 by jo-tan           ###   ########.fr       */
+/*   Created: 2024/01/01 09:13:33 by jo-tan            #+#    #+#             */
+/*   Updated: 2024/01/02 12:28:21 by jo-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_signal = 0;
-
-int	main(int argc, char **argv, char **envp)
+int	ft_env(char **args, t_env *env, int fd)
 {
-	t_mini	*mini;
-	int		exit_status;
+	t_env	*p;
 
-	(void)argv;
-	if (argc != 1)
-		return (ft_putstr_fd("HINT: ./minishell\n", 2), 1);
-	mini = mini_init(envp);
-	parent_signal();
-	while (1)
+	p = env;
+	if (args[1] != NULL)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		g_signal = 0;
-		if (input_and_parse(mini))
-			continue ;
-		exit_status = ft_exec
-			(mini->cmd_table, mini->env, mini->exit_code, mini);
-		update_exit_status(mini, exit_status);
+		write(2, "env: warning: additional arguments to env are ignored\n", 54);
+		return (127);
+	}
+	while (p)
+	{
+		if (ft_str_contains_char(p->line, '='))
+		{
+			write(fd, p->line, ft_strlen(p->line));
+			write(fd, "\n", 1);
+		}
+		p = p->next;
 	}
 	return (0);
 }
