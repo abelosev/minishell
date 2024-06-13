@@ -28,19 +28,19 @@ int	ft_do_builtin(t_group *group, t_list_env *env, int out_fd)
 
 	built_num = is_built(group->cmd[0]);
 	if (built_num == B_ECHO)
-		return(ft_echo(group->cmd, out_fd));
+		return (ft_echo(group->cmd, out_fd));
 	else if (built_num == B_CD)
-		return(ft_cd(group, env, out_fd));
+		return (ft_cd(group, env, out_fd));
 	else if (built_num == B_PWD)
-		return(ft_pwd(out_fd));
-	// else if (built_num == B_EXPORT)
-	// 	exit_code = ft_export(args, env, cmd_list[i]->out_fd);
+		return (ft_pwd(out_fd));
+	else if (built_num == B_EXPORT)
+		return (ft_export(group, env, out_fd));
 	else if (built_num == B_UNSET)
-		return(ft_unset(group, &env));
+		return (ft_unset(group, &env));
 	else if (built_num == B_ENV)
-		return(ft_env(group, env, out_fd));
+		return (ft_env(group, env, out_fd));
 	else if (built_num == B_EXIT)
-		return(ft_exit(group));
+		return (ft_exit(group));
 	if (out_fd != 1)				// ???
 	{
 		close(out_fd);

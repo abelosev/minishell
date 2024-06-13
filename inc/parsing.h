@@ -118,12 +118,8 @@ void		print_list(t_list_env *list);
 void		print_group(t_group *group);
 void		ft_putstr_err(char *str);
 void		ft_putstr_fd(char *str, int fd);
-
 int			is_special(char c);
-char		*ft_strjoin(char *s1, char *s2);
 char		**ft_split1(char *str, int flag);
 char		*from_tab_to_line(char **tab);
-char		*ft_strdup(char *s1);
-char		*ft_strchr(const char *s, int c);
 
 #endif

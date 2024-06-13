@@ -38,9 +38,19 @@ char	**get_envp(t_list_env *list)
 		return (NULL);
 	while (list != NULL)
 	{
-		tmp1 = ft_strjoin(list->key, "=");
-		envp[i] = ft_strjoin(tmp1, list->value);
-		free(tmp1);
+		if(list->value)
+		{
+			if(!ft_strchr(list->key, '='))
+			{
+				tmp1 = ft_strjoin(list->key, "=");
+				envp[i] = ft_strjoin(tmp1, list->value);
+				free(tmp1);
+			}
+			else
+				envp[i] = ft_strjoin(list->key, list->value);
+		}
+		else
+			envp[i] = ft_strdup(list->key);				//добавлено для того, чтобы правильно сделать export
 		list = list->next;
 		i++;
 	}

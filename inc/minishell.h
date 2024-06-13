@@ -94,10 +94,7 @@ void		free_envp_list(t_list_env *list);
 void		free_group_list(t_group *group);
 
 //outils
-int			ft_strncmp(const char *s1, const char *s2, int n);
-int			ft_strcmp(const char *s1, const char *s2);
 void		print_list(t_list_env *list);
-int			ft_strlen(const char *s);
-char		*ft_strdup(char *s1);
+void		print_tab(char **tab);
 
 #endif

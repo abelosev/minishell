@@ -27,7 +27,8 @@ void	print_list(t_list_env *list)
 	while (list != NULL)
 	{
 		printf("%s", list->key);
-		printf("=");
+		if(!ft_strchr(list->key, '='))
+			printf("=");
 		printf("%s\n", list->value);
 		list = list->next;
 	}

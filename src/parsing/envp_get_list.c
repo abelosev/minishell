@@ -24,7 +24,7 @@ int	separate_pos(char *str)
 			return (i);
 		i++;
 	}
-	return (-1);
+	return (0);
 }
 
 char	*get_key(char *str)
@@ -32,8 +32,15 @@ char	*get_key(char *str)
 	int		len;
 	int		k;
 	char	*key;
+	char	*equal;
 
-	len = separate_pos(str);
+	equal = ft_strchr(str, '=');
+	if(equal && (*(equal + 1)))
+		len = separate_pos(str);
+	else if(equal && (*(equal + 1) == '\0'))
+		len = separate_pos(str) + 1;
+	else
+		len = ft_strlen(str);		//добавлено на случай "export HOLA"
 	k = 0;
 	key = malloc(sizeof(char) * (len + 1));
 	if (!key)
@@ -54,7 +61,10 @@ char	*get_value(char *str)
 	int		k;
 	int		len;
 
-	i = separate_pos(str) + 1;
+	if(ft_strchr(str, '=') && (*(ft_strchr(str, '=') + 1)))	//добавлено на случай отсутствия значения
+		i = separate_pos(str) + 1;
+	else
+		return (NULL);
 	k = 0;
 	len = ft_strlen(str) - i;
 	value = malloc(sizeof(char) * (len + 1));
@@ -90,6 +100,8 @@ t_list_env	*get_list(char **tab)
 	t_list_env	*curr;
 
 	begin = first_node(tab);
+	if(!begin)
+		return (NULL);
 	curr = begin;
 	i = 1;
 	while (tab[i])

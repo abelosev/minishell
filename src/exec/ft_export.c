@@ -11,7 +11,7 @@ void	ft_write_export(t_list_env *env, int fd)
     i = 0;
     while (envp[i] != NULL)
     {
-        ft_putstr_fd("declare -x ", fd);
+        ft_putstr_fd("declare -x ", fd);		//протестировать, не появляется ли там лишних '='
 		ft_putstr_fd(envp[i], fd);
 		ft_putstr_fd("\n", fd);
         i++;
@@ -45,7 +45,49 @@ int	ft_export_is_valid(char *str)
 	return (1);
 }
 
-////
+t_list_env *ft_new_env_node(char *key, char *value)
+{
+	t_list_env *new;
+
+	new = malloc(sizeof(t_list_env));
+	if (!new)
+	{
+		free(key);
+		free(value);
+		return NULL;
+	}
+	new->key = key;
+	new->value = value;
+	new->next = NULL;
+	return new;
+}
+
+int ft_export_replace_or_add(t_list_env **env, char *str)
+{
+    t_list_env *the_env;
+    char *new_key;
+    char *new_value;
+
+    new_key = get_key(str);
+    if (!new_key)
+        return (ft_error(NULL, 0, 1));
+    the_env = ft_find_in_env(*env, new_key);
+    if (!the_env)
+    {
+        free(new_key);
+        return (ft_add_to_msh_env(env, str));
+    }
+    free(the_env->key);
+    the_env->key = new_key;
+
+    new_value = get_value(str);
+    if (!new_value)
+        return (0);				//точно ли 0 ?
+    if (the_env->value)
+        free(the_env->value);
+    the_env->value = new_value;
+    return (0);
+}
 
 int	ft_export(t_group *group, t_list_env *env, int fd)
 {
