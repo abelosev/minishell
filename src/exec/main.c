@@ -5,9 +5,7 @@ unsigned int status = 0;
 
 int	is_exit(char *line)
 {
-	if(ft_strlen(line) != 4)
-		return (1);
-	if (ft_strncmp(line, "exit", 4) == 0)
+	if(ft_strcmp(line, "exit") == 0)
 		return (1);
 	return (0);
 }
@@ -37,7 +35,7 @@ int main(int argc, char **argv, char **envp)
     t_group *group;
     t_list_env *env;
     t_group *start;
-	char **new_env;
+	// char **new_env;
 
 	(void)argc;
     (void)argv[0];

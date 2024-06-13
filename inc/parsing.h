@@ -122,5 +122,16 @@ char		*from_tab_to_line(char **tab);
 void		ft_putstr_err(char *str);
 void		ft_putstr_fd(char *str, int fd);
 int			ft_strcmp(const char *s1, const char *s2);
+int			ft_strcmp(const char *s1, const char *s2);
+char		*ft_itoa(int n);
+char		*ft_strjoin(char const *s1, char const *s2);
+int			ft_strncmp(const char *s1, const char *s2, int n);
+int			ft_strcmp(const char *s1, const char *s2);
+int			ft_isalnum(int c);
+int			ft_isalpha(int c);
+int			ft_isdigit(int c);
+char		*ft_strchr(const char *s, int c);
+char		*ft_strdup(const char *s1);
+int			ft_strlen(const char *s);
 
 #endif

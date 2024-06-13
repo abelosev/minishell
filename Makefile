@@ -1,10 +1,6 @@
 NAME    = minishell
 
-CC      = cc
-CF  	= -Wall -Wextra -Werror -MMD -MP $(DPSDIR)/$*.d #-fsanitize=address
-INC		= -I inc/ -I $(LIBFT_DIR)
-
-SRC_F	= src/exec/exec_builtin.c \
+SRCE 	= src/exec/exec_builtin.c \
 			src/exec/exec_outils.c \
 			src/exec/ft_cd.c \
 			src/exec/ft_echo.c \
@@ -14,7 +10,8 @@ SRC_F	= src/exec/exec_builtin.c \
 			src/exec/ft_pwd.c \
 			src/exec/ft_unset.c \
 			src/exec/main.c \
-			src/pars/cmd_check_outils.c \
+
+SRCP	=	src/pars/cmd_check_outils.c \
 			src/pars/cmd_check.c \
 			src/pars/envp_get_list.c \
 			src/pars/envp_get_tab.c \
@@ -38,47 +35,56 @@ SRC_F	= src/exec/exec_builtin.c \
 			src/pars/quotes_spaces.c \
 			src/pars/syntax_pb.c \
 			src/pars/token_list.c \
+			src/pars/outils_libft1.c \
+			src/pars/outils_libft2.c \
+			src/pars/outils_libft3.c \
 
-SRCDIR 	= src
-OBJDIR  = obj
-DPSDIR  = deps
+NAME 	= minishell
 
-LIBFT   = libft/libft.a
-LIBFT_DIR = libft
+CC		= cc
+CFLAGS	= -Wall -Wextra -Werror -MMD -MP -g3 -I. -MF $(DPSDIR)/$*.d #-fsanitize=adress
+CLIBS	= -lreadline
 
-OBJ_F   = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRC_F))
-DPS_F		= $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.d,$(SRC_F))
+SRCDIRP	= ./src/src_pars
+SRCDIRE	= ./src/src_exec
+OBJDIR	= ./obj
+DPSDIR	= ./deps
 
-all: $(LIBFT) $(NAME)
+OBJ 	= 	$(patsubst $(SRCDIRP)/%.c, $(OBJDIR)/%.o, $(SRCP)) \
+			$(patsubst $(SRCDIRE)/%.c, $(OBJDIR)/%.o, $(SRCE))
 
-$(NAME):	$(SRC_F)
-	@$(CC) -fsanitize=address -g -o $(NAME) $(SRC_F) -L $(LIBFT_DIR) -lreadline -lft $(INC)
-	@echo "minishell is up to date"
+$(NAME): $(OBJDIR) $(OBJ) $(DPSDIR)
+		$(CC) $(CFLAGS) $(OBJ) $(CLIBS) -o $(NAME)
 
--include $(DPS_F)
+$(OBJDIR)/%.o: $(SRCDIRP)/%.c | $(DPSDIR)
+		$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@mkdir -p $(OBJDIR) $(DPSDIR)
-	@$(CC) $(CF) $(INC) -c $< -o $@
+$(OBJDIR)/%.o: $(SRCDIRE)/%.c | $(DPSDIR)
+		$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIBFT):
-	@make  --no-print-directory -C $(LIBFT_DIR)
+$(DPSDIR)/%.d: ;
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(DPSDIR):
+	mkdir -p $(DPSDIR)
+
+all: $(NAME)
 
 clean:
 	rm -rf $(OBJDIR) $(DPSDIR)
-	@make --no-print-directory -C libft fclean
 
 fclean: clean
 	rm -rf $(NAME)
-	@make --no-print-directory -C libft fclean
 
 valgrind: all
-	valgrind --suppressions=$(PWD)/ignore_readline --trace-children=yes \
-	--leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
-	./$(NAME)
+		valgrind --suppressions=$(PWD)/ignore_readline --trace-children=yes \
+		--leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
+    	./minishell
 
 re: fclean all
 
-.PHONY: all clean fclean re valgrind
+.PHONY: all clean fclean re
 
 -include $(wildcard $(DPSDIR)/*.d)

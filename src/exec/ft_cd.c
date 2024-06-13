@@ -13,7 +13,7 @@ int ft_change_dir(t_group *group, t_list_env *env)
             return (ft_putstr_err("minishell: cd: "), perror(group->cmd[1]), 1);
         return (0);
     }
-    if (strcmp("-", group->cmd[1]) == 0)
+    if (ft_strcmp("-", group->cmd[1]) == 0)
     {
         the_env = ft_find_in_env(env, "OLDPWD");
         if (!the_env)
@@ -95,7 +95,7 @@ int	ft_cd(t_group *group, t_list_env *env, int fd)
 	end_dir = getcwd(NULL, 0);
 	if (!end_dir)
 		return (ft_error("cd", 0, 1), free(start_dir), 1);
-	if (group->cmd[1] != NULL && strcmp("-", group->cmd[1]) == 0)
+	if (group->cmd[1] != NULL && ft_strcmp("-", group->cmd[1]) == 0)
 	{
 		write(fd, end_dir, ft_strlen(end_dir));
 		write(fd, "\n", 1);
