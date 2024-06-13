@@ -9,5 +9,6 @@ int ft_env(t_group *group, t_list_env *env, int fd)
 		ft_putstr_err(": No such file or directory\n");
 		return (127); //проверить, не 125 ли
 	}
-	print_list(env);
+	print_env_list(env, fd);
+	return (0);
 }

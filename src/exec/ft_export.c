@@ -45,23 +45,6 @@ int	ft_export_is_valid(char *str)
 	return (1);
 }
 
-t_list_env *ft_new_env_node(char *key, char *value)
-{
-	t_list_env *new;
-
-	new = malloc(sizeof(t_list_env));
-	if (!new)
-	{
-		free(key);
-		free(value);
-		return NULL;
-	}
-	new->key = key;
-	new->value = value;
-	new->next = NULL;
-	return new;
-}
-
 int ft_export_replace_or_add(t_list_env **env, char *str)
 {
     t_list_env *the_env;
@@ -102,7 +85,7 @@ int	ft_export(t_group *group, t_list_env *env, int fd)
 	{
 		if (ft_export_is_valid(group->cmd[i]))
 		{
-			if (ft_export_replace_or_add(env, group->cmd[i]))
+			if (ft_export_replace_or_add(&env, group->cmd[i]))
 				return (1);
 		}
 		else

@@ -1,5 +1,19 @@
 #include "../../inc/minishell.h"
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i])
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
+}
+
 int	is_built(char *str)
 {
 	int		i;
@@ -28,7 +42,7 @@ int	ft_do_builtin(t_group *group, t_list_env *env, int out_fd)
 
 	built_num = is_built(group->cmd[0]);
 	if (built_num == B_ECHO)
-		return (ft_echo(group->cmd, out_fd));
+		return (ft_echo(group, out_fd));
 	else if (built_num == B_CD)
 		return (ft_cd(group, env, out_fd));
 	else if (built_num == B_PWD)

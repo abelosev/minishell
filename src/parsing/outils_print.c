@@ -22,16 +22,33 @@ void	ft_putstr_fd(char *str, int fd)
 	write(fd, str, ft_strlen(str));
 }
 
-void	print_list(t_list_env *list)
+void	print_env_list(t_list_env *list, int fd)
 {
 	while (list != NULL)
 	{
-		printf("%s", list->key);
+		ft_putstr_fd(list->key, fd);
 		if(!ft_strchr(list->key, '='))
-			printf("=");
-		printf("%s\n", list->value);
+			ft_putstr_fd("=", fd);
+		ft_putstr_fd(list->value, fd);
+		ft_putstr_fd("\n", fd);
 		list = list->next;
 	}
+}
+
+void	print_tab(char **tab, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (tab == NULL)
+		return ;
+	while (tab[i] != NULL)
+	{
+		ft_putstr_fd(tab[i], fd);
+		ft_putstr_fd("\n", fd);
+		i++;
+	}
+	ft_putstr_fd("\n", fd);
 }
 
 void	print_token_list(t_tokens *list)
@@ -45,32 +62,29 @@ void	print_token_list(t_tokens *list)
 	}
 }
 
-void	print_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	if (tab == NULL)
-		return ;
-	while (tab[i] != NULL)
-	{
-		printf("%s\n", tab[i]);
-		i++;
-	}
-	printf("\n");
-}
-
 void	print_group(t_group *group)
 {
 	if (group == NULL)
 		return ;
+	ft_putstr_fd("Parsed: \n", 0);
 	if (group->cmd)
 	{
-		printf("\ncmd: \n");
-		print_tab(group->cmd);
+		ft_putstr_fd("\ncmd: \n", STDOUT_FILENO);
+		print_tab(group->cmd, STDOUT_FILENO);
 	}
-	printf("fichier redir_in: %s\n", group->redir_in);
-	printf("fichier redir_out: %s\n", group->redir_out);
-	printf("fichier app_out: %s\n", group->app_out);
-	printf("flag: %d\n", group->flag_fail);
+	ft_putstr_fd("fichier redir_in: ", STDOUT_FILENO);
+	ft_putstr_fd(group->redir_in, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	ft_putstr_fd("fichier redir_out: ", STDOUT_FILENO);
+	ft_putstr_fd(group->redir_out, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	ft_putstr_fd("fichier app_out: ", STDOUT_FILENO);
+	ft_putstr_fd(group->app_out, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	ft_putstr_fd("fichier app_in: \n", STDOUT_FILENO);
+	ft_putstr_fd(group->app_in, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	ft_putstr_fd("flag: ", STDOUT_FILENO);
+	ft_putstr_fd(ft_itoa(group->flag_fail), STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 }

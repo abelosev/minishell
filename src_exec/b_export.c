@@ -21,7 +21,7 @@ int	builtin_export(t_group *group, t_list_env **env_lst)
 	i = 1;
 	tmp = *env_lst;
 	if (tab_size(group->cmd) == 1)
-		print_list(*env_lst);
+		print_env_list(*env_lst, fd);
 	else
 	{
 		while (group->cmd[i])

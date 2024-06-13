@@ -113,13 +113,14 @@ void		free_tokens(t_tokens *list);
 void		free_t_parser(t_parser *p);
 
 //outils
-void		print_tab(char **tab);
-void		print_list(t_list_env *list);
+void		print_tab(char **tab, int fd);
+void		print_env_list(t_list_env *list, int fd);
 void		print_group(t_group *group);
-void		ft_putstr_err(char *str);
-void		ft_putstr_fd(char *str, int fd);
 int			is_special(char c);
 char		**ft_split1(char *str, int flag);
 char		*from_tab_to_line(char **tab);
+void		ft_putstr_err(char *str);
+void		ft_putstr_fd(char *str, int fd);
+int			ft_strcmp(const char *s1, const char *s2);
 
 #endif

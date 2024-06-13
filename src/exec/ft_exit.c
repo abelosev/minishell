@@ -44,16 +44,16 @@ int	ft_exit_user_val(t_group *group)
 		sign = 1;
 	len = ft_strlen(group->cmd[1]);
 	if (len > (19 + sign))
-		return (ft_exit_digit_error(group->cmd), 2);
+		return (ft_exit_digit_error(group), 2);
 	if (len == (19 + sign))
 	{
 		if (group->cmd[1][0] == '-')
 		{
 			if (ft_strncmp("9223372036854775808", &group->cmd[1][sign], 19) < 0)
-				return (ft_exit_digit_error(group->cmd), 2);
+				return (ft_exit_digit_error(group), 2);
 		}
 		else if (ft_strncmp("9223372036854775807", &group->cmd[1][sign], 19) < 0)
-			return (ft_exit_digit_error(group->cmd), 2);
+			return (ft_exit_digit_error(group), 2);
 	}
 	val = ft_atol(group->cmd[1]);
 	val %= 256;
@@ -73,8 +73,8 @@ int	ft_exit(t_group *group)
         i = 1;
 	while (group->cmd[1][i] != '\0')
     {
-        if (!isdigit(group->cmd[1][i]))
-            return (ft_exit_digit_error(group->cmd), 2);
+        if (!ft_isdigit(group->cmd[1][i]))
+            return (ft_exit_digit_error(group), 2);
         i++;
     }
 	if (group->cmd[2])

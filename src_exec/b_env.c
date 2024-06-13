@@ -27,7 +27,7 @@ int	builtin_env(t_group *group, t_list_env **env_lst)
 			return (2);
 	}
 	// if (ft_strncmp(group->cmd[0], "env", 3) == 0)
-	print_list(*env_lst);
+	print_env_list(*env_lst, fd);
 	return (0);
 }
 

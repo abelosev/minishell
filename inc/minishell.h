@@ -13,6 +13,7 @@
 # include <sys/types.h>
 # include <errno.h>
 # include <limits.h>
+# include <dirent.h>
 # include "../libft/libft.h"
 
 # define B_ECHO 0
@@ -31,12 +32,11 @@ typedef struct s_group
 {
 	unsigned int flag_fail;
 	char **cmd;
-	// int	in_fd;		//нужно ли это здесь?
-	// int	out_fd;		//??
 	char *redir_in;
 	char *redir_out;
 	char *app_out;
 	char *app_in;
+	// int out_fd;
 	struct s_group *next;
 } t_group;
 
@@ -94,7 +94,11 @@ void		free_envp_list(t_list_env *list);
 void		free_group_list(t_group *group);
 
 //outils
-void		print_list(t_list_env *list);
-void		print_tab(char **tab);
+void		print_env_list(t_list_env *list, int fd);
+void		print_tab(char **tab, int fd);
+void		ft_putstr_err(char *str);
+void		ft_putstr_fd(char *str, int fd);
+int			ft_error(char *name, int type, int exit_code);
+int			ft_strcmp(const char *s1, const char *s2);
 
 #endif
