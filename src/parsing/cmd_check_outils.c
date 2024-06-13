@@ -11,28 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/parsing.h"
-
-int	is_built(char *str)
-{
-	int		i;
-	char	*tab[7];
-
-	i = 0;
-	tab[0] = "cd";
-	tab[1] = "env";
-	tab[2] = "pwd";
-	tab[3] = "echo";
-	tab[4] = "exit";
-	tab[5] = "unset";
-	tab[6] = "export";
-	while (i <= 6)
-	{
-		if (ft_strlen(tab[i]) == ft_strlen(str) && ft_strcmp(str, tab[i]) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
+#include "../../inc/minishell.h"
 
 int	is_folder(char *line)
 {

@@ -3,9 +3,10 @@ NAME 	= minishell
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror -MMD -MP -g3 -I. -MF $(DPSDIR)/$*.d #-fsanitize=adress
 CLIBS	= -lreadline
-
-SRCDIRP	= ./src/src_pars
-SRCDIRE	= ./src/src_exec
+LIBFT	= libft/libft.a
+LIBFT_DIR	= libft
+SRCDIRP	= ./src/parsing
+SRCDIRE	= ./src/exec
 OBJDIR	= ./obj
 DPSDIR	= ./deps
 
@@ -15,8 +16,8 @@ SRCE	=	$(wildcard $(SRCDIRE)/*.c)
 OBJ 	= 	$(patsubst $(SRCDIRP)/%.c, $(OBJDIR)/%.o, $(SRCP)) \
 			$(patsubst $(SRCDIRE)/%.c, $(OBJDIR)/%.o, $(SRCE))
 
-$(NAME): $(OBJDIR) $(OBJ) $(DPSDIR)
-		$(CC) $(CFLAGS) $(OBJ) $(CLIBS) -o $(NAME)
+$(NAME): $(OBJDIR) $(OBJ) $(DPSDIR) $(LIBFT)
+		$(CC) $(CFLAGS) $(OBJ) $(CLIBS) $(LIBFT) -o $(NAME)
 
 $(OBJDIR)/%.o: $(SRCDIRP)/%.c | $(DPSDIR)
 		$(CC) $(CFLAGS) -c $< -o $@
@@ -32,18 +33,23 @@ $(OBJDIR):
 $(DPSDIR):
 	mkdir -p $(DPSDIR)
 
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
+
 all: $(NAME)
 
 clean:
 	rm -rf $(OBJDIR) $(DPSDIR)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -rf $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 valgrind: all
 		valgrind --suppressions=$(PWD)/ignore_readline --trace-children=yes \
 		--leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
-    	./minishell
+    	./$(NAME)
 
 re: fclean all
 

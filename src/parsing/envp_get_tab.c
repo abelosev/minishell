@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/parsing.h"
+#include "../../inc/minishell.h"
 
 int	get_node_nb(t_list_env *list)
 {

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/parsing.h"
+#include "../../inc/minishell.h"
 
 int	separate_pos(char *str)
 {

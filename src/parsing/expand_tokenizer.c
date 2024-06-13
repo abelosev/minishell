@@ -44,7 +44,7 @@ void	temp_token_outil(t_tokenizer *d, char *str)
 		&& (d->k + 1 < d->len))
 		before_expand_or_special(d, str);
 	else if (d->i > 0 && str[d->i - 1] && str[d->i] && str[d->i - 1] == '$'
-		&& is_digit(str[d->i]) && (d->k + 1 < d->len))
+		&& ft_isdigit(str[d->i]) && (d->k + 1 < d->len))
 		after_digit(d, str);
 	else if (d->i > 0 && str[d->i - 1] && str[d->i - 1] == 31
 		&& str[d->i] && (d->k + 1 < d->len))

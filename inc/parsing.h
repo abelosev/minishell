@@ -117,10 +117,8 @@ void		print_tab(char **tab);
 void		print_list(t_list_env *list);
 void		print_group(t_group *group);
 void		ft_putstr_err(char *str);
-int			ft_strlen(const char *s);
-int			ft_strncmp(const char *s1, const char *s2, int n);
-int			is_digit(char c);
-int			is_alpha(char c);
+void		ft_putstr_fd(char *str, int fd);
+
 int			is_special(char c);
 char		*ft_strjoin(char *s1, char *s2);
 char		**ft_split1(char *str, int flag);

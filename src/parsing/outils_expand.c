@@ -15,7 +15,7 @@
 
 int	is_special(char c)
 {
-	return (!is_digit(c) && !is_alpha(c) && c != '*' && c != '#' && c != '?');
+	return (!ft_isdigit(c) && !ft_isalpha(c) && c != '*' && c != '#' && c != '?');
 }
 
 int	delimiter_nb(char *str)
@@ -29,7 +29,7 @@ int	delimiter_nb(char *str)
 	{
 		if (str[i] == '$' || (is_special(str[i])) || str[i] == 30)
 			nb += 2;
-		if (str[i] == '$' && str[i + 1] && is_digit(str[i + 1]))
+		if (str[i] == '$' && str[i + 1] && ft_isdigit(str[i + 1]))
 			nb++;
 		i++;
 	}

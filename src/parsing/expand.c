@@ -56,9 +56,9 @@ static void	replace_token(char **str, t_list_env *env)
 		new = ft_strdup((*str));
 	else
 	{
-		if ((*str)[i + 1] && is_digit((*str)[i + 1]))
+		if ((*str)[i + 1] && ft_isdigit((*str)[i + 1]))
 			new = no_null();
-		else if ((*str)[i + 1] && is_alpha((*str)[i + 1]))
+		else if ((*str)[i + 1] && ft_isalpha((*str)[i + 1]))
 			new = expanded_token((*str) + 1, env);
 		else if ((*str)[i + 1] && (*str)[i + 1] == '?')
 			new = ft_itoa(status);
