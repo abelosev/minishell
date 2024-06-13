@@ -1,4 +1,4 @@
-# MINISHELL-TESTER
+#!/bin/bash
 
 RESET="\033[0m"
 BLACK="\033[30m"
@@ -28,7 +28,7 @@ chmod 755 minishell
 
 pipe=/tmp/testpipe
 trap "rm -f $pipe" EXIT
-if [[ ! -p $pipe ]]; then
+if [ ! -p $pipe ]; then
     mkfifo $pipe
 fi
 
@@ -205,12 +205,6 @@ exec_test "\"$HOMEdskjhfkdshfsd\""
 exec_test "'$HOMEdskjhfkdshfsd'"
 exec_test "$DONTEXIST"
 exec_test "$LESS$VAR"
-exec_test ""
-exec_test ""
-exec_test ""
-exec_test ""
-exec_test ""
-exec_test ""
 
 
 rm -rf minishell out1 test2 testpwd truc2

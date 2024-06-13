@@ -1,4 +1,4 @@
-# MINISHELL-TESTER
+#!/bin/bash
 
 RESET="\033[0m"
 BLACK="\033[30m"
@@ -28,7 +28,7 @@ chmod 755 minishell
 
 pipe=/tmp/testpipe
 trap "rm -f $pipe" EXIT
-if [[ ! -p $pipe ]]; then
+if [ ! -p $pipe ]; then
     mkfifo $pipe
 fi
 
