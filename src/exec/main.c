@@ -31,17 +31,16 @@ int	is_exit(char *line)
 //     return (0);
 // }
 
-int main(int ac, char **av, char **envp)
-{
-	(void)ac;
-	
+int main(int argc, char **argv, char **envp)
+{	
 	char *line;
     t_group *group;
     t_list_env *env;
     t_group *start;
+	char **new_env;
 
-	(void)ac;
-    (void)av[0];
+	(void)argc;
+    (void)argv[0];
 
 	env = get_list(envp);
 	while (1)
@@ -58,6 +57,8 @@ int main(int ac, char **av, char **envp)
 		}
 		if (*line == '\0' || only_spaces(line) || ft_strncmp(line, ":", ft_strlen(line)) == 0 || ft_strncmp(line, "!", ft_strlen(line)) == 0)
 		{
+			if(ft_strncmp(line, ":", ft_strlen(line)) == 0 || ft_strncmp(line, "!", ft_strlen(line)) == 0)
+				add_history(line);
 			free(line);
 			continue;
 		}
@@ -70,9 +71,9 @@ int main(int ac, char **av, char **envp)
 			free(line);
 			continue;
 		}
-		print_group(group);
+		// print_group(group);  //parser result if we want to see it
 		start = group;
-		while(group != NULL) //syntax check (как напечатать сообщение?)
+		while(group != NULL)
 		{
 			if(group->flag_fail == 2)
 				break ;

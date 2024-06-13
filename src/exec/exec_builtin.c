@@ -30,7 +30,7 @@ int	is_built(char *str)
 	while (i <= 6)
 	{
 		if (ft_strlen(tab[i]) == ft_strlen(str) && ft_strcmp(str, tab[i]) == 0)
-			return (i);
+			return (i + 1);
 		i++;
 	}
 	return (0);

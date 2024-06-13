@@ -16,13 +16,13 @@
 # include <dirent.h>
 # include "../libft/libft.h"
 
-# define B_ECHO 0
-# define B_CD 1
-# define B_PWD 2
-# define B_EXPORT 3
-# define B_UNSET 4
-# define B_ENV 5
-# define B_EXIT 6
+# define B_ECHO 1
+# define B_CD 2
+# define B_PWD 3
+# define B_EXPORT 4
+# define B_UNSET 5
+# define B_ENV 6
+# define B_EXIT 7
 
 extern unsigned int	status;
 
