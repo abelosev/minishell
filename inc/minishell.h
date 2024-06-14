@@ -86,7 +86,12 @@ int			ft_pwd(int fd);
 int			ft_unset(t_group *group, t_list_env **env);
 
 
-//fd
+//main_outils
+int			ft_exec(t_group *group, t_list_env *env);
+int			check_group(t_group *group, char *line);
+int			check_line(char *line);
+char		*get_line(void);
+t_list_env	*get_mini_env();
 
 //signals
 void		ft_sigint(int signal);

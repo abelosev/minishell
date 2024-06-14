@@ -10,16 +10,7 @@ int	minishell_loop(t_list_env *env)
 
 	while (1)
 	{
-		rl_catch_signals = 0;
-		rl_outstream = stderr;
-		signal(SIGINT, ft_sigint);
-		signal(SIGQUIT, SIG_IGN);
-		line = readline (">$ ");
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-		rl_outstream = stdout;
-		if (errno == EINTR)
-			status = 128 + SIGINT;
+		line = get_line();
 		if (!line)
 		{
 			ft_putstr_err("exit\n");
@@ -27,30 +18,14 @@ int	minishell_loop(t_list_env *env)
 			free_envp_list(env);
 			exit(EXIT_FAILURE);
 		}
-		if(!(*line))
-		{
-			// update_exit_status
-			free(line);
+		if(check_line(line))
 			continue ;
-		}
-		if (only_spaces(line) || ft_strcmp(line, ":") == 0 || ft_strcmp(line, "!") == 0)
-		{
-			if(ft_strncmp(line, ":", ft_strlen(line)) == 0 || ft_strncmp(line, "!", ft_strlen(line)) == 0)
-				add_history(line);
-			free(line);
-			status = 2;	// верно ли для ! и : ?
-			continue;
-		}
 		add_history(line);
 		group = parser(line, env);
-		if(!group)
-		{
-			//status (?)
+		if(check_group(group, line))
 			break ;
-		}
-		// print_group_list(group); //parser result if we want to see it
-		if(group->flag_fail == 0 && group->cmd && is_built(group->cmd[0]) != 0)
-			status = ft_do_builtin(group, env, STDOUT_FILENO);
+		// print_group_list(group); // parser result if we want to see it
+		status = ft_exec(group, env);
 	}
 	// update_exit_status(mini, exit_status); -> адаптировать
 	return (status);
@@ -58,7 +33,6 @@ int	minishell_loop(t_list_env *env)
 
 int	main(int argc, char **argv, char **envp)
 {
-	// int status; //стоит ли отделить эту переменную от глобальной (?)
 	t_list_env	*new_env;
 
 	if (!argv || argc != 1)
