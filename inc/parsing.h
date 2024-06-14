@@ -116,6 +116,7 @@ void		free_t_parser(t_parser *p);
 void		print_tab(char **tab, int fd);
 void		print_env_list(t_list_env *list, int fd);
 void		print_group(t_group *group);
+void		print_group_list(t_group *group);
 int			is_special(char c);
 char		**ft_split1(char *str, int flag);
 char		*from_tab_to_line(char **tab);

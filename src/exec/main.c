@@ -1,5 +1,5 @@
-#include "minishell.h"
-#include "parsing.h"
+#include "../../inc/minishell.h"
+#include "../../inc/parsing.h"
 
 unsigned int status = 0;
 
@@ -30,7 +30,9 @@ int	minishell_loop(t_list_env *env)
 			//status (?)
 			break ;
 		}
-		status = ft_do_builtin(group, env, STDOUT_FILENO);
+		print_group_list(group); //parser result if we want to see it
+		if(group->flag_fail == 0 && group->cmd && is_built(group->cmd[0]) != 0)
+			status = ft_do_builtin(group, env, STDOUT_FILENO);
 	}
 	return (status);
 }
@@ -48,8 +50,6 @@ int	main(int argc, char **argv, char **envp)
 		new_env = get_list(envp);
 	if (!new_env)
 		return (1);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 	status = minishell_loop(new_env);
 	free_envp_list(new_env);
 	return (status);
