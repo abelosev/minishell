@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:05:08 by abelosev          #+#    #+#             */
-/*   Updated: 2024/05/16 14:18:59 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/14 04:31:17 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include <readline/readline.h>
-# include <readline/history.h>
+// # include <readline/readline.h>
+// # include <readline/history.h>
 # include "minishell.h"
 
 ////////////////// STRUCTS //////////////////

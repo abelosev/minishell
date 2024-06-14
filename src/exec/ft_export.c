@@ -1,4 +1,4 @@
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 void	ft_write_export(t_list_env *env, int fd)
 {

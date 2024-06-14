@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:12:48 by abelosev          #+#    #+#             */
-/*   Updated: 2024/05/16 14:02:16 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/14 04:29:56 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
-#include "../../inc/minishell.h"
+#include "parsing.h"
+#include "minishell.h"
 
 char	**get_path_tab(char **envp)
 {

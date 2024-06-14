@@ -1,5 +1,5 @@
-#include "../../inc/minishell.h"
-#include "../../inc/parsing.h"
+#include "minishell.h"
+#include "parsing.h"
 
 t_list_env *get_mini_env()
 {

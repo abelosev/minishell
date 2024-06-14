@@ -1,4 +1,4 @@
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 int	ft_error(char *name, int type, int exit_code)
 {

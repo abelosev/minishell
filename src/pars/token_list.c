@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:14:02 by abelosev          #+#    #+#             */
-/*   Updated: 2024/05/16 14:03:45 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/14 04:29:56 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 t_tokens	*get_node(char **token_tab, int i)
 {

@@ -1,4 +1,4 @@
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 //нет проверки на наличие опций, ок ли это
 
