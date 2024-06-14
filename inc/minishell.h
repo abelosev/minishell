@@ -24,10 +24,10 @@
 # define B_ENV 6
 # define B_EXIT 7
 
-# define REDIR_IN 1
-# define REDIR_OUT 2
-# define HD 3
-# define APP_OUT 4
+# define E_REDIR_IN 1
+# define E_REDIR_OUT 2
+# define E_HD 3
+# define E_APP_OUT 4
 
 extern unsigned int	status;
 
@@ -92,7 +92,7 @@ int			ft_unset(t_group *group, t_list_env **env);
 
 //exec
 int			ft_exec(t_group *group, t_list_env *env);
-int			do_simple_cmd(t_group *group, t_list_env *env);
+int			ft_stand_cmd(t_group *group, t_list_env *env);
 int			is_redir(t_group *group);
 
 //main_outils
