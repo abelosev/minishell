@@ -22,7 +22,8 @@ SE_FILES 	= src/exec/exec_builtin.c \
 				src/exec/ft_pwd.c \
 				src/exec/ft_unset.c \
 				src/exec/main.c \
-				src/exec/main_outils.c
+				src/exec/main_outils.c \
+				src/exec/signals.c
 
 SP_FILES	= src/pars/cmd_check_outils.c \
 				src/pars/cmd_check.c \
@@ -68,10 +69,9 @@ D_FILES		= $(patsubst $(SE_DIR)/%.c,$(O_DIR)/%.d,$(SE_FILES)) \
 
 # Compilation
 CC			= cc
-CF          = -Wall -Wextra -Werror
+CF          = -Wall -Wextra -Werror -I/opt/homebrew/opt/readline/include
 INC         = -I inc/ -I $(LIBFT_DIR)
 LDFLAGS     = -L/opt/homebrew/opt/readline/lib -lreadline -L $(LIBFT_DIR) -lft
-CPPFLAGS    = -I/opt/homebrew/opt/readline/include
 
 # Cleaning
 RM			= rm -rf
@@ -79,7 +79,7 @@ RM			= rm -rf
 all:		$(LIBFT) $(NAME)
 
 $(NAME):	$(O_FILES)
-	@$(CC) -fsanitize=address -g -o $(NAME) $(O_FILES) $(LDFLAGS) -L $(LIBFT_DIR) -lreadline -lft $(INC)
+	@$(CC) -fsanitize=address -g -o $(NAME) $(O_FILES) $(LDFLAGS) -L $(LIBFT_DIR) -lft $(INC)
 	@echo "minishell is up to date!"
 
 -include $(D_FILES)

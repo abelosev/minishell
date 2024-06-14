@@ -88,6 +88,12 @@ int			ft_unset(t_group *group, t_list_env **env);
 
 //fd
 
+//signals
+void		parent_sig(void);
+void		parent_sigint(int sig);
+void		sig_int(int sig);
+void		sig_quit(int sig);
+
 //free
 void		free_tab(char **tab);
 void		free_envp_list(t_list_env *list);
