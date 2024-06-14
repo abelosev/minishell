@@ -10,6 +10,7 @@ SRCE 	= src/exec/exec_builtin.c \
 			src/exec/ft_pwd.c \
 			src/exec/ft_unset.c \
 			src/exec/main.c \
+			src/exec/main_outils.c \
 
 SRCP	=	src/pars/cmd_check_outils.c \
 			src/pars/cmd_check.c \

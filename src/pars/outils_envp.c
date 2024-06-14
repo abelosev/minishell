@@ -49,7 +49,9 @@ void ft_add_env(t_list_env **lst, t_list_env *new_node)
 
 int ft_add_to_msh_env(t_list_env **env, char *new_str)
 {
-    t_list_env *new_node = malloc(sizeof(t_list_env));
+    t_list_env *new_node;
+	
+	new_node = malloc(sizeof(t_list_env));
     if (!new_node)
         return 1;
 

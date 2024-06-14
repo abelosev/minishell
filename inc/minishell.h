@@ -64,8 +64,9 @@ typedef struct s_list_env
 int			only_spaces(char *str);
 t_group		*parser(char *input, t_list_env *env);
 
-//envp parsing
+//envp
 char		**get_envp(t_list_env *list);
+t_list_env	*get_mini_env();
 char		*get_value(char *str);
 char		*get_key(char *str);
 t_list_env	*get_list(char **tab);
