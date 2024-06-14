@@ -10,13 +10,16 @@ int	minishell_loop(t_list_env *env)
 
 	while (1)
 	{
+		rl_catch_signals = 0;
+		rl_outstream = stderr;
+		signal(SIGINT, ft_sigint);
 		signal(SIGQUIT, SIG_IGN);
 		line = readline (">$ ");
-		// signal(SIGINT, SIG_IGN);
-		// signal(SIGQUIT, SIG_IGN);
-		// rl_outstream = stdout;
-		// if (errno == EINTR)
-		// 	status = 130;
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+		rl_outstream = stdout;
+		if (errno == EINTR)
+			status = 128 + SIGINT;
 		if (!line)
 		{
 			ft_putstr_err("exit\n");
@@ -66,7 +69,8 @@ int	main(int argc, char **argv, char **envp)
 		new_env = get_list(envp);
 	if (!new_env)
 		return (1);
-	parent_sig();
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	status = minishell_loop(new_env);
 	free_envp_list(new_env);
 	return (status);
