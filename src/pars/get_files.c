@@ -88,6 +88,8 @@ int	handle_infile(t_tokens *list, t_group *group)
 	return (0);
 }
 
+
+
 int	get_files(t_tokens *list, t_group *group)
 {
 	while (list->type != 5 && list->next != NULL)

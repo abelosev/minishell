@@ -50,8 +50,6 @@ int	main(int argc, char **argv, char **envp)
 		new_env = get_list(envp);
 	if (!new_env)
 		return (1);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 	status = minishell_loop(new_env);
 	free_envp_list(new_env);
 	return (status);
