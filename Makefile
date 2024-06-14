@@ -1,91 +1,102 @@
-NAME    = minishell
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jo-tan <jo-tan@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/11/13 18:25:12 by jo-tan            #+#    #+#              #
+#    Updated: 2024/01/04 15:23:43 by jo-tan           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRCE 	= src/exec/exec_builtin.c \
-			src/exec/exec_outils.c \
-			src/exec/ft_cd.c \
-			src/exec/ft_echo.c \
-			src/exec/ft_env.c \
-			src/exec/ft_exit.c \
-			src/exec/ft_export.c \
-			src/exec/ft_pwd.c \
-			src/exec/ft_unset.c \
-			src/exec/main.c \
-			src/exec/main_outils.c \
+NAME		= minishell
 
-SRCP	=	src/pars/cmd_check_outils.c \
-			src/pars/cmd_check.c \
-			src/pars/envp_get_list.c \
-			src/pars/envp_get_tab.c \
-			src/pars/expand_tokenizer.c \
-			src/pars/expand.c \
-			src/pars/ft_split1.c \
-			src/pars/get_files_outils.c \
-			src/pars/get_files.c \
-			src/pars/group_list.c \
-			src/pars/group_outils.c \
-			src/pars/outils_envp.c \
-			src/pars/outils_expand.c \
-			src/pars/outils_free.c \
-			src/pars/outils_print.c \
-			src/pars/parser_outils.c \
-			src/pars/parser.c \
-			src/pars/quotes_expand.c \
-			src/pars/quotes_ok.c \
-			src/pars/quotes_outils.c \
-			src/pars/quotes_remove.c \
-			src/pars/quotes_spaces.c \
-			src/pars/syntax_pb.c \
-			src/pars/token_list.c \
-			src/pars/outils_libft1.c \
-			src/pars/outils_libft2.c \
-			src/pars/outils_libft3.c \
+# Sources
+S_FILES		= src/main.c \
+				src/init_utils.c \
+				src/init_envp.c \
+				src/check_valid_input.c \
+				src/check_quote_pair.c \
+				src/read_cmd.c \
+				src/parsing_utils.c \
+				src/parsing_token_type.c \
+				src/parsing.c \
+				src/parsing_quote_utils.c \
+				src/parsing_expansion_utils1.c \
+				src/parsing_expansion_utils2.c \
+				src/check_print.c \
+				src/token_list.c \
+				src/cmd_list.c \
+				src/cmd_list2.c \
+				src/token_to_cmd.c \
+				src/buildin_cd.c \
+				src/buildin_echo.c \
+				src/buildin_env.c \
+				src/buildin_export.c \
+				src/buildin_pwd.c \
+				src/buildin_unset.c \
+				src/buildin_exit.c \
+				src/buildin.c \
+				src/execution.c \
+				src/exec_utils.c \
+				src/exec_args.c \
+				src/exec_path.c \
+				src/exec_pipeline.c \
+				src/exec_set_io.c \
+				src/exec_set_io_utils.c \
+				src/hd_expansion.c \
+				src/env_utils.c \
+				src/env_utils2.c \
+				src/signal.c \
+				src/check_syntax.c \
+				src/utils_find_char.c
+S_DIR		= src
 
-NAME 	= minishell
+LIBFT		= libft/libft.a
+LIBFT_DIR	= libft
 
-CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -MMD -MP -g3 -I. -MF $(DPSDIR)/$*.d #-fsanitize=adress
-CLIBS	= -lreadline
+# Objects
+O_DIR		= obj
 
-SRCDIRP	= ./src/src_pars
-SRCDIRE	= ./src/src_exec
-OBJDIR	= ./obj
-DPSDIR	= ./deps
+O_FILES		= $(patsubst $(S_DIR)/%.c,$(O_DIR)/%.o,$(S_FILES))
+D_FILES		= $(patsubst $(S_DIR)/%.c,$(O_DIR)/%.d,$(S_FILES))
 
-OBJ 	= 	$(patsubst $(SRCDIRP)/%.c, $(OBJDIR)/%.o, $(SRCP)) \
-			$(patsubst $(SRCDIRE)/%.c, $(OBJDIR)/%.o, $(SRCE))
+# Compilation
+CC			= cc
+CF			= -Wall -Wextra -Werror #-MMD -MP
+INC			= -I inc/ -I $(LIBFT_DIR)
 
-$(NAME): $(OBJDIR) $(OBJ) $(DPSDIR)
-		$(CC) $(CFLAGS) $(OBJ) $(CLIBS) -o $(NAME)
+# Cleaning
+RM			= rm -rf
 
-$(OBJDIR)/%.o: $(SRCDIRP)/%.c | $(DPSDIR)
-		$(CC) $(CFLAGS) -c $< -o $@
+all:		$(LIBFT) $(NAME)
 
-$(OBJDIR)/%.o: $(SRCDIRE)/%.c | $(DPSDIR)
-		$(CC) $(CFLAGS) -c $< -o $@
+$(NAME):	$(O_FILES)
+	@$(CC) -fsanitize=address -g -o $(NAME) $(O_FILES) -L $(LIBFT_DIR) -lreadline -lft $(INC)
+	@echo " [ ok ] | minishell is ready!"
 
-$(DPSDIR)/%.d: ;
+-include $(D_FILES)
 
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
+$(O_DIR)/%.o: $(S_DIR)/%.c
+	@echo "Compiling $<"
+	@mkdir -p $(O_DIR) $(D_DIR)
+	@$(CC) $(CF) $(INC) -c $< -o $@
 
-$(DPSDIR):
-	mkdir -p $(DPSDIR)
-
-all: $(NAME)
+$(LIBFT):
+	@make --no-print-directory -C $(LIBFT_DIR)
+	@echo "libft is ready."
 
 clean:
-	rm -rf $(OBJDIR) $(DPSDIR)
+	@$(RM) $(O_DIR)
+	@make --no-print-directory -C libft fclean
+	@echo "Objects and dependend files removed."
 
-fclean: clean
-	rm -rf $(NAME)
+fclean:	clean
+	@$(RM) $(NAME)
+	@make --no-print-directory -C libft fclean
+	@echo "Binary files removed."
 
-valgrind: all
-		valgrind --suppressions=$(PWD)/ignore_readline --trace-children=yes \
-		--leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
-    	./minishell
+re:		fclean all
 
-re: fclean all
-
-.PHONY: all clean fclean re
-
--include $(wildcard $(DPSDIR)/*.d)
+.PHONY:	all clean fclean re
