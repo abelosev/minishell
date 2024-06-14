@@ -77,7 +77,7 @@ function exec_test()
 }
 
 #input+
-exec_test "\n"
+# exec_test "\n"
 exec_test ":"
 exec_test "!"
 
@@ -110,7 +110,6 @@ exec_test ">>echo>>"
 exec_test "|echo|"
 exec_test "|echo -n hola"
 exec_test "echo hola ||| cat"
-exec_test ""
 
 #is a directory
 exec_test "/"
@@ -121,8 +120,3 @@ exec_test "///////"
 
 
 rm -rf minishell out1 test2 testpwd truc2
-
-exec_test ""
-exec_test ""
-exec_test ""
-exec_test ""

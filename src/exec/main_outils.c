@@ -49,7 +49,7 @@ int	check_line(char *line)
 		if(ft_strncmp(line, ":", ft_strlen(line)) == 0 || ft_strncmp(line, "!", ft_strlen(line)) == 0)
 			add_history(line);
 		free(line);
-		status = 2;	// верно ли для ! и : ?
+		status = 0;	// верно ли для ! и : ?  (ПРОВЕРИТЬ ЭТОТ ВЫВОД В ШКОЛЕ)
 		return (1);
 	}
 	return (0);
@@ -65,13 +65,4 @@ int	check_group(t_group *group, char *line)
 	}
 	//еще одно условие, проверить
 	return(0);
-}
-
-int	ft_exec(t_group *group, t_list_env *env)
-{
-	if(group->flag_fail == 0 && group->cmd && is_built(group->cmd[0]) != 0)
-		status = ft_do_builtin(group, env, STDOUT_FILENO);
-	else if(group->flag_fail != 0)
-		status = group->flag_fail;
-	return (status);
 }

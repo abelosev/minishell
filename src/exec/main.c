@@ -14,8 +14,9 @@ int	minishell_loop(t_list_env *env)
 		if (!line)
 		{
 			ft_putstr_err("exit\n");
-			// free(line);			??
 			free_envp_list(env);
+			//free(line) ?
+			clear_history();
 			exit(EXIT_FAILURE);
 		}
 		if(check_line(line))
@@ -23,8 +24,9 @@ int	minishell_loop(t_list_env *env)
 		add_history(line);
 		group = parser(line, env);
 		if(check_group(group, line))
-			break ;
+			continue ;
 		// print_group_list(group); // parser result if we want to see it
+		free(line);
 		status = ft_exec(group, env);
 	}
 	// update_exit_status(mini, exit_status); -> адаптировать
@@ -42,7 +44,8 @@ int	main(int argc, char **argv, char **envp)
 	else
 		new_env = get_list(envp);
 	if (!new_env)
-		return (1);
+		return (perror("new_env"), 1);
+	status = 0;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	status = minishell_loop(new_env);
