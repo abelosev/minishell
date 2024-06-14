@@ -35,7 +35,6 @@ typedef struct s_group
 	char *redir_out;
 	char *app_out;
 	char *app_in;
-	// int out_fd;
 	struct s_group *next;
 } t_group;
 

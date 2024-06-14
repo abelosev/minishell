@@ -30,7 +30,9 @@ int	minishell_loop(t_list_env *env)
 			//status (?)
 			break ;
 		}
-		status = ft_do_builtin(group, env, STDOUT_FILENO);
+		print_group_list(group); //parser result if we want to see it
+		if(group->flag_fail == 0 && group->cmd && is_built(group->cmd[0]) != 0)
+			status = ft_do_builtin(group, env, STDOUT_FILENO);
 	}
 	return (status);
 }

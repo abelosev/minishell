@@ -6,6 +6,8 @@ int	is_built(char *str)
 	char	*tab[7];
 
 	i = 0;
+	if(!str)
+		return (0);
 	tab[0] = "echo";
 	tab[1] = "cd";
 	tab[2] = "pwd";

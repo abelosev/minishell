@@ -133,5 +133,6 @@ int			ft_isdigit(int c);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strdup(const char *s1);
 int			ft_strlen(const char *s);
+void		print_group_list(t_group *group);
 
 #endif
