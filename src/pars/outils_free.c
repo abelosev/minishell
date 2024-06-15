@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   outils_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:13:07 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/14 04:29:56 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:03:09 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../inc/parsing.h"
 
 void	free_tab(char **tab)
 {
@@ -23,6 +23,22 @@ void	free_tab(char **tab)
 		i++;
 	}
 	free(tab);
+}
+
+void free_group_sans_del(t_group *group)
+{
+	if(group)
+	{
+		if (group->cmd)
+			free_tab(group->cmd);
+		if (group->app_out)
+			free(group->app_out);
+		if (group->redir_in)
+			free(group->redir_in);
+		if (group->redir_out)
+			free(group->redir_out);
+		free(group);
+	}
 }
 
 void	free_group_list(t_group *group)

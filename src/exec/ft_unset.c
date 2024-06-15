@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 void	ft_free_list_one_node(t_list_env *env)
 {

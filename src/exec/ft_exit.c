@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 void	ft_exit_digit_error(t_group *group)
 {
@@ -64,8 +64,8 @@ int	ft_exit(t_group *group)
 {
 	int	i;
 
-	if (group->next == NULL)
-        write(1, "exit\n", 5);
+	// if (group->next == NULL)
+    //     write(1, "exit\n", 5);
 	if (group->cmd[1] == NULL)
 		return (status);		//la globale ("old_exit")
 	i = 0;

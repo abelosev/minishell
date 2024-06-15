@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:05:08 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/14 04:31:17 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:18:59 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-// # include <readline/readline.h>
-// # include <readline/history.h>
 # include "minishell.h"
 
 ////////////////// STRUCTS //////////////////
@@ -78,6 +76,7 @@ t_tokens	*lexer(char **token_tab);
 t_group		*get_group_list(t_tokens *list, t_list_env *env);
 t_group		*create_init_group(void);
 t_group		*get_group(t_tokens *list, t_list_env *env);
+char		*get_hd_delimiter(t_tokens *list, t_group *group);
 
 //quotes && expand
 int			delimiter_nb(char *str);
@@ -93,12 +92,13 @@ char		*no_quotes(char *str, char c);
 char		*with_28(char **str);
 char		*ft_expand(char *str, t_list_env *env);
 char		*quotes_expand(char *str, t_list_env *env);
+char		*expanded_token(char *str, t_list_env *env);
+char		*no_null(void);
 t_tokenizer	*init_data(char *s);
 void		between_single(t_tokenizer *d, char *s);
 void		before_expand_or_special(t_tokenizer *d, char *s);
 
 //сheck cmd and files
-// int			is_built(char *str);
 int			only_spaces(char *str);
 int			is_folder(char *line);
 int			cmd_check(char **str, t_list_env *env);
@@ -111,28 +111,18 @@ void		existence_pb_msg(char *str);
 //free
 void		free_tokens(t_tokens *list);
 void		free_t_parser(t_parser *p);
+void		free_group_sans_del(t_group *group);
 
 //outils
 void		print_tab(char **tab, int fd);
 void		print_env_list(t_list_env *list, int fd);
 void		print_group(t_group *group);
-void		print_group_list(t_group *group);
 int			is_special(char c);
 char		**ft_split1(char *str, int flag);
 char		*from_tab_to_line(char **tab);
 void		ft_putstr_err(char *str);
 void		ft_putstr_fd(char *str, int fd);
 int			ft_strcmp(const char *s1, const char *s2);
-int			ft_strcmp(const char *s1, const char *s2);
-char		*ft_itoa(int n);
-char		*ft_strjoin(char const *s1, char const *s2);
-int			ft_strncmp(const char *s1, const char *s2, int n);
-int			ft_strcmp(const char *s1, const char *s2);
-int			ft_isalnum(int c);
-int			ft_isalpha(int c);
-int			ft_isdigit(int c);
-char		*ft_strchr(const char *s, int c);
-char		*ft_strdup(const char *s1);
-int			ft_strlen(const char *s);
+void		print_group_list(t_group *group);
 
 #endif

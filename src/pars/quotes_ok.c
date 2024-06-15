@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_ok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 20:32:23 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/14 04:29:56 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:03:29 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../inc/parsing.h"
 
 void	double_detected(char **str, int *res, int *start, int *i)
 {

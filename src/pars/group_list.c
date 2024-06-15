@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   group_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:13:25 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/14 04:29:56 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:02:53 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
-#include "minishell.h"
+#include "../../inc/parsing.h"
+#include "../../inc/minishell.h"
 
 int	get_group_nb(t_tokens *list)
 {

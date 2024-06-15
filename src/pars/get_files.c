@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_files.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:13:18 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/14 04:29:56 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:02:48 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
-#include "minishell.h"
+#include "../../inc/parsing.h"
+#include "../../inc/minishell.h"
 
 char	*outfile_access(t_tokens *list, char *str)
 {
@@ -86,6 +86,22 @@ int	handle_infile(t_tokens *list, t_group *group)
 		return (1);
 	}
 	return (0);
+}
+
+char *get_hd_delimiter(t_tokens *list, t_group *group)	//добавить перезапись делимитера
+{
+	group->app_in = NULL;
+	while (list->type != 5 && list->next != NULL)
+	{
+		if(list->type == 3 && list->next->type == 0)
+		{
+			group->app_in = ft_strdup(list->next->value);
+			if(!group->app_in)
+				return (NULL);
+		}
+		list = list->next;
+	}
+	return (group->app_in);
 }
 
 int	get_files(t_tokens *list, t_group *group)

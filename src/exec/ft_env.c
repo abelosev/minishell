@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../inc/minishell.h"
 
 int ft_env(t_group *group, t_list_env *env, int fd)
 {

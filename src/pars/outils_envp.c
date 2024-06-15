@@ -1,5 +1,5 @@
-#include "parsing.h"
-#include "minishell.h"
+#include "../../inc/parsing.h"
+#include "../../inc/minishell.h"
 
 t_list_env *ft_new_env_node(char *key, char *value)
 {

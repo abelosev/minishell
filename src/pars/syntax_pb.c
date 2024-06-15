@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_pb.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:13:57 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/14 04:29:56 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:03:43 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../inc/parsing.h"
 
 void	syntax_pb_msg(char *s)
 {

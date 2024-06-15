@@ -14,6 +14,7 @@
 # include <errno.h>
 # include <limits.h>
 # include <dirent.h>
+# include "../libft/libft.h"
 
 # define B_ECHO 1
 # define B_CD 2
@@ -22,6 +23,11 @@
 # define B_UNSET 5
 # define B_ENV 6
 # define B_EXIT 7
+
+# define E_REDIR_IN 1
+# define E_REDIR_OUT 2
+# define E_HD 3
+# define E_APP_OUT 4
 
 extern unsigned int	status;
 
@@ -35,7 +41,6 @@ typedef struct s_group
 	char *redir_out;
 	char *app_out;
 	char *app_in;
-	// int out_fd;
 	struct s_group *next;
 } t_group;
 
@@ -85,8 +90,25 @@ int			ft_export(t_group *group, t_list_env *env, int fd);
 int			ft_pwd(int fd);
 int			ft_unset(t_group *group, t_list_env **env);
 
+//exec
+int			ft_exec(t_group *group, t_list_env *env);
+int			ft_stand_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out);
+int			is_redir(t_group *group);
 
-//fd
+//main_outils
+int			ft_exec(t_group *group, t_list_env *env);
+int			check_group(t_group *group, char *line);
+int			check_line(char *line);
+char		*get_line(void);
+t_list_env	*get_mini_env();
+
+//heredoc
+char		*uniq_name(char *prefix);
+char		*heredoc(t_group *group, t_list_env *env);
+
+//signals
+void		ft_sigint(int signal);
+void		ft_sigint_hd(int signal);
 
 //free
 void		free_tab(char **tab);
@@ -100,16 +122,6 @@ void		ft_putstr_err(char *str);
 void		ft_putstr_fd(char *str, int fd);
 int			ft_error(char *name, int type, int exit_code);
 int			ft_strcmp(const char *s1, const char *s2);
-char		*ft_itoa(int n);
-char		*ft_strjoin(char const *s1, char const *s2);
-int			ft_strncmp(const char *s1, const char *s2, int n);
-int			ft_strcmp(const char *s1, const char *s2);
-int			ft_isalnum(int c);
-int			ft_isalpha(int c);
-int			ft_isdigit(int c);
-char		*ft_strchr(const char *s, int c);
-char		*ft_strdup(const char *s1);
-int			ft_strlen(const char *s);
 
 
 #endif

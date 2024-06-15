@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   outils_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:13:46 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/14 04:29:56 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:03:17 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../inc/parsing.h"
 
 void	ft_putstr_err(char *str)
 {
@@ -83,7 +83,7 @@ void	print_group(t_group *group)
 	printf("flag_fail: %d\n", group->flag_fail);
 }
 
-void	print_group_list(t_group *group)
+void print_group_list(t_group *group)
 {
 	while(group)
 	{

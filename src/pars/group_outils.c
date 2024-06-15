@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   group_outils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:47:14 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/14 04:29:56 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:02:57 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../inc/parsing.h"
 
 void	invalid_group(t_group *group, int flag)
 {
@@ -19,7 +19,7 @@ void	invalid_group(t_group *group, int flag)
 	group->redir_in = NULL;
 	group->redir_out = NULL;
 	group->app_out = NULL;
-	group->app_in = NULL;
+	// group->app_in = NULL;
 	group->next = NULL;
 }
 
@@ -61,6 +61,7 @@ t_group	*get_group(t_tokens *list, t_list_env *env)
 
 	start = list;
 	group = create_init_group();
+	group->app_in = get_hd_delimiter(list, group);
 	group->cmd = get_cmd_tab(list);
 	if (!group->cmd)
 	{
