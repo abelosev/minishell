@@ -33,7 +33,7 @@ int	minishell_loop(t_list_env *env)
 			continue ;
 		// if(parsed->group)
 		// 	print_group_list(parsed->group); // parser result if we want to see it
-		free(line);
+		// free(line);
 		status = ft_exec(parsed, env);
 	}
 	free_parsed(parsed);
