@@ -57,7 +57,7 @@ int	check_line(char *line)
 
 int	check_group(t_parsed *parsed, char *line)
 {
-	if(!parsed->group || parsed->group->flag_fail == 2)
+	if(parsed->group->flag_fail == 2)
 	{
 		status = 2;
 		free(line);

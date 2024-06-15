@@ -78,13 +78,13 @@ void	print_group(t_group *group)
 		printf("fichier redir_out: %s\n", group->redir_out);
 	if(group->app_out)
 		printf("fichier app_out: %s\n", group->app_out);
-	if(group->app_in)
-		printf("fichier app_in: %s\n", group->app_in);
 	printf("flag_fail: %d\n", group->flag_fail);
 }
 
 void print_group_list(t_group *group)
 {
+	if(!group)
+		return ;
 	while(group)
 	{
 		print_group(group);

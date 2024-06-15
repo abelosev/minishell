@@ -3,6 +3,16 @@
 
 unsigned int status = 0;
 
+int	exit_minishell(t_list_env *env, char *line)
+{
+	ft_putstr_err("exit\n");
+	free_envp_list(env);
+	if(line)
+		free(line);
+	clear_history();
+	exit(EXIT_FAILURE);
+}
+
 int	minishell_loop(t_list_env *env)
 {
 	char		*line;
@@ -12,32 +22,20 @@ int	minishell_loop(t_list_env *env)
 	{
 		line = get_line();
 		if (!line)
-		{
-			ft_putstr_err("exit\n");
-			free_envp_list(env);
-			//free(line) ?
-			clear_history();
-			exit(EXIT_FAILURE);
-		}
+			exit_minishell(env, line);
 		if(check_line(line))
 			continue ;
 		add_history(line);
 		parsed = parser(line, env);
 		if(!parsed)
-		{
-			free_envp_list(env);
-			free(line);
-			clear_history();
-			exit(EXIT_FAILURE);
-		}
+			exit_minishell(env, line);
 		if(check_group(parsed, line))
 			continue ;
-		// print_group_list(parsed->group); // parser result if we want to see it
+		// if(parsed->group)
+		// 	print_group_list(parsed->group); // parser result if we want to see it
 		free(line);
-		// group->app_in = ft_strdup("hd");	//to delete later
 		status = ft_exec(parsed, env);
 	}
-	// update_exit_status(mini, exit_status); -> адаптировать
 	return (status);
 }
 
@@ -47,7 +45,6 @@ int	main(int argc, char **argv, char **envp)
 
 	if (!argv || argc != 1)
 		return (1);
-	// printf("HEREDOC : %s\n", uniq_name("hd"));
 	if (!envp || !envp[0])
 		new_env = get_mini_env();
 	else

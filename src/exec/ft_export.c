@@ -45,7 +45,7 @@ int	ft_export_is_valid(char *str)
 	return (1);
 }
 
-int ft_export_replace_or_add(t_list_env **env, char *str)
+int	ft_export_replace_or_add(t_list_env **env, char *str)
 {
     t_list_env *the_env;
     char *new_key;
