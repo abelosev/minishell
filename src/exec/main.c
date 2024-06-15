@@ -3,14 +3,14 @@
 
 unsigned int status = 0;
 
-int	exit_minishell(t_list_env *env, char *line)
+int	exit_minishell(t_list_env *env, char *line, int exit_code)
 {
-	ft_putstr_err("exit\n");
+	// ft_putstr_err("exit\n");
 	free_envp_list(env);
 	if(line)
 		free(line);
 	clear_history();
-	exit(EXIT_FAILURE);
+	exit(exit_code);
 }
 
 int	minishell_loop(t_list_env *env)
@@ -22,13 +22,13 @@ int	minishell_loop(t_list_env *env)
 	{
 		line = get_line();
 		if (!line)
-			exit_minishell(env, line);
+			exit_minishell(env, line, 1);
 		if(check_line(line))
 			continue ;
 		add_history(line);
 		parsed = parser(line, env);
 		if(!parsed)
-			exit_minishell(env, line);
+			exit_minishell(env, line, 1);
 		if(check_group(parsed, line))
 			continue ;
 		// if(parsed->group)
@@ -36,6 +36,8 @@ int	minishell_loop(t_list_env *env)
 		free(line);
 		status = ft_exec(parsed, env);
 	}
+	free_parsed(parsed);
+	clear_history();
 	return (status);
 }
 

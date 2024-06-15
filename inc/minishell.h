@@ -40,7 +40,6 @@ typedef struct s_group
 	char *redir_in;
 	char *redir_out;
 	char *app_out;
-	char *app_in;
 	struct s_group *next;
 } t_group;
 
@@ -102,6 +101,7 @@ t_list_env	*change_shlvl(t_list_env *env);
 //heredoc
 char		*uniq_name(char *prefix);
 char		*heredoc(t_list_env *env, char *del);
+int			get_hd_fd(t_parsed *p, t_list_env *env);
 
 //signals
 void		ft_sigint(int signal);
