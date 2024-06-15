@@ -6,7 +6,7 @@
 #    By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 18:25:12 by jo-tan            #+#    #+#              #
-#    Updated: 2024/06/15 20:50:51 by abelosev         ###   ########.fr        #
+#    Updated: 2024/06/15 21:01:28 by abelosev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ D_FILES		= $(patsubst $(SE_DIR)/%.c,$(O_DIR)/%.d,$(SE_FILES)) \
 
 # Compilation
 CC			= cc
-CF          = -Wall -Wextra -Werror #-I/opt/homebrew/opt/readline/include
+CF          = -Wall -Wextra -Werror -g3 #-I/opt/homebrew/opt/readline/include
 INC         = -I inc/ -I $(LIBFT_DIR)
 LDFLAGS     = -L $(LIBFT_DIR) -lft -lreadline #-L/opt/homebrew/opt/readline/lib 
 
@@ -81,7 +81,7 @@ RM			= rm -rf
 all:		$(LIBFT) $(NAME)
 
 $(NAME):	$(O_FILES)
-	@$(CC) -fsanitize=address -g -o $(NAME) $(O_FILES) $(LDFLAGS) $(INC)
+	@$(CC) -g -o $(NAME) $(O_FILES) $(LDFLAGS) $(INC)
 	@echo "minishell is up to date!"
 
 -include $(D_FILES)
