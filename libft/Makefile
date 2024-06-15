@@ -6,7 +6,7 @@
 #    By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/31 10:55:05 by abelosev          #+#    #+#              #
-#    Updated: 2024/06/15 20:39:51 by abelosev         ###   ########.fr        #
+#    Updated: 2024/06/15 20:52:28 by abelosev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ BONUS_OBJS		= $(BONUS:.c=.o)
 RM 				= rm -f
 CFLAGS 			= -Wall -Werror -Wextra -c
 INCLUDE 		= ./
-NAME			= your_library.a
+NAME			= libft.a
 
 all: $(NAME)
 
