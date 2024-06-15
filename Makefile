@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+         #
+#    By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 18:25:12 by jo-tan            #+#    #+#              #
-#    Updated: 2024/06/14 04:36:04 by aauthier         ###   ########.fr        #
+#    Updated: 2024/06/15 20:42:27 by abelosev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,9 +71,9 @@ D_FILES		= $(patsubst $(SE_DIR)/%.c,$(O_DIR)/%.d,$(SE_FILES)) \
 
 # Compilation
 CC			= cc
-CF          = -Wall -Wextra -Werror -I/opt/homebrew/opt/readline/include
+CF          = -Wall -Wextra -Werror #-I/opt/homebrew/opt/readline/include
 INC         = -I inc/ -I $(LIBFT_DIR)
-LDFLAGS     = -L/opt/homebrew/opt/readline/lib -lreadline -L $(LIBFT_DIR) -lft
+LDFLAGS     = -lreadline -L $(LIBFT_DIR) -lft #-L/opt/homebrew/opt/readline/lib 
 
 # Cleaning
 RM			= rm -rf
@@ -81,7 +81,7 @@ RM			= rm -rf
 all:		$(LIBFT) $(NAME)
 
 $(NAME):	$(O_FILES)
-	@$(CC) -fsanitize=address -g -o $(NAME) $(O_FILES) $(LDFLAGS) -L $(LIBFT_DIR) -lft $(INC)
+	@$(CC) -fsanitize=address -g -o $(NAME) $(O_FILES) $(LDFLAGS) $(INC)
 	@echo "minishell is up to date!"
 
 -include $(D_FILES)

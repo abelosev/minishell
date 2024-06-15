@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abelosev <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/31 10:55:05 by abelosev          #+#    #+#              #
-#    Updated: 2021/03/31 11:04:51 by abelosev         ###   ########.fr        #
+#    Updated: 2024/06/15 20:39:51 by abelosev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,35 +59,30 @@ BONUS			= ft_lstnew.c \
 			  	ft_lstiter.c \
 				ft_lstmap.c
 
+OBJS			= $(SRCS:.c=.o)
 BONUS_OBJS		= $(BONUS:.c=.o)
-
 RM 				= rm -f
-
 CFLAGS 			= -Wall -Werror -Wextra -c
+INCLUDE 		= ./
+NAME			= your_library.a
 
-INCLUDE 		= \
-		  		libft.h
+all: $(NAME)
 
-all:			$(NAME)
+$(NAME): $(OBJS)
+	ar rcs $(NAME) $(OBJS)
 
-$(NAME):		$(OBJS) $(INCLUDE)
-					ar rcs $(NAME) $(OBJS)
+%.o: %.c
+	gcc $(CFLAGS) -I $(INCLUDE) -o $@ -c $<
 
-$(OBJS):		$(SRCS)
-				gcc $(CFLAGS) $(SRCS) -I $(INCLUDE)
-
-$(BONUS_OBJS): $(BONUS)
-				gcc $(CFLAGS) $(BONUS) -I $(INCLUDE)
-
-bonus:			fclean $(OBJS) $(BONUS_OBJS)
-					ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
+bonus: fclean $(BONUS_OBJS)
+	ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
 
 clean:
-				$(RM) $(OBJS) $(BONUS_OBJS)
+	$(RM) $(OBJS) $(BONUS_OBJS)
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean: clean
+	$(RM) $(NAME)
 
-re: 			fclean all
+re: fclean all
 
-.PHONY: 		all clean fclean re bonus
+.PHONY: all clean fclean re bonus

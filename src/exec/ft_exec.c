@@ -106,8 +106,10 @@ int	do_redir(t_group *group, t_parsed *p, t_list_env *env, int fd_in, int fd_out
 	new_fd_in = fd_in;
 	new_fd_out = fd_out;
     if (open_redir(group, &new_fd_in, &new_fd_out))
+    {
         return (1);
-   	if (is_built(group->cmd[0]) != 0)
+    }
+    if (is_built(group->cmd[0]) != 0)
 		status = exec_builtin(group, env, p, fd_out);
 	else
 		status = ft_cmd(group, env, fd_in, fd_out);
