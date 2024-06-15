@@ -25,6 +25,28 @@ t_list_env	*get_mini_env()
 	return (mini_env);
 }
 
+t_list_env	*change_shlvl(t_list_env *env)
+{
+	char		*prev;
+	char		*new;
+	int			new_sh;
+
+	prev = get_value_by_key(env, "SHLVL");
+	if(!prev)
+		return (NULL);
+	new_sh = ft_atoi(prev) + 1;
+	free(prev);
+	prev = ft_itoa(new_sh);
+	if(!prev)
+		return (NULL);
+	new = ft_strjoin("SHLVL=", prev);
+	if(!new)
+		return(free(prev), NULL);
+	if(ft_export_replace_or_add(&env, new))
+		return (free(new), free(prev), NULL);
+	return(free(new), free(prev), env);
+}
+
 char	*get_line(void)
 {
 	char *line;

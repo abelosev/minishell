@@ -62,3 +62,21 @@ int ft_add_to_msh_env(t_list_env **env, char *new_str)
     ft_add_env(env, new_node);
     return 0;
 }
+
+char	*get_value_by_key(t_list_env *env, char *target)
+{
+	char	*prev;
+
+	prev = NULL;
+	while (env != NULL)
+    {
+        if (ft_strcmp(env->key, target) == 0)
+		{
+			prev = ft_strdup(env->value);
+			if(!prev)
+				return (NULL);
+		}
+        env = env->next;
+	}
+	return (prev);
+}

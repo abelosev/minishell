@@ -93,47 +93,6 @@ t_list_env	*first_node(char **tab)
 	return (node);
 }
 
-char	*get_value_by_key(t_list_env *env, char *target)
-{
-	char	*prev;
-
-	prev = NULL;
-	while (env != NULL)
-    {
-        if (ft_strcmp(env->key, target) == 0)
-		{
-			prev = ft_strdup(env->value);
-			if(!prev)
-				return (NULL);
-		}
-        env = env->next;
-	}
-	return (prev);
-}
-
-
-t_list_env	*change_shlvl(t_list_env *env)
-{
-	char		*prev;
-	char		*new;
-	int			new_sh;
-
-	prev = get_value_by_key(env, "SHLVL");
-	if(!prev)
-		return (NULL);
-	new_sh = ft_atoi(prev) + 1;
-	free(prev);
-	prev = ft_itoa(new_sh);
-	if(!prev)
-		return (NULL);
-	new = ft_strjoin("SHLVL=", prev);
-	if(!new)
-		return(free(prev), NULL);
-	if(ft_export_replace_or_add(&env, new))
-		return (free(new), free(prev), NULL);
-	return(free(new), free(prev), env);
-}
-
 t_list_env	*get_list(char **tab)
 {
 	int			i;

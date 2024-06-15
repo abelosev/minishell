@@ -7,8 +7,6 @@ int	is_redir(t_group *group)
 		return (E_REDIR_IN);
 	else if(group->redir_out)
 		return (E_REDIR_OUT);
-	// else if(group->app_in)
-	// 	return (E_HD);
 	else if(group->app_out)
 		return (E_APP_OUT);
 	return (0);

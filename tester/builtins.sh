@@ -108,11 +108,11 @@ function exec_test()
 # exec_test "exit +++777"
 
 #env
-# exec_test "env truc"
-# exec_test "env -n truc"
-# exec_test "env truc machin"
-# exec_test "env"
-# exec_test "export HOLA=bonjour ; env"
+exec_test "env truc"
+exec_test "env -n truc"
+exec_test "env truc machin"
+exec_test "env"
+exec_test "export HOLA=bonjour ; env"
 
 
 # #export

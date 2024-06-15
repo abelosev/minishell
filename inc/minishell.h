@@ -74,6 +74,7 @@ t_list_env	*ft_new_env_node(char *key, char *value);
 int			ft_add_to_msh_env(t_list_env **env, char *new_str);
 t_list_env	*change_shlvl(t_list_env *env);
 int			ft_export_replace_or_add(t_list_env **env, char *str);
+char		*get_value_by_key(t_list_env *env, char *target);
 
 //builtins
 int			is_built(char *str);
@@ -96,6 +97,7 @@ int			check_group(t_parsed *parsed, char *line);
 int			check_line(char *line);
 char		*get_line(void);
 t_list_env	*get_mini_env();
+t_list_env	*change_shlvl(t_list_env *env);
 
 //heredoc
 char		*uniq_name(char *prefix);
