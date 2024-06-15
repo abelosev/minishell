@@ -72,6 +72,8 @@ t_list_env	*get_list(char **tab);
 t_list_env	*ft_find_in_env(t_list_env *env, char *target_key);
 t_list_env	*ft_new_env_node(char *key, char *value);
 int			ft_add_to_msh_env(t_list_env **env, char *new_str);
+t_list_env	*change_shlvl(t_list_env *env);
+int			ft_export_replace_or_add(t_list_env **env, char *str);
 
 //builtins
 int			is_built(char *str);
