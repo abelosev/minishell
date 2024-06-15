@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+         #
+#    By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/31 10:55:05 by abelosev          #+#    #+#              #
-#    Updated: 2024/06/15 21:01:40 by abelosev         ###   ########.fr        #
+#    Updated: 2024/06/15 21:17:19 by aauthier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ BONUS			= ft_lstnew.c \
 OBJS			= $(SRCS:.c=.o)
 BONUS_OBJS		= $(BONUS:.c=.o)
 RM 				= rm -f
-CFLAGS 			= -Wall -Werror -Wextra -c -g3
+CFLAGS 			= -Wall -Werror -Wextra -g3
 INCLUDE 		= ./
 NAME			= libft.a
 
