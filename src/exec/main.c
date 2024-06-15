@@ -5,8 +5,8 @@ unsigned int status = 0;
 
 int	minishell_loop(t_list_env *env)
 {
-	char	*line;
-    t_group	*group;
+	char		*line;
+    t_parsed	*parsed;
 
 	while (1)
 	{
@@ -22,13 +22,20 @@ int	minishell_loop(t_list_env *env)
 		if(check_line(line))
 			continue ;
 		add_history(line);
-		group = parser(line, env);
-		if(check_group(group, line))
+		parsed = parser(line, env);
+		if(!parsed)
+		{
+			free_envp_list(env);
+			free(line);
+			clear_history();
+			exit(EXIT_FAILURE);
+		}
+		if(check_group(parsed, line))
 			continue ;
-		// print_group_list(group); // parser result if we want to see it
+		// print_group_list(parsed->group); // parser result if we want to see it
 		free(line);
 		// group->app_in = ft_strdup("hd");	//to delete later
-		status = ft_exec(group, env);
+		status = ft_exec(parsed, env);
 	}
 	// update_exit_status(mini, exit_status); -> адаптировать
 	return (status);

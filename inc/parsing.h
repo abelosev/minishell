@@ -76,7 +76,7 @@ t_tokens	*lexer(char **token_tab);
 t_group		*get_group_list(t_tokens *list, t_list_env *env);
 t_group		*create_init_group(void);
 t_group		*get_group(t_tokens *list, t_list_env *env);
-char		*get_hd_delimiter(t_tokens *list, t_group *group);
+char 		*get_hd_delimiter(t_tokens *list);
 
 //quotes && expand
 int			delimiter_nb(char *str);
@@ -111,7 +111,6 @@ void		existence_pb_msg(char *str);
 //free
 void		free_tokens(t_tokens *list);
 void		free_t_parser(t_parser *p);
-void		free_group_sans_del(t_group *group);
 
 //outils
 void		print_tab(char **tab, int fd);

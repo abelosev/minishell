@@ -88,22 +88,6 @@ int	handle_infile(t_tokens *list, t_group *group)
 	return (0);
 }
 
-char *get_hd_delimiter(t_tokens *list, t_group *group)	//добавить перезапись делимитера
-{
-	group->app_in = NULL;
-	while (list->type != 5 && list->next != NULL)
-	{
-		if(list->type == 3 && list->next->type == 0)
-		{
-			group->app_in = ft_strdup(list->next->value);
-			if(!group->app_in)
-				return (NULL);
-		}
-		list = list->next;
-	}
-	return (group->app_in);
-}
-
 int	get_files(t_tokens *list, t_group *group)
 {
 	while (list->type != 5 && list->next != NULL)
