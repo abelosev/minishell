@@ -136,14 +136,16 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
 	char buffer[4096];		//можно ли так делать?
     ssize_t bytes_read;
     // int e_status;
+    int pipe_res;
 
 	fd_in = get_hd_fd(p, env);	// передавать ли fd_in параметром (?)
     curr = p->group;
+    pipe_res = 0;
     while (curr)
     {
         if (curr->next)
         {
-            if (pipe(pipefd) == -1)
+            if (pipe_res == -1)
                 return (ft_putstr_err("pipe failed"), 1); // не удалось открыть пайп
         }
 
@@ -191,7 +193,7 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
 
         if (fd_in != STDIN_FILENO)
             close(fd_in);
-        if (pipefd[1] != STDOUT_FILENO)
+        if (pipe_res != 0 && pipefd[1] != STDOUT_FILENO)
             close(pipefd[1]);
 		if (curr->next)
             fd_in = pipefd[0];
