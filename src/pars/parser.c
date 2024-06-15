@@ -45,29 +45,48 @@ t_group	*group_list(t_parser *p, t_group *group, t_list_env *env)
 	return (group);
 }
 
-t_group	*parser(char *input, t_list_env *env)
+t_parsed	*parser(char *input, t_list_env *env)
 {
 	t_parser	*p;
-	t_group		*group;
+	t_parsed	*parsed;
 
 	p = create_init_p();
-	group = create_init_group();
+	parsed = malloc(sizeof(t_parsed));
+	if(!parsed)
+	{
+		free_t_parser(p);
+		return (NULL);
+	}
+	parsed->group = NULL;
+	parsed->hd_del = NULL;
+	parsed->group = create_init_group();
 	if (quotes_ok(&input) == 0)
-		return (unclosed_quotes(group, p));
+	{
+		free(parsed->hd_del);
+		parsed->group = unclosed_quotes(parsed->group, p);
+		return (parsed);
+	}
+
 	p->line = quotes_expand(input, env);
 	if (p->line == NULL)
 	{
 		free_t_parser(p);
 		if (input)
 		{
-			invalid_group(group, 127);
+			invalid_group(parsed->group, 127);
 			ft_putstr_err("Command not found\n");
 		}
 		else
-			invalid_group(group, 2);
-		return (group);
+			invalid_group(parsed->group, 2);
+		return (parsed);
 	}
-	group = group_list(p, group, env);
+	parsed->group = group_list(p, parsed->group, env);
+	parsed->hd_del = get_hd_delimiter(p->token_list);	//	как обработать malloc pb ?
 	free_t_parser(p);
-	return (group);
+	if(!parsed->group && !parsed->hd_del)
+	{
+		free(parsed);
+		return (NULL);
+	}
+	return (parsed);
 }

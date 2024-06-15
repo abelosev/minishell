@@ -25,22 +25,6 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-void free_group_sans_del(t_group *group)
-{
-	if(group)
-	{
-		if (group->cmd)
-			free_tab(group->cmd);
-		if (group->app_out)
-			free(group->app_out);
-		if (group->redir_in)
-			free(group->redir_in);
-		if (group->redir_out)
-			free(group->redir_out);
-		free(group);
-	}
-}
-
 void	free_group_list(t_group *group)
 {
 	t_group	*tmp;
@@ -56,8 +40,8 @@ void	free_group_list(t_group *group)
 			free(group->redir_in);
 		if (group->redir_out)
 			free(group->redir_out);
-		if (group->app_in)
-			free(group->app_in);
+		// if (group->app_in)
+		// 	free(group->app_in);
 		free(group);
 		group = tmp;
 	}
@@ -103,4 +87,13 @@ void	free_t_parser(t_parser *p)
 		free_tokens(p->token_list);
 	if (p)
 		free(p);
+}
+
+void	free_parsed(t_parsed *parsed)
+{
+	if(parsed->group)
+		free_group_list(parsed->group);
+	if(parsed->hd_del)
+		free(parsed->hd_del);
+	free(parsed);
 }

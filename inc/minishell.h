@@ -51,23 +51,17 @@ typedef struct s_list_env
 	struct s_list_env *next;
 } t_list_env;
 
-// typedef struct s_exec
-// {
-// 	int				stat;
-// 	int				infile;
-// 	int				outfile;
-// 	int				fd_in;
-// 	int				fd_out;
-// 	int				pfd_in;
-// 	int				pfd_out;
-// 	pid_t			pid;
-// }	t_exec;
+typedef struct s_parsed
+{
+	char	*hd_del;
+	t_group	*group;
+}	t_parsed;
 
 ////////////////// FONCTIONS //////////////////
 
 //input and parsing
 int			only_spaces(char *str);
-t_group		*parser(char *input, t_list_env *env);
+t_parsed	*parser(char *input, t_list_env *env);
 
 //envp
 char		**get_envp(t_list_env *list);
@@ -91,20 +85,19 @@ int			ft_pwd(int fd);
 int			ft_unset(t_group *group, t_list_env **env);
 
 //exec
-int			ft_exec(t_group *group, t_list_env *env);
+int			ft_exec(t_parsed *p, t_list_env *env);
 int			ft_stand_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out);
 int			is_redir(t_group *group);
 
 //main_outils
-int			ft_exec(t_group *group, t_list_env *env);
-int			check_group(t_group *group, char *line);
+int			check_group(t_parsed *parsed, char *line);
 int			check_line(char *line);
 char		*get_line(void);
 t_list_env	*get_mini_env();
 
 //heredoc
 char		*uniq_name(char *prefix);
-char		*heredoc(t_group *group, t_list_env *env);
+char		*heredoc(t_list_env *env, char *del);
 
 //signals
 void		ft_sigint(int signal);
@@ -114,6 +107,7 @@ void		ft_sigint_hd(int signal);
 void		free_tab(char **tab);
 void		free_envp_list(t_list_env *list);
 void		free_group_list(t_group *group);
+void		free_parsed(t_parsed *parsed);
 
 //outils
 void		print_env_list(t_list_env *list, int fd);
