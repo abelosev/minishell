@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_remove.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 23:17:10 by abelosev          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/06/15 21:29:49 by abelosev         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/15 21:18:57 by aauthier         ###   ########.fr       */
->>>>>>> refs/remotes/origin/master
+/*   Updated: 2024/06/15 22:08:31 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
