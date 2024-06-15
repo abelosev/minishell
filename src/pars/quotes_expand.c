@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_expand.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:15:09 by abelosev          #+#    #+#             */
-/*   Updated: 2024/05/16 14:03:24 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/15 21:18:57 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 void	temp_free(char *a, char *b)
 {
