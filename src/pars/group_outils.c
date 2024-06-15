@@ -19,7 +19,7 @@ void	invalid_group(t_group *group, int flag)
 	group->redir_in = NULL;
 	group->redir_out = NULL;
 	group->app_out = NULL;
-	group->app_in = NULL;
+	// group->app_in = NULL;
 	group->next = NULL;
 }
 
@@ -61,6 +61,7 @@ t_group	*get_group(t_tokens *list, t_list_env *env)
 
 	start = list;
 	group = create_init_group();
+	group->app_in = get_hd_delimiter(list, group);
 	group->cmd = get_cmd_tab(list);
 	if (!group->cmd)
 	{

@@ -25,6 +25,22 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
+void free_group_sans_del(t_group *group)
+{
+	if(group)
+	{
+		if (group->cmd)
+			free_tab(group->cmd);
+		if (group->app_out)
+			free(group->app_out);
+		if (group->redir_in)
+			free(group->redir_in);
+		if (group->redir_out)
+			free(group->redir_out);
+		free(group);
+	}
+}
+
 void	free_group_list(t_group *group)
 {
 	t_group	*tmp;

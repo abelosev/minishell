@@ -27,7 +27,7 @@ int	minishell_loop(t_list_env *env)
 			continue ;
 		// print_group_list(group); // parser result if we want to see it
 		free(line);
-		group->app_in = ft_strdup("hd");	//to delete later
+		// group->app_in = ft_strdup("hd");	//to delete later
 		status = ft_exec(group, env);
 	}
 	// update_exit_status(mini, exit_status); -> адаптировать
