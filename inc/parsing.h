@@ -76,6 +76,7 @@ t_tokens	*lexer(char **token_tab);
 t_group		*get_group_list(t_tokens *list, t_list_env *env);
 t_group		*create_init_group(void);
 t_group		*get_group(t_tokens *list, t_list_env *env);
+int			get_hd_delimiter(t_tokens *list, t_group *group);
 
 //quotes && expand
 int			delimiter_nb(char *str);
@@ -91,12 +92,13 @@ char		*no_quotes(char *str, char c);
 char		*with_28(char **str);
 char		*ft_expand(char *str, t_list_env *env);
 char		*quotes_expand(char *str, t_list_env *env);
+char		*expanded_token(char *str, t_list_env *env);
+char		*no_null(void);
 t_tokenizer	*init_data(char *s);
 void		between_single(t_tokenizer *d, char *s);
 void		before_expand_or_special(t_tokenizer *d, char *s);
 
 //сheck cmd and files
-// int			is_built(char *str);
 int			only_spaces(char *str);
 int			is_folder(char *line);
 int			cmd_check(char **str, t_list_env *env);

@@ -92,7 +92,7 @@ int			ft_unset(t_group *group, t_list_env **env);
 
 //exec
 int			ft_exec(t_group *group, t_list_env *env);
-int			ft_stand_cmd(t_group *group, t_list_env *env);
+int			ft_stand_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out);
 int			is_redir(t_group *group);
 
 //main_outils
@@ -101,6 +101,10 @@ int			check_group(t_group *group, char *line);
 int			check_line(char *line);
 char		*get_line(void);
 t_list_env	*get_mini_env();
+
+//heredoc
+char		*uniq_name(char *prefix);
+char		*heredoc(t_group *group, t_list_env *env);
 
 //signals
 void		ft_sigint(int signal);
