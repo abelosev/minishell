@@ -85,7 +85,7 @@ char	*heredoc(t_list_env *env, char *del)
 	int		file_fd;
 	int		prev_fd;
 
-	prev_fd = STDIN_FILENO;				//to delete later
+	prev_fd = STDIN_FILENO;				//to delete later (?)
 	
 	file_name = uniq_name(del);
 	prev_fd = dup(STDIN_FILENO);

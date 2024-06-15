@@ -24,11 +24,6 @@
 # define B_ENV 6
 # define B_EXIT 7
 
-# define E_REDIR_IN 1
-# define E_REDIR_OUT 2
-# define E_HD 3
-# define E_APP_OUT 4
-
 extern unsigned int	status;
 
 ////////////////// STRUCTS //////////////////
@@ -87,7 +82,7 @@ int			ft_pwd(int fd);
 int			ft_unset(t_group *group, t_list_env **env);
 
 //exec
-int			ft_exec(t_parsed *p, t_list_env *env);
+unsigned int	ft_exec(t_parsed *p, t_list_env *env);
 int			ft_stand_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out);
 int			is_redir(t_group *group);
 
