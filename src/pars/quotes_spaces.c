@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_spaces.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 23:04:54 by abelosev          #+#    #+#             */
-/*   Updated: 2024/05/16 14:03:38 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/15 21:18:57 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 void	hide_spaces_between_quotes(char **str)
 {

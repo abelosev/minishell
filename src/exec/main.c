@@ -1,5 +1,5 @@
-#include "../../inc/minishell.h"
-#include "../../inc/parsing.h"
+#include "parsing.h"
+#include "minishell.h"
 
 unsigned int status = 0;
 

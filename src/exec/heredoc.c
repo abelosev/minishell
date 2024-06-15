@@ -1,5 +1,5 @@
-#include "../../inc/parsing.h"
-#include "../../inc/minishell.h"
+#include "parsing.h"
+#include "minishell.h"
 
 char 	*get_hd_delimiter(t_tokens *list)
 {

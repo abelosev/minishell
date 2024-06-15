@@ -1,4 +1,4 @@
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 typedef struct s_exec {
 	int		fd_p[2];
