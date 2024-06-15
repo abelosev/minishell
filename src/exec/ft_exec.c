@@ -6,7 +6,7 @@
 /*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/15 21:20:08 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:27:30 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
     {
         if (curr->next)
         {
+			pipe_res = pipe(pipefd);
             if (pipe_res == -1)
                 return (ft_putstr_err("pipe failed"), 1); // не удалось открыть пайп
         }
