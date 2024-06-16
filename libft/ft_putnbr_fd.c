@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/30 10:04:27 by abelosev          #+#    #+#             */
-/*   Updated: 2021/04/30 10:06:00 by abelosev         ###   ########.fr       */
+/*   Created: 2024/06/16 01:52:40 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 02:10:28 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_leng(long n)
+int	ft_leng(long n)
 {
 	int	len;
 

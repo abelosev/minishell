@@ -6,7 +6,7 @@
 #    By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/15 22:06:52 by abelosev          #+#    #+#              #
-#    Updated: 2024/06/15 22:06:55 by abelosev         ###   ########.fr        #
+#    Updated: 2024/06/16 02:51:08 by abelosev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,9 @@ SP_FILES	= src/pars/cmd_check_outils.c \
 				src/pars/outils_envp.c \
 				src/pars/outils_expand.c \
 				src/pars/outils_free.c \
+				src/pars/outils_free_struct.c \
 				src/pars/outils_print.c \
+				src/pars/outils_print_group.c \
 				src/pars/parser_outils.c \
 				src/pars/parser.c \
 				src/pars/quotes_expand.c \
@@ -50,8 +52,7 @@ SP_FILES	= src/pars/cmd_check_outils.c \
 				src/pars/quotes_remove.c \
 				src/pars/quotes_spaces.c \
 				src/pars/syntax_pb.c \
-				src/pars/token_list.c \
-				src/pars/outils_libft.c
+				src/pars/token_list.c
 				
 SE_DIR		= src/exec
 SP_DIR		= src/pars

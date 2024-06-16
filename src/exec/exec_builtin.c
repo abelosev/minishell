@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_builtin.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/16 03:12:12 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 03:15:11 by abelosev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_built(char *str)
@@ -6,7 +18,7 @@ int	is_built(char *str)
 	char	*tab[7];
 
 	i = 0;
-	if(!str)
+	if (!str)
 		return (0);
 	tab[0] = "echo";
 	tab[1] = "cd";
@@ -43,7 +55,7 @@ int	ft_do_builtin(t_group *group, t_list_env *env, int out_fd)
 		return (ft_env(group, env, out_fd));
 	else if (built_num == B_EXIT)
 		return (ft_exit(group));
-	if (out_fd != 1)				// ???
+	if (out_fd != 1)
 	{
 		close(out_fd);
 		out_fd = 1;

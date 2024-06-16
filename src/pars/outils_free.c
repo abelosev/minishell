@@ -3,19 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   outils_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 21:13:07 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/15 21:18:57 by aauthier         ###   ########.fr       */
+/*   Created: 2024/06/16 02:23:27 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 03:05:42 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include "minishell.h"
 
 void	free_tab(char **tab)
 {
 	int	i;
 
+	if(!tab)
+		return ;
+	if(tab && !(*tab))
+	{
+		free(tab);
+		return ;
+	}
 	i = 0;
 	while (tab[i] != NULL)
 	{
@@ -23,28 +31,6 @@ void	free_tab(char **tab)
 		i++;
 	}
 	free(tab);
-}
-
-void	free_group_list(t_group *group)
-{
-	t_group	*tmp;
-
-	while (group != NULL)
-	{
-		tmp = group->next;
-		if (group->cmd)
-			free_tab(group->cmd);
-		if (group->app_out)
-			free(group->app_out);
-		if (group->redir_in)
-			free(group->redir_in);
-		if (group->redir_out)
-			free(group->redir_out);
-		// if (group->app_in)
-		// 	free(group->app_in);
-		free(group);
-		group = tmp;
-	}
 }
 
 void	free_tokens(t_tokens *list)
@@ -75,25 +61,4 @@ void	free_envp_list(t_list_env *list)
 		free(list);
 		list = tmp;
 	}
-}
-
-void	free_t_parser(t_parser *p)
-{
-	if (p->line)
-		free(p->line);
-	if (p->token_tab)
-		free_tab(p->token_tab);
-	if (p->token_list)
-		free_tokens(p->token_list);
-	if (p)
-		free(p);
-}
-
-void	free_parsed(t_parsed *parsed)
-{
-	if(parsed->group)
-		free_group_list(parsed->group);
-	if(parsed->hd_del)
-		free(parsed->hd_del);
-	free(parsed);
 }

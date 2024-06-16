@@ -83,8 +83,8 @@ int			ft_unset(t_group *group, t_list_env **env);
 
 //exec
 unsigned int	ft_exec(t_parsed *p, t_list_env *env);
-int			ft_stand_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out);
-int			is_redir(t_group *group);
+// int			ft_stand_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out);
+// int			is_redir(t_group *group);
 
 //main_outils
 int			check_group(t_parsed *parsed, char *line);

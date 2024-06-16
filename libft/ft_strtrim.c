@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/30 10:06:18 by abelosev          #+#    #+#             */
-/*   Updated: 2021/04/30 12:11:06 by abelosev         ###   ########.fr       */
+/*   Created: 2024/06/16 01:53:42 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 02:00:50 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_check_chr(char c, char const *set)
+int	ft_check_chr(char c, char const *set)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (set[i])
@@ -30,7 +30,8 @@ char	*full_blank_input(void)
 {
 	char	*s;
 
-	if (!(s = (char*)malloc(sizeof(char) * 1)))
+	s = (char *)malloc(sizeof(char) * 1);
+	if (!s)
 		return (NULL);
 	s[0] = '\0';
 	return (s);
@@ -41,7 +42,8 @@ char	*create_s(char const *s1, int end_s, int start_s)
 	char	*s;
 	int		i;
 
-	if (!(s = (char*)malloc(sizeof(char) * (end_s - start_s + 1))))
+	s = (char *)malloc(sizeof(char) * (end_s - start_s + 1));
+	if (!s)
 		return (NULL);
 	i = 0;
 	while (s1[i + start_s] && i + start_s < end_s)

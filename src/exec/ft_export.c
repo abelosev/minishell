@@ -1,33 +1,33 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_export.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/15 21:20:15 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/15 21:20:16 by aauthier         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   ft_export.c										:+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: abelosev <abelosev@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2024/06/15 21:20:15 by aauthier		  #+#	#+#			 */
+/*   Updated: 2024/06/16 03:14:13 by abelosev		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	ft_write_export(t_list_env *env, int fd)
 {
-    char **envp;
-    int i;
+	char	**envp;
+	int		i;
 
-    envp = get_envp(env);
-    if (!envp)
-        return ;
-    i = 0;
-    while (envp[i] != NULL)
-    {
-        ft_putstr_fd("declare -x ", fd);		//протестировать, не появляется ли там лишних '='
+	envp = get_envp(env);
+	if (!envp)
+		return ;
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		ft_putstr_fd("declare -x ", fd);		//протестировать, не появляется ли там лишних '='
 		ft_putstr_fd(envp[i], fd);
 		ft_putstr_fd("\n", fd);
-        i++;
-    }
+		i++;
+	}
 	free_tab(envp);
 }
 
@@ -59,29 +59,28 @@ int	ft_export_is_valid(char *str)
 
 int	ft_export_replace_or_add(t_list_env **env, char *str)
 {
-    t_list_env *the_env;
-    char *new_key;
-    char *new_value;
+	t_list_env	*the_env;
+	char		*new_key;
+	char		*new_value;
 
-    new_key = get_key(str);
-    if (!new_key)
-        return (ft_error(NULL, 0, 1));
-    the_env = ft_find_in_env(*env, new_key);
-    if (!the_env)
-    {
-        free(new_key);
-        return (ft_add_to_msh_env(env, str));
-    }
-    free(the_env->key);
-    the_env->key = new_key;
-
-    new_value = get_value(str);
-    if (!new_value)
-        return (0);				//точно ли 0 ?
-    if (the_env->value)
-        free(the_env->value);
-    the_env->value = new_value;
-    return (0);
+	new_key = get_key(str);
+	if (!new_key)
+		return (ft_error(NULL, 0, 1));
+	the_env = ft_find_in_env(*env, new_key);
+	if (!the_env)
+	{
+		free(new_key);
+		return (ft_add_to_msh_env(env, str));
+	}
+	free(the_env->key);
+	the_env->key = new_key;
+	new_value = get_value(str);
+	if (!new_value)
+		return (0);				//точно ли 0 ?
+	if (the_env->value)
+		free(the_env->value);
+	the_env->value = new_value;
+	return (0);
 }
 
 int	ft_export(t_group *group, t_list_env *env, int fd)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_outils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/16 03:14:30 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 04:24:12 by abelosev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 #include "minishell.h"
 
@@ -83,8 +95,8 @@ int	check_group(t_parsed *parsed, char *line)
 	{
 		status = 2;
 		free(line);
+		free_parsed(parsed);
 		return (1);
 	}
-	//еще одно условие, проверить
 	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:05:08 by abelosev          #+#    #+#             */
-/*   Updated: 2024/05/16 14:18:59 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 02:27:31 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ char		**ft_split1(char *str, int flag);
 char		*from_tab_to_line(char **tab);
 void		ft_putstr_err(char *str);
 void		ft_putstr_fd(char *str, int fd);
-int			ft_strcmp(const char *s1, const char *s2);
 void		print_group_list(t_group *group);
 
 #endif

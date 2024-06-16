@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:15:09 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/15 22:03:58 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 02:52:45 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*quotes_expand(char *str, t_list_env *env)
 	no_single = expnd_handle(no_double, env);
 	if (no_single == NULL)
 	{
-		if(no_double)
+		if (no_double)
 			free(no_double);
 		return (NULL);
 	}
