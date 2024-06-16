@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 02:22:06 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 02:22:08 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/17 00:17:25 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	cmd_standart(char **str, t_list_env *env)
 		return (1);
 	path_tab = get_path_tab(new_envp);
 	if (path_tab == NULL)
-		return (1);
+		return (free_tab(new_envp), ft_putstr_err(*str),
+			ft_putstr_err(": Command not found\n"), 127);
 	path_check = find_path(path_tab, str);
 	if (path_check == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:14:34 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 22:58:21 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/17 00:02:54 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	minishell_loop(new_env, &code);
-	free_envp_list(new_env);
+	if(new_env)
+		free_envp_list(new_env);
 	if (g_status != 0) //to make sure
 		code = g_status;
 	return (code);
