@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/16 16:13:03 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:41:05 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int	open_redir(t_group *group, int *fd_in, int *fd_out)
 		if (*fd_out < 0)
 			return 1;
 	}
-	if (group->redir_out)
+	else if (group->redir_out)
 	{
 		*fd_out = open(group->redir_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (*fd_out < 0)
 			return 1;
 	}
-	return 0;
+	return (0);
 }
 
 unsigned int	exec_builtin(t_group *group, t_list_env *env, t_parsed *p, int fd_out)
@@ -154,7 +154,7 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
     t_group *curr;
     int fd_in;
 	int file_fd;
-	int64_t fd_out;
+	int fd_out;
     int pipefd[2];
 	char buffer[4096];		//можно ли так делать?
     ssize_t bytes_read;
@@ -181,13 +181,13 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
         {
             if (is_redir(curr))
             {
-                fd_out = open(curr->redir_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-                if (fd_out < 0)
+                if(open_redir(curr, &fd_in, &fd_out) || fd_out < 0)
                 {
                     if(p)
                         free_parsed(p);
-                     return (ft_putstr_err("open output failed"), 1);
+                    return (ft_putstr_err("open output failed"), 1);
                 }
+                    
                 status = do_redir(curr, p, env, fd_in, fd_out);
                 close(fd_out);
                 if (curr->next)

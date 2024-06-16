@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:05:08 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 02:27:31 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 17:09:31 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ typedef struct s_parser
 void		print_token_list(t_tokens *list);
 void		invalid_group(t_group *group, int flag);
 int			syntax_pb(t_tokens *list);
+char		*get_hd_delimiter(t_tokens *list);
 t_parser	*create_init_p(void);
-t_group		*create_init_group(void);
 t_tokens	*lexer(char **token_tab);
 t_group		*get_group_list(t_tokens *list, t_list_env *env);
 t_group		*create_init_group(void);
 t_group		*get_group(t_tokens *list, t_list_env *env);
-char 		*get_hd_delimiter(t_tokens *list);
+t_group		*create_init_group(void);
 
 //quotes && expand
 int			delimiter_nb(char *str);
