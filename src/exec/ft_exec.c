@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/16 16:41:05 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/17 00:08:45 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	open_redir(t_group *group, int *fd_in, int *fd_out)
 	return (0);
 }
 
-unsigned int	exec_builtin(t_group *group, t_list_env *env, t_parsed *p, int fd_out)
+// main_builtin
+unsigned int	exec_builtin(t_group *group, t_list_env *env, t_parsed *p)
 {
 	status = ft_do_builtin(group, env, fd_out);
 	if(is_built(group->cmd[0]) == B_EXIT)
@@ -149,6 +150,60 @@ int	do_redir(t_group *group, t_parsed *p, t_list_env *env, int fd_in, int fd_out
     return (status);
 }
 
+
+static int	dispatcher_loop(t_parser *p, t_group *group, t_env *env)
+{
+	int i = 0;
+	
+	while (i < p->size)
+	{
+		if (p->size == 1 && is_built(group->cmd[0]) != 0)
+			return (exec_builtin(group, env, p));
+		if (p->size > 1)
+			if (pipe(p->pipefd) == -1)
+				return (1); // pipe error
+		p->cpid[i] = fork();
+		if (p->cpid[i] == -1)
+			return (close_pfds(p, false), EXIT_FAILURE); // to replace function
+		if (p->cpid[i] == 0)
+		{
+			signal(SIGQUIT, SIG_DFL);
+			signal(SIGINT, SIG_DFL);
+			exec_subshell(cmd, p, env); // replace function
+		}
+		group = group->next;
+		i++;
+		close_pfds(p, true);
+		p->pipefd[TEMP_READ_END] = p->pipefd[READ_END];
+	}
+	return (0);
+}
+
+
+static int	cmd_lstsize(t_group *group)
+{
+	size_t	i;
+
+	i = 0;
+	while (group != NULL)
+	{
+		group = group->next;
+		i++;
+	}
+	return (i);
+}
+
+int	init_exec(t_parsed *p, t_list_env *env)
+{
+	p->size = cmd_lstsize(p->group);
+	p->cpid = (pid_t *)malloc(sizeof(pid_t) * p->size);
+	if (!p->cpid)
+	{
+		free(p);
+		return (NULL);
+	}
+}
+
 unsigned int	ft_exec(t_parsed *p, t_list_env *env)
 {
     t_group *curr;
@@ -161,8 +216,14 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
     // int e_status;
     int pipe_res;
 
+    curr = p->curr;
+
+
+	init_exec(p, env);
+	int ret_dispatch = ft_dispatch(p, curr, env);
+	
+	
 	fd_in = get_hd_fd(p, env);	// передавать ли fd_in параметром (?)
-    curr = p->group;
     pipe_res = 0;
     while (curr)
     {
@@ -173,7 +234,7 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
             {
                 if(p)
                     free_parsed(p);
-                return (ft_putstr_err("pipe failed"), 1); // не удалось открыть пайп   
+                return (ft_putstr_err("pipe failed"), 1); // не удалось открыть пайп
             }
         }
 

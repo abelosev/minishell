@@ -6,7 +6,7 @@
 /*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 18:11:44 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/06/17 00:08:33 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,29 @@ typedef struct s_list_env
 	struct s_list_env	*next;
 }	t_list_env;
 
+
+
+enum e_fd_dup_type
+{
+	READ_END,
+	WRITE_END,
+	TEMP_READ_END
+};
+
+
+enum e_redir_type
+{
+	E_IN,
+	E_OUT
+};
+
 typedef struct s_parsed
 {
 	char	*hd_del;
 	int		redir_fd[2];
-	int		pipe_fd[3];
+	int		pipefd[3];
+	int		size;
+	pid_t	*cpid;
 	t_group	*group;
 }	t_parsed;
 
