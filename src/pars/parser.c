@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:13:51 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 02:54:10 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 19:51:45 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,15 @@ t_group	*group_list(t_parser *p, t_group *group, t_list_env *env)
 	return (group);
 }
 
-t_parsed	*parser(char *input, t_list_env *env)
+
+
+t_main	*parser(char *input, t_list_env *env, int *code)
 {
 	t_parser	*p;
-	t_parsed	*parsed;
+	t_main	*parsed;
 
 	p = create_init_p();
-	parsed = malloc(sizeof(t_parsed));
+	parsed = malloc(sizeof(t_main));
 	if(!parsed)
 	{
 		free_t_parser(p);
@@ -66,8 +68,7 @@ t_parsed	*parser(char *input, t_list_env *env)
 		parsed->group = unclosed_quotes(parsed->group, p);
 		return (parsed);
 	}
-
-	p->line = quotes_expand(input, env);
+	p->line = quotes_expand(input, env, code);
 	if (p->line == NULL)
 	{
 		free_t_parser(p);
@@ -81,9 +82,9 @@ t_parsed	*parser(char *input, t_list_env *env)
 		return (parsed);
 	}
 	parsed->group = group_list(p, parsed->group, env);
-	parsed->hd_del = get_hd_delimiter(p->token_list);	//	как обработать malloc pb ?
+	parsed->hd_del = get_hd_delimiter(p->token_list);//	как обработать malloc pb ?
 	free_t_parser(p);
-	if(!parsed->group && !parsed->hd_del)
+	if (!parsed->group && !parsed->hd_del)
 	{
 		free(parsed);
 		return (NULL);

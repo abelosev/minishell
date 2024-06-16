@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 02:43:43 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 06:12:26 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 19:05:49 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,15 @@ void	free_t_parser(t_parser *p)
 		free(p);
 }
 
-void	free_parsed(t_parsed *parsed)
+void	free_main(t_main *parsed)
 {
-    if(!parsed)
-        return ;
+	if (!parsed)
+		return ;
 	else
-    {
-        if (parsed->group)
-		    free_group_list(parsed->group);
-	    // if (parsed->hd_del)
-		//     free(parsed->hd_del);
-	    free(parsed);
-    }
+	{
+		if (parsed->group)
+			free_group_list(parsed->group);
+		free(parsed);
+		//free(code); 				no need (?)
+	}
 }

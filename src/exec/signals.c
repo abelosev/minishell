@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:14:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 03:14:39 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 18:36:36 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_sigint(int signal)
 {
 	(void)signal;
-	ft_putstr_err("^C\n"); //проверить, не просто ли \n
+	ft_putstr_err("^C\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();

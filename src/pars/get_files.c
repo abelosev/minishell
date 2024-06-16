@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 02:22:58 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 16:35:06 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 18:29:46 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,16 +116,16 @@ int	get_files(t_tokens *list, t_group *group)
 		}
 		else if ((list->type == 2 || list->type == 4) && list->next->type == 0)
 		{
-			if(list->type == 2)
+			if (list->type == 2)
 			{
 				if (handle_outfile(&group->redir_out, &group->redir_in,
-					&group->app_out, list))
+						&group->app_out, list))
 					return (1);
 			}
-			else if(list->type == 4)
+			else if (list->type == 4)
 			{
 				if (handle_outfile(&group->app_out, &group->redir_in,
-					&group->redir_out, list))
+						&group->redir_out, list))
 					return (1);
 			}
 		}

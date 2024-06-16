@@ -6,13 +6,13 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:13:32 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 03:15:56 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 19:49:19 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_error(char *name, int type, int exit_code)
+int	ft_error(char *name, int type, int code)
 {
 	if (type == 0)
 	{
@@ -30,19 +30,19 @@ int	ft_error(char *name, int type, int exit_code)
 		ft_putstr_err(name);
 		ft_putstr_err(": command not found\n");
 	}
-	return (exit_code);
+	return (code);
 }
 
 //need signals inside (except of heredoc)
 
-int	get_hd_fd(t_parsed *p, t_list_env *env)
+int	get_hd_fd(t_main *p, t_list_env *env, int *code)
 {
 	int		fd_hd;
 	char	*file_hd;
 
 	if (p->hd_del == NULL)
 		return (STDIN_FILENO);
-	file_hd = heredoc(env, p->hd_del);
+	file_hd = heredoc(env, p->hd_del, code);
 	if (!file_hd)
 		return (STDIN_FILENO);
 	fd_hd = open(file_hd, O_RDONLY);

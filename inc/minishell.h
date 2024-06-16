@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 18:11:44 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/06/16 19:51:58 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define B_ENV 6
 # define B_EXIT 7
 
-extern unsigned int	status;
+extern unsigned int	g_status;
 
 ////////////////// STRUCTS //////////////////
 
@@ -57,19 +57,20 @@ typedef struct s_list_env
 	struct s_list_env	*next;
 }	t_list_env;
 
-typedef struct s_parsed
+typedef struct s_main
 {
 	char	*hd_del;
 	int		redir_fd[2];
 	int		pipe_fd[3];
+	int		*code;
 	t_group	*group;
-}	t_parsed;
+}	t_main;
 
 ////////////////// FONCTIONS //////////////////
 
 //input and parsing
 int				only_spaces(char *str);
-t_parsed		*parser(char *input, t_list_env *env);
+t_main			*parser(char *input, t_list_env *env, int *code);
 
 //envp
 char			**get_envp(t_list_env *list);
@@ -86,29 +87,29 @@ int				ft_add_to_msh_env(t_list_env **env, char *new_str);
 
 //builtins
 int				is_built(char *str);
-int				ft_do_builtin(t_group *group, t_list_env *env, int out_fd);
+int				ft_do_builtin(t_group *group, t_list_env *env, int out_fd, int *code);
 int				ft_cd(t_group *group, t_list_env *env, int fd);
 int				ft_echo(t_group *group, int fd);
 int				ft_env(t_group *group, t_list_env *env, int fd);
-int				ft_exit(t_group *group);
+int				ft_exit(t_group *group, int *code);
 int				ft_export(t_group *group, t_list_env *env, int fd);
 int				ft_pwd(int fd);
 int				ft_unset(t_group *group, t_list_env **env);
 
 //exec
-unsigned int	ft_exec(t_parsed *p, t_list_env *env);
+void			ft_exec(t_main *p, t_list_env *env, int *code);
 
 //main_outils
-int				check_group(t_parsed *parsed, char *line);
-int				check_line(char *line);
+int				check_group(t_main *parsed, char *line, int *code);
+int				check_line(char *line, int *code);
 char			*get_line(char *prompt);
 t_list_env		*get_mini_env(void);
 t_list_env		*change_shlvl(t_list_env *env);
 
 //heredoc
 char			*uniq_name(char *prefix);
-char			*heredoc(t_list_env *env, char *del);
-int				get_hd_fd(t_parsed *p, t_list_env *env);
+char			*heredoc(t_list_env *env, char *del, int *code);
+int				get_hd_fd(t_main *p, t_list_env *env, int *code);
 
 //signals
 void			ft_sigint(int signal);
@@ -118,7 +119,7 @@ void			ft_sigint_hd(int signal);
 void			free_tab(char **tab);
 void			free_envp_list(t_list_env *list);
 void			free_group_list(t_group *group);
-void			free_parsed(t_parsed *parsed);
+void			free_main(t_main *parsed);
 
 //outils
 void			print_env_list(t_list_env *list, int fd);

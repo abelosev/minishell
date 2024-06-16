@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:15:09 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 02:52:45 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 19:51:10 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ char	*quotes_handle(char *str)
 	return (no_double);
 }
 
-char	*expnd_handle(char *no_double, t_list_env *env)
+char	*expnd_handle(char *no_double, t_list_env *env, int *code)
 {
 	char	*no_single;
 	char	*expnd;
 
 	no_single = NULL;
 	expnd = NULL;
-	expnd = ft_expand(no_double, env);
+	expnd = ft_expand(no_double, env, code);
 	if (expnd == NULL || *expnd == '\0')
 	{
 		free(expnd);
@@ -67,7 +67,7 @@ char	*expnd_handle(char *no_double, t_list_env *env)
 	return (no_single);
 }
 
-char	*quotes_expand(char *str, t_list_env *env)
+char	*quotes_expand(char *str, t_list_env *env, int *code)
 {
 	char	*no_double;
 	char	*no_single;
@@ -77,7 +77,7 @@ char	*quotes_expand(char *str, t_list_env *env)
 	no_double = quotes_handle(str);
 	if (no_double == NULL)
 		return (NULL);
-	no_single = expnd_handle(no_double, env);
+	no_single = expnd_handle(no_double, env, code);
 	if (no_single == NULL)
 	{
 		if (no_double)

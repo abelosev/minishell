@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:12:12 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 03:15:11 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 19:40:26 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_built(char *str)
 	return (0);
 }
 
-int	ft_do_builtin(t_group *group, t_list_env *env, int out_fd)
+int	ft_do_builtin(t_group *group, t_list_env *env, int out_fd, int *code)
 {
 	int	built_num;
 
@@ -54,7 +54,7 @@ int	ft_do_builtin(t_group *group, t_list_env *env, int out_fd)
 	else if (built_num == B_ENV)
 		return (ft_env(group, env, out_fd));
 	else if (built_num == B_EXIT)
-		return (ft_exit(group));
+		return (ft_exit(group, code));
 	if (out_fd != 1)
 	{
 		close(out_fd);

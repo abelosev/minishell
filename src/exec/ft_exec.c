@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/16 16:41:05 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 19:49:33 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,19 @@ int	open_redir(t_group *group, int *fd_in, int *fd_out)
 	return (0);
 }
 
-unsigned int	exec_builtin(t_group *group, t_list_env *env, t_parsed *p, int fd_out)
+void	exec_builtin(t_group *group, t_list_env *env, t_main *p, int fd_out, int *code)// IMPORTANT to have int *code bc of exit
 {
-	status = ft_do_builtin(group, env, fd_out);
+	*code = ft_do_builtin(group, env, fd_out, code);
 	if(is_built(group->cmd[0]) == B_EXIT)
 	{
         ft_putstr_err("exit\n");
 		free_envp_list(env);
 		if(p)
-            free_parsed(p);
+            free_main(p);
 		clear_history();
-		exit(status);
+		exit(*code);
 	}
-	return (status);
+	// return (*code);
 }
 
 unsigned int	ft_cmd_child(t_group *group, char **new_envp, int fd_in, int fd_out)
@@ -71,24 +71,21 @@ unsigned int	ft_cmd_child(t_group *group, char **new_envp, int fd_in, int fd_out
     return (1);
 }
 
-unsigned int	ft_cmd_parent(int fd_in, int fd_out, pid_t pid)
+void	ft_cmd_parent(int fd_in, int fd_out, pid_t pid, int *code)
 {
-    int	e_status;
-
-	e_status = (int)status;
-    waitpid(pid, &e_status, 0);
+    waitpid(pid, code, 0);
     if (fd_in != STDIN_FILENO)
         close(fd_in);
     if (fd_out != STDOUT_FILENO)
         close(fd_out);
-    if (WIFEXITED(e_status))
-        status = WEXITSTATUS(e_status);
+    if (WIFEXITED(*code))
+        *code = WEXITSTATUS(*code);
     else
-        status = 1;
-    return (status);
+        *code = 1;
+    // return (status);
 }
 
-unsigned int ft_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out)
+void ft_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out, int *code)
 {
     pid_t pid;
     char **new_envp;
@@ -96,30 +93,37 @@ unsigned int ft_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out)
     new_envp = get_envp(env);
     if (!new_envp)
     {
-        return (ft_putstr_err("error : new_envp"), 1);
+        ft_putstr_err("error : new_envp");
+        *code = 1;
+        return ;
     }
     if (open_redir(group, &fd_in, &fd_out))
     {
-        return (free_tab(new_envp), 1);
+        free_tab(new_envp);
+        *code = 1;
+        return ;
     }
 	pid = fork();
     if (pid == 0)
 	{
-        status = ft_cmd_child(group, new_envp, fd_in, fd_out);
-        return (free_tab(new_envp), status);
+        *code = ft_cmd_child(group, new_envp, fd_in, fd_out);
+        free_tab(new_envp);
+        return ;
 	}
     else if (pid > 0)
-        status = ft_cmd_parent(fd_in, fd_out, pid);
+        ft_cmd_parent(fd_in, fd_out, pid, code);
     else
     {
         free_tab(new_envp);
-        return(ft_putstr_err("fork error"), 1);
+        ft_putstr_err("fork error");
+        *code = 1;
+        return ;
     }
     free_tab(new_envp);
-    return status;
+    // return status;
 }
 
-int	do_redir(t_group *group, t_parsed *p, t_list_env *env, int fd_in, int fd_out) //to fix the 5 parameters situation
+void	do_redir(t_group *group, t_main *p, t_list_env *env, int fd_in, int fd_out, int *code) //to fix the 5 parameters situation
 {
     int new_fd_in;
     int new_fd_out;
@@ -128,12 +132,13 @@ int	do_redir(t_group *group, t_parsed *p, t_list_env *env, int fd_in, int fd_out
 	new_fd_out = fd_out;
     if (open_redir(group, &new_fd_in, &new_fd_out))
     {
-        return (1);
+        *code = 1;
+        return ;
     }
     if (is_built(group->cmd[0]) != 0)
-		status = exec_builtin(group, env, p, fd_out);
+		exec_builtin(group, env, p, fd_out, code);
 	else
-		status = ft_cmd(group, env, fd_in, fd_out);
+		ft_cmd(group, env, fd_in, fd_out, code);
     if (new_fd_in != fd_in)
 	{
 		close(new_fd_in);
@@ -145,11 +150,11 @@ int	do_redir(t_group *group, t_parsed *p, t_list_env *env, int fd_in, int fd_out
 		dup2(STDOUT_FILENO, fd_out);
 	}
     // if(p)
-    //     free_parsed(p);
-    return (status);
+    //     free_main(p);
+    // return (status);
 }
 
-unsigned int	ft_exec(t_parsed *p, t_list_env *env)
+void	ft_exec(t_main *p, t_list_env *env, int *code)
 {
     t_group *curr;
     int fd_in;
@@ -161,7 +166,7 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
     // int e_status;
     int pipe_res;
 
-	fd_in = get_hd_fd(p, env);	// передавать ли fd_in параметром (?)
+	fd_in = get_hd_fd(p, env, code);	// передавать ли fd_in параметром (?)
     curr = p->group;
     pipe_res = 0;
     while (curr)
@@ -172,8 +177,10 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
             if (pipe_res == -1)
             {
                 if(p)
-                    free_parsed(p);
-                return (ft_putstr_err("pipe failed"), 1); // не удалось открыть пайп   
+                    free_main(p);
+                ft_putstr_err("pipe failed");
+                *code = 1;
+                return ; // не удалось открыть пайп   
             }
         }
 
@@ -184,11 +191,13 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
                 if(open_redir(curr, &fd_in, &fd_out) || fd_out < 0)
                 {
                     if(p)
-                        free_parsed(p);
-                    return (ft_putstr_err("open output failed"), 1);
+                        free_main(p);
+                    ft_putstr_err("open output failed");
+                    *code = 1;
+                    return ;
                 }
                     
-                status = do_redir(curr, p, env, fd_in, fd_out);
+                do_redir(curr, p, env, fd_in, fd_out, code);
                 close(fd_out);
                 if (curr->next)
                 {
@@ -196,8 +205,10 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
                     if (file_fd < 0)
                     {
                         if(p)
-                            free_parsed(p);
-                        return (ft_putstr_err("open output file failed"), 1);
+                            free_main(p);
+                        ft_putstr_err("open output file failed");
+                        *code = 1;
+                        return ;
                     }
                     while ((bytes_read = read(file_fd, buffer, sizeof(buffer))) > 0)
                         write(pipefd[1], buffer, bytes_read);
@@ -211,21 +222,21 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
                 if (is_built(curr->cmd[0]) != 0)
 				{
 					if (curr->next)
-						status = exec_builtin(curr, env, p, pipefd[1]);
+						exec_builtin(curr, env, p, pipefd[1], code);
 					else
-						status = exec_builtin(curr, env, p, STDOUT_FILENO);
+						exec_builtin(curr, env, p, STDOUT_FILENO, code);
 				}
                 else
                 {
 					if (curr->next)
-    					status = ft_cmd(curr, env, fd_in, pipefd[1]);
+    					ft_cmd(curr, env, fd_in, pipefd[1], code);
 					else
-    					status = ft_cmd(curr, env, fd_in, STDOUT_FILENO);
+    					ft_cmd(curr, env, fd_in, STDOUT_FILENO, code);
 				}
 			}
         }
         else
-            status = curr->flag_fail;
+            *code = curr->flag_fail;
 
         if (fd_in != STDIN_FILENO)
             close(fd_in);
@@ -238,6 +249,6 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
     if (fd_in != STDIN_FILENO)
         close(fd_in);
     if(p)
-        free_parsed(p);
-    return (status);
+        free_main(p);
+    // return (status);
 }
