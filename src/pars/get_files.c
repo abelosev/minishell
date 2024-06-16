@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 02:22:58 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 02:23:01 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:18:52 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,19 @@ char	*infile_access(t_tokens *list, char *str)
 int	handle_outfile(char **s1, char **s2, char **s3, t_tokens *list)
 {
 	*s1 = outfile_access(list, *s1);
+	*s2 = outfile_access(list, *s2);
 	if (*s1 == NULL)
 	{
 		if (*s2)
 			free(*s2);
+		if (*s3)
+			free(*s3);
+		return (1);
+	}
+	if (*s2 == NULL)
+	{
+		if (*s1)
+			free(*s1);
 		if (*s3)
 			free(*s3);
 		return (1);
@@ -97,7 +106,7 @@ int	get_files(t_tokens *list, t_group *group)
 			if (handle_infile(list, group))
 				return (1);
 		}
-		else if (list->type == 2 && list->next->type == 0)
+		else if ((list->type == 2 || list->type == 4) && list->next->type == 0)
 		{
 			if (handle_outfile(&group->redir_out, &group->redir_in,
 					&group->app_out, list))

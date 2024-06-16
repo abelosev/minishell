@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/16 16:11:47 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:13:03 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	open_redir(t_group *group, int *fd_in, int *fd_out)
 		if (*fd_out < 0)
 			return 1;
 	}
-	else if (group->redir_out)
+	if (group->redir_out)
 	{
 		*fd_out = open(group->redir_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (*fd_out < 0)
