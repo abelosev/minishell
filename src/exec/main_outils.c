@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:14:30 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 04:24:12 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 17:35:14 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_list_env	*change_shlvl(t_list_env *env)
 	return(free(new), free(prev), env);
 }
 
-char	*get_line(void)
+char	*get_line(char *prompt)
 {
 	char *line;
 
@@ -67,7 +67,7 @@ char	*get_line(void)
 	rl_outstream = stderr;
 	signal(SIGINT, ft_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	line = readline (">$ ");
+	line = readline (prompt);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	rl_outstream = stdout;
