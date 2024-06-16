@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/16 03:14:24 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 03:14:25 by abelosev         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   heredoc.c										  :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: abelosev <abelosev@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2024/06/16 03:14:24 by abelosev		  #+#	#+#			 */
+/*   Updated: 2024/06/16 15:47:38 by abelosev		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "parsing.h"
@@ -66,45 +66,40 @@ void	do_hd(char *del, t_list_env *env, int file_fd)
 	char	*line;
 	char	*tmp;
 
-	line = readline ("> ");
+	line = get_line();
 	while (line && errno != EINTR && ft_strcmp(line, del))
 	{
 		tmp = ft_expand(line, env);
-		if(!tmp || !(*tmp))
-		{
-			free(line);
-			if(tmp)
-				free(tmp);
-			continue ;
-		}
-		ft_putstr_fd(tmp, file_fd);
-		free (line);
-		line = readline ("> ");
-		if (!line && errno != EINTR && errno != EBADF)
-			ft_putstr_err("\n");
+		if(tmp && *tmp)
+			ft_putstr_fd(tmp, file_fd);
+		ft_putstr_fd("\n", file_fd);
+		if(tmp)
+			free(tmp);
+		free(line);
+		line = readline("> ");
+		// if (!line && errno != EINTR && errno != EBADF)
+		//  write(STDERR_FILENO, "\n", 1);
 		if (errno == EINTR || errno == EBADF)
 		{
-			free (line);
-			status = 130;
+			free(line);
+			status = 128 + SIGINT;
 		}
-		ft_putstr_fd("\n", file_fd);
 	}
 }
 
 char	*heredoc(t_list_env *env, char *del)
 {
 	char	*file_name;
-	int		file_fd;
-	int		prev_fd;
+	int	 	file_fd;
+	int	 	prev_fd;
 
-	prev_fd = STDIN_FILENO;				//to delete later (?)
-	
+	prev_fd = STDIN_FILENO;			 //to delete later (?)
 	file_name = uniq_name(del);
 	prev_fd = dup(STDIN_FILENO);
 	file_fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if(file_fd < 0)
 	{
-		free (file_name);
+		free(file_name);
 		return (NULL);
 	}
 	signal(SIGINT, ft_sigint_hd);

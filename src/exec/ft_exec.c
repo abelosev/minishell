@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/16 05:10:40 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:11:47 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ int	open_redir(t_group *group, int *fd_in, int *fd_out)
 		if (*fd_in < 0)
 			return 1;
 	}
-	if (group->redir_out)
+    if (group->app_out)
 	{
-		*fd_out = open(group->redir_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		*fd_out = open(group->app_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (*fd_out < 0)
 			return 1;
 	}
-	if (group->app_out)
+	else if (group->redir_out)
 	{
-		*fd_out = open(group->app_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		*fd_out = open(group->redir_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (*fd_out < 0)
 			return 1;
 	}
