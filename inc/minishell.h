@@ -6,7 +6,7 @@
 /*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 17:35:34 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/06/16 18:11:44 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env);
 //main_outils
 int				check_group(t_parsed *parsed, char *line);
 int				check_line(char *line);
-char			*get_line(void);
+char			*get_line(char *prompt);
 t_list_env		*get_mini_env(void);
 t_list_env		*change_shlvl(t_list_env *env);
 

@@ -66,7 +66,7 @@ void	do_hd(char *del, t_list_env *env, int file_fd)
 	char	*line;
 	char	*tmp;
 
-	line = get_line();
+	line = get_line("> ");
 	while (line && errno != EINTR && ft_strcmp(line, del))
 	{
 		tmp = ft_expand(line, env);
