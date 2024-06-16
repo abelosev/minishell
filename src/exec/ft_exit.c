@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/15 21:20:13 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/15 21:20:14 by aauthier         ###   ########.fr       */
+/*   Created: 2024/06/16 03:20:01 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 03:21:56 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,15 @@ int	ft_exit_user_val(t_group *group)
 	{
 		if (group->cmd[1][0] == '-')
 		{
-			if (ft_strncmp("9223372036854775808", &group->cmd[1][sign], 19) < 0)
+			if (ft_strncmp("9223372036854775808",
+					&group->cmd[1][sign], 19) < 0)
 				return (ft_exit_digit_error(group), 2);
 		}
-		else if (ft_strncmp("9223372036854775807", &group->cmd[1][sign], 19) < 0)
+		else if (ft_strncmp("9223372036854775807",
+				&group->cmd[1][sign], 19) < 0)
 			return (ft_exit_digit_error(group), 2);
 	}
-	val = ft_atol(group->cmd[1]);
-	val %= 256;
+	val = ft_atol(group->cmd[1]) % 256;
 	return (val);
 }
 
@@ -77,22 +78,23 @@ int	ft_exit(t_group *group)
 	int	i;
 
 	// if (group->next == NULL)
-    //     write(1, "exit\n", 5);
+	//	 write(1, "exit\n", 5);
 	if (group->cmd[1] == NULL)
 		return (status);		//la globale ("old_exit")
 	i = 0;
-	if ((group->cmd[1][0] == '-' || group->cmd[1][0] == '+') && group->cmd[1][1] != '\0')
-        i = 1;
+	if ((group->cmd[1][0] == '-' || group->cmd[1][0] == '+')
+			&& group->cmd[1][1] != '\0')
+		i = 1;
 	while (group->cmd[1][i] != '\0')
-    {
-        if (!ft_isdigit(group->cmd[1][i]))
-            return (ft_exit_digit_error(group), 2);
-        i++;
-    }
+	{
+		if (!ft_isdigit(group->cmd[1][i]))
+			return (ft_exit_digit_error(group), 2);
+		i++;
+	}
 	if (group->cmd[2])
-    {
-        write(2, "minishell: exit: too many arguments\n", 36);
-        return (1);
-    }
+	{
+		write(2, "minishell: exit: too many arguments\n", 36);
+		return (1);
+	}
 	return (ft_exit_user_val(group));
 }

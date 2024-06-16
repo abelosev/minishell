@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/30 09:59:48 by abelosev          #+#    #+#             */
-/*   Updated: 2021/04/30 11:05:28 by abelosev         ###   ########.fr       */
+/*   Created: 2024/06/16 01:50:55 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 02:06:21 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_len(int n)
+int	ft_len(int n)
 {
 	int	len;
 
@@ -29,7 +29,7 @@ char	*ft_itoa_zero(void)
 {
 	char	*s;
 
-	s = (char*)malloc(sizeof(char) * 2);
+	s = (char *)malloc(sizeof(char) * 2);
 	if (s == NULL)
 		return (NULL);
 	s[0] = '0';
@@ -64,7 +64,8 @@ char	*ft_itoa(int n)
 	len = ft_len(n);
 	if (n1 < 0)
 		len += 1;
-	if (!(s = (char*)malloc(sizeof(char) * (len + 1))))
+	s = (char *)malloc(sizeof(char) * (len + 1));
+	if (!s)
 		return (NULL);
 	s[len] = '\0';
 	return (fill_up_array(n1, len, s));

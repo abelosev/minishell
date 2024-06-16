@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outils_expand.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 16:09:37 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/15 21:18:57 by aauthier         ###   ########.fr       */
+/*   Created: 2024/06/16 02:23:20 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 02:41:14 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 int	is_special(char c)
 {
-	return (!ft_isdigit(c) && !ft_isalpha(c) && c != '*' && c != '#' && c != '?');
+	return (!ft_isdigit(c) && !ft_isalpha(c)
+		&& c != '*' && c != '#' && c != '?');
 }
 
 int	delimiter_nb(char *str)

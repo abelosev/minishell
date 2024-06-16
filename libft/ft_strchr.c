@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/30 09:51:53 by abelosev          #+#    #+#             */
-/*   Updated: 2021/04/30 09:52:45 by abelosev         ###   ########.fr       */
+/*   Created: 2024/06/16 01:52:53 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 02:05:17 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ char	*ft_strchr(const char *s, int c)
 	while (s[index] != '\0')
 	{
 		if (s[index] == c1)
-			return ((char*)(s + index));
+			return ((char *)(s + index));
 		index++;
 	}
 	if (s[index] == c1)
-		return ((char*)(s + index));
+		return ((char *)(s + index));
 	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/08 12:26:06 by abelosev          #+#    #+#             */
-/*   Updated: 2021/04/30 09:51:20 by abelosev         ###   ########.fr       */
+/*   Created: 2024/06/16 01:52:09 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 01:56:49 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n)
 	i = 0;
 	while (i < n)
 	{
-		((char*)dst)[i] = ((char*)src)[i];
+		((char *)dst)[i] = ((char *)src)[i];
 		i++;
 	}
 	return (dst);

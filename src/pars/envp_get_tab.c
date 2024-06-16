@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_get_tab.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 21:12:10 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/15 21:18:57 by aauthier         ###   ########.fr       */
+/*   Created: 2024/06/16 02:22:16 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 03:08:38 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,31 @@ char	**get_envp(t_list_env *list)
 		return (NULL);
 	while (list != NULL)
 	{
-		if(list->value)
+		if (list->value)
 		{
-			if(!ft_strchr(list->key, '='))
+			if (!ft_strchr(list->key, '='))
 			{
 				tmp1 = ft_strjoin(list->key, "=");
+				if (!tmp1)
+					return (free_tab(envp), NULL);
 				envp[i] = ft_strjoin(tmp1, list->value);
 				free(tmp1);
+				if (!envp[i])
+					return (free_tab(envp), NULL);
 			}
 			else
+			{
 				envp[i] = ft_strjoin(list->key, list->value);
+				if (!envp[i])
+					return (free_tab(envp), NULL);
+			}
 		}
 		else
-			envp[i] = ft_strdup(list->key);				//добавлено для того, чтобы правильно сделать export
+		{
+			envp[i] = ft_strdup(list->key);
+			if (!envp[i])
+					return (free_tab(envp), NULL);
+		}
 		list = list->next;
 		i++;
 	}

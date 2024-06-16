@@ -3,40 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/15 21:19:58 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/15 21:19:59 by aauthier         ###   ########.fr       */
+/*   Created: 2024/06/16 03:17:44 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 03:18:09 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_change_dir(t_group *group, t_list_env *env)
+int	ft_change_dir(t_group *group, t_list_env *env)
 {
-    t_list_env *the_env;
+	t_list_env	*the_env;
 
-    if (group->cmd[1] == NULL)
-    {
-        the_env = ft_find_in_env(env, "HOME");
-        if (!the_env)
-			return(ft_putstr_err("minishell: cd: HOME not set\n"), 1);
-        if (chdir(the_env->value) == -1)
-            return (ft_putstr_err("minishell: cd: "), perror(group->cmd[1]), 1);
-        return (0);
-    }
-    if (ft_strcmp("-", group->cmd[1]) == 0)
-    {
-        the_env = ft_find_in_env(env, "OLDPWD");
-        if (!the_env)
-            return (ft_putstr_err("minishell: cd: OLDPWD not set\n"), 1);
-        if (chdir(the_env->value) == -1)
-            return (ft_putstr_err("minishell: cd: "), perror(group->cmd[1]), 1);
-        return (0);
-    }
-    if (chdir(group->cmd[1]) == -1)
-        return (ft_putstr_err("minishell: cd: "), perror(group->cmd[1]), 1);
-    return (0);
+	if (group->cmd[1] == NULL)
+	{
+		the_env = ft_find_in_env(env, "HOME");
+		if (!the_env)
+			return (ft_putstr_err("minishell: cd: HOME not set\n"), 1);
+		if (chdir(the_env->value) == -1)
+			return (ft_putstr_err("minishell: cd: "), perror(group->cmd[1]), 1);
+		return (0);
+	}
+	if (ft_strcmp("-", group->cmd[1]) == 0)
+	{
+		the_env = ft_find_in_env(env, "OLDPWD");
+		if (!the_env)
+			return (ft_putstr_err("minishell: cd: OLDPWD not set\n"), 1);
+		if (chdir(the_env->value) == -1)
+			return (ft_putstr_err("minishell: cd: "), perror(group->cmd[1]), 1);
+		return (0);
+	}
+	if (chdir(group->cmd[1]) == -1)
+		return (ft_putstr_err("minishell: cd: "), perror(group->cmd[1]), 1);
+	return (0);
 }
 
 int	ft_cd_realloc_msh_env(t_list_env **env, char *old_pwd, char *pwd)
@@ -97,7 +97,7 @@ int	ft_cd(t_group *group, t_list_env *env, int fd)
 	{
 		ft_putstr_err("minishell: cd: ");
 		ft_putstr_err(group->cmd[1]);
-		return(ft_putstr_err(": File name too long\n"), 1);
+		return (ft_putstr_err(": File name too long\n"), 1);
 	}
 	start_dir = getcwd(NULL, 0);
 	if (!start_dir)

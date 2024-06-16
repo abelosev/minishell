@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/16 01:27:30 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/06/16 05:10:40 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ unsigned int	exec_builtin(t_group *group, t_list_env *env, t_parsed *p, int fd_o
 	status = ft_do_builtin(group, env, fd_out);
 	if(is_built(group->cmd[0]) == B_EXIT)
 	{
+        ft_putstr_err("exit\n");
 		free_envp_list(env);
-		free_parsed(p);
+		if(p)
+            free_parsed(p);
 		clear_history();
 		exit(status);
 	}
@@ -93,9 +95,13 @@ unsigned int ft_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out)
 
     new_envp = get_envp(env);
     if (!new_envp)
-		return (ft_putstr_err("error : new_envp"), 1);
+    {
+        return (ft_putstr_err("error : new_envp"), 1);
+    }
     if (open_redir(group, &fd_in, &fd_out))
-		return (free_tab(new_envp), 1);
+    {
+        return (free_tab(new_envp), 1);
+    }
 	pid = fork();
     if (pid == 0)
 	{
@@ -105,8 +111,11 @@ unsigned int ft_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out)
     else if (pid > 0)
         status = ft_cmd_parent(fd_in, fd_out, pid);
     else
-		return(ft_putstr_err("fork error"), 1);
-    free(new_envp);
+    {
+        free_tab(new_envp);
+        return(ft_putstr_err("fork error"), 1);
+    }
+    free_tab(new_envp);
     return status;
 }
 
@@ -135,6 +144,8 @@ int	do_redir(t_group *group, t_parsed *p, t_list_env *env, int fd_in, int fd_out
 		close(new_fd_out);
 		dup2(STDOUT_FILENO, fd_out);
 	}
+    // if(p)
+    //     free_parsed(p);
     return (status);
 }
 
@@ -159,7 +170,11 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
         {
 			pipe_res = pipe(pipefd);
             if (pipe_res == -1)
-                return (ft_putstr_err("pipe failed"), 1); // не удалось открыть пайп
+            {
+                if(p)
+                    free_parsed(p);
+                return (ft_putstr_err("pipe failed"), 1); // не удалось открыть пайп   
+            }
         }
 
         if (curr->flag_fail == 0 && curr->cmd && *(curr->cmd))
@@ -168,14 +183,22 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
             {
                 fd_out = open(curr->redir_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                 if (fd_out < 0)
-                    return (ft_putstr_err("open output failed"), 1);
+                {
+                    if(p)
+                        free_parsed(p);
+                     return (ft_putstr_err("open output failed"), 1);
+                }
                 status = do_redir(curr, p, env, fd_in, fd_out);
                 close(fd_out);
                 if (curr->next)
                 {
                     file_fd = open(curr->redir_out, O_RDONLY);
                     if (file_fd < 0)
-                        return ft_putstr_err("open output file failed"), 1;
+                    {
+                        if(p)
+                            free_parsed(p);
+                        return (ft_putstr_err("open output file failed"), 1);
+                    }
                     while ((bytes_read = read(file_fd, buffer, sizeof(buffer))) > 0)
                         write(pipefd[1], buffer, bytes_read);
                     close(file_fd);
@@ -214,5 +237,7 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
     }
     if (fd_in != STDIN_FILENO)
         close(fd_in);
+    if(p)
+        free_parsed(p);
     return (status);
 }

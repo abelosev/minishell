@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_outils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/16 03:13:32 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 03:15:56 by abelosev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_error(char *name, int type, int exit_code)
@@ -25,17 +37,17 @@ int	ft_error(char *name, int type, int exit_code)
 
 int	get_hd_fd(t_parsed *p, t_list_env *env)
 {
-	int fd_hd;
-	char *file_hd;
+	int		fd_hd;
+	char	*file_hd;
 
-	if(p->hd_del == NULL)
+	if (p->hd_del == NULL)
 		return (STDIN_FILENO);
 	file_hd = heredoc(env, p->hd_del);
-	if(!file_hd)
+	if (!file_hd)
 		return (STDIN_FILENO);
 	fd_hd = open(file_hd, O_RDONLY);
 	free(file_hd);
-	if(fd_hd < 0)
+	if (fd_hd < 0)
 		return (STDIN_FILENO);
 	return (fd_hd);
 }

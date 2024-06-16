@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   group_outils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/12 21:47:14 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/15 21:18:57 by aauthier         ###   ########.fr       */
+/*   Created: 2024/06/16 02:23:09 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 04:13:58 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ t_group	*get_group(t_tokens *list, t_list_env *env)
 
 	start = list;
 	group = create_init_group();
-	// if(get_hd_delimiter(list, group) == 0)	//memory alloc pb
-	// 	return (invalid_group(group, 1), group);
 	group->cmd = get_cmd_tab(list);
 	if (!group->cmd)
 	{

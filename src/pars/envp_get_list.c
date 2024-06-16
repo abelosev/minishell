@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_get_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 21:46:31 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/15 21:18:57 by aauthier         ###   ########.fr       */
+/*   Created: 2024/06/16 02:22:11 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/16 02:33:02 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ char	*get_key(char *str)
 	char	*equal;
 
 	equal = ft_strchr(str, '=');
-	if(equal && (*(equal + 1)))
+	if (equal && (*(equal + 1)))
 		len = separate_pos(str);
-	else if(equal && (*(equal + 1) == '\0'))
+	else if (equal && (*(equal + 1) == '\0'))
 		len = separate_pos(str) + 1;
 	else
 		len = ft_strlen(str);		//добавлено на случай "export HOLA"
@@ -61,7 +61,7 @@ char	*get_value(char *str)
 	int		k;
 	int		len;
 
-	if(ft_strchr(str, '=') && (*(ft_strchr(str, '=') + 1)))	//добавлено на случай отсутствия значения
+	if (ft_strchr(str, '=') && (*(ft_strchr(str, '=') + 1)))	//добавлено на случай отсутствия значения
 		i = separate_pos(str) + 1;
 	else
 		return (NULL);
@@ -100,7 +100,7 @@ t_list_env	*get_list(char **tab)
 	t_list_env	*curr;
 
 	begin = first_node(tab);
-	if(!begin)
+	if (!begin)
 		return (NULL);
 	curr = begin;
 	i = 1;
@@ -108,14 +108,14 @@ t_list_env	*get_list(char **tab)
 	{
 		curr->next = malloc(sizeof(t_list_env));
 		if (!curr->next)
-			return(free_envp_list(begin), NULL);
+			return (free_envp_list(begin), NULL);
 		curr = curr->next;
 		curr->key = get_key(tab[i]);
 		curr->value = get_value(tab[i]);
 		i++;
 	}
 	curr->next = NULL;
-	if(!change_shlvl(begin))
-		return(free_envp_list(begin), NULL);
+	if (!change_shlvl(begin))
+		return (free_envp_list(begin), NULL);
 	return (begin);
 }
