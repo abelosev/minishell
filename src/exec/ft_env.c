@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:13:43 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 06:07:21 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 23:45:04 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 
 int	ft_env(t_group *group, t_list_env *env, int fd)
 {
-	if (group->cmd[1] != NULL && *(group->cmd[1])) //проверить
+	if (group->cmd[1] && *(group->cmd[1])
+		&& (ft_strncmp(group->cmd[1], "env", ft_strlen("env"))))
 	{
-		if (ft_strncmp(group->cmd[1], "env", ft_strlen("env")))
-		{
-			ft_putstr_err("env : ");
-			ft_putstr_err(group->cmd[1]);
-			ft_putstr_err(": No such file or directory\n");
-			return (127);
-		}
-		print_env_list(env, fd);
+		ft_putstr_err("env : ");
+		ft_putstr_err(group->cmd[1]);
+		ft_putstr_err(": No such file or directory\n");
+		return (127);
 	}
+	print_env_list(env, fd);
 	return (0);
 }

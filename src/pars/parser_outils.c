@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 02:28:17 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 20:09:57 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:35:37 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_main	*create_init_m(t_parser *p)
 	m->group = NULL;
 	m->hd_del = NULL;
 	m->group = create_init_group();
-	if(!m->group)
+	if (!m->group)
 	{
 		free_t_parser(p);
 		free(m);
