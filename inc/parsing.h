@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:05:08 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 19:51:27 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:15:19 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_group		*get_group_list(t_tokens *list, t_list_env *env);
 t_group		*create_init_group(void);
 t_group		*get_group(t_tokens *list, t_list_env *env);
 t_group		*create_init_group(void);
+t_main		*create_init_m(t_parser *p);
 
 //quotes && expand
 int			delimiter_nb(char *str);

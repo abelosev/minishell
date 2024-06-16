@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 19:51:58 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:15:11 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_main
 	char	*hd_del;
 	int		redir_fd[2];
 	int		pipe_fd[3];
-	int		*code;
+	// int		*code;
 	t_group	*group;
 }	t_main;
 
@@ -127,6 +127,5 @@ void			print_tab(char **tab, int fd);
 void			ft_putstr_err(char *str);
 void			ft_putstr_fd(char *str, int fd);
 int				ft_error(char *name, int type, int exit_code);
-int				ft_strcmp(const char *s1, const char *s2);
 
 #endif
