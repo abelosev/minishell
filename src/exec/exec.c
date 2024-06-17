@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/18 01:32:18 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/18 01:38:13 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	exec_builtin(t_group *group, t_main *p, t_list_env *env, int *code)
 		ft_putstr_err("exit\n");
 		free_envp_list(env);
 		if(p)
-			free_parsed(p);
+			free_main(p);
 		clear_history();
 		exit(*code);
 	}
@@ -111,13 +111,12 @@ static void	close_pipefd_on_error(int pipefd[3])
 
 void ft_cmd(t_group *group, t_main *p, t_list_env *env, int *code)
 {
-	pid_t	pid;
+	// pid_t	pid;
 	char	**new_envp;
 	int     cpy_pipefd[3];
 
 	new_envp = get_envp(env);
 	// env_destroy_list();
-	free_tab(env);
 	if (!new_envp)
 	{
         ft_putstr_err("error : new_envp");
@@ -158,8 +157,8 @@ int	do_redir(t_group *group, t_main *p, t_list_env *env, int *code)
     int new_fd_in;
     int new_fd_out;
 
-    new_fd_in = &p->redir_fd[E_IN];
-	new_fd_out = &p->redir_fd[E_OUT];
+    new_fd_in = &(p->redir_fd[E_IN]);
+	new_fd_out = &(p->redir_fd[E_OUT]);
     if (open_redir(group, &p->redir_fd[E_IN], &p->redir_fd[E_OUT]))
     {
         return (1);
@@ -196,7 +195,7 @@ void	exec_child(t_group *group, t_main *p, t_list_env *env, int *code)
         if (p->size > 1)
 		    ft_pipeline(group, p); //to_replace
         if (do_redir(group, p, env, code)) //to change
-            return (free_parsed(p), free_envp_list(env), //replace with destroy
+            return (free_main(p), free_envp_list(env), //replace with destroy
                 exit(1)); //fail
         if (is_built(group->cmd[0]) != 0)
             exit(exec_builtin(group, p, env, code)); // to_do_bultin ?
@@ -285,13 +284,13 @@ void	ft_exec(t_main *p, t_list_env *env, int *code)
 	int ret_dispatch = ft_dispatch(curr, p, env, code);
 	if (p->size == 1 && is_built(curr->cmd[0]) != 0)
     {
-        free_parsed(p);
+        free_main(p);
         *code = ret_dispatch;
         return ;
     }
 	if (ret_dispatch == 1)
     {
-        free_parsed(p);
+        free_main(p);
         *code = 1;
         return ;
     }
@@ -299,6 +298,6 @@ void	ft_exec(t_main *p, t_list_env *env, int *code)
 	if (p->redir_fd[E_IN] != STDIN_FILENO)
 		close(p->redir_fd[E_IN]);
 	if(p)
-		free_parsed(p);
+		free_main(p);
 	return (*code);
 }
