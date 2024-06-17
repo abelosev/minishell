@@ -6,7 +6,7 @@
 /*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/17 00:08:33 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/06/18 01:34:48 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_parsed
 	int		redir_fd[2];
 	int		pipefd[3];
 	int		size;
+	int		group_id;
 	pid_t	*cpid;
 	t_group	*group;
 }	t_parsed;
