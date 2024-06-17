@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 20:15:11 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/17 23:37:21 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,25 @@ typedef struct s_main
 {
 	char	*hd_del;
 	int		redir_fd[2];
-	int		pipe_fd[3];
+	int		pipefd[3];
 	// int		*code;
+	int		size;
+	pid_t	*cpid;
 	t_group	*group;
 }	t_main;
+
+enum e_fd_dup_type
+{
+	READ_END,
+	WRITE_END,
+	TEMP_READ_END
+};
+
+enum e_redir_type
+{
+	E_IN,
+	E_OUT
+};
 
 ////////////////// FONCTIONS //////////////////
 
