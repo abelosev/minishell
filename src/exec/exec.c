@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/18 01:23:06 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/18 01:25:03 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	open_redir(t_group *group, int *fd_in, int *fd_out)
 	return (0);
 }
 
-int	exec_builtin(t_group *group, t_list_env *env, t_main *p, int *code)
+int	exec_builtin(t_group *group, t_main *p, t_list_env *env, int *code)
 {
 	*code = ft_do_builtin(group, env, p->redir_fd[E_OUT], code);
 	if(is_built(group->cmd[0]) == B_EXIT)
@@ -215,7 +215,7 @@ void	exec_child(t_group *group, t_main *p, t_list_env *env, int *code)
 	// exit(127);
 }
 
-static int	ft_dispatch(t_main *p, t_group *group, t_list_env *env, int *code)
+static int	ft_dispatch(t_group *group, t_main *p, t_list_env *env, int *code)
 {
 	int i;
     
