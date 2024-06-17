@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/18 01:38:13 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/18 01:42:15 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,8 @@ int	do_redir(t_group *group, t_main *p, t_list_env *env, int *code)
     int new_fd_in;
     int new_fd_out;
 
-    new_fd_in = &(p->redir_fd[E_IN]);
-	new_fd_out = &(p->redir_fd[E_OUT]);
+    new_fd_in = p->redir_fd[E_IN];
+	new_fd_out = p->redir_fd[E_OUT];
     if (open_redir(group, &p->redir_fd[E_IN], &p->redir_fd[E_OUT]))
     {
         return (1);
@@ -167,15 +167,15 @@ int	do_redir(t_group *group, t_main *p, t_list_env *env, int *code)
 		exec_builtin(group, p, env, code);
 	else
 		ft_cmd(group, p, env, code);
-    if (new_fd_in != &p->redir_fd[E_IN])
+    if (new_fd_in != p->redir_fd[E_IN])
 	{
 		close(new_fd_in);
-		dup2(STDIN_FILENO, &p->redir_fd[E_IN]);
+		dup2(STDIN_FILENO, p->redir_fd[E_IN]);
 	}
-    if (new_fd_out != &p->redir_fd[E_OUT])
+    if (new_fd_out != p->redir_fd[E_OUT])
 	{
 		close(new_fd_out);
-		dup2(STDOUT_FILENO, &p->redir_fd[E_OUT]);
+		dup2(STDOUT_FILENO, p->redir_fd[E_OUT]);
 	}
     // if(p)
     //     free_main(p);
@@ -192,8 +192,8 @@ void	exec_child(t_group *group, t_main *p, t_list_env *env, int *code)
 {
     if(group->flag_fail == 0)
     {
-        if (p->size > 1)
-		    ft_pipeline(group, p); //to_replace
+        // if (p->size > 1)
+		//     ft_pipeline(group, p); //to_replace
         if (do_redir(group, p, env, code)) //to change
             return (free_main(p), free_envp_list(env), //replace with destroy
                 exit(1)); //fail
@@ -256,14 +256,13 @@ static int	cmd_lstsize(t_group *group)
 	return (i);
 }
 
-int	init_exec(t_main *p, t_list_env *env)
+void	init_exec(t_main *p)
 {
 	p->size = cmd_lstsize(p->group);
 	p->cpid = (pid_t *)malloc(sizeof(pid_t) * p->size);
 	if (!p->cpid)
 	{
 		free(p);
-		return (NULL);
 	}
 }
 
@@ -280,7 +279,7 @@ void	ft_exec(t_main *p, t_list_env *env, int *code)
 	// int pipe_res;
 
 	curr = p->group;
-	init_exec(p, env);
+	init_exec(p);
 	int ret_dispatch = ft_dispatch(curr, p, env, code);
 	if (p->size == 1 && is_built(curr->cmd[0]) != 0)
     {
@@ -299,5 +298,5 @@ void	ft_exec(t_main *p, t_list_env *env, int *code)
 		close(p->redir_fd[E_IN]);
 	if(p)
 		free_main(p);
-	return (*code);
+	// return (*code);
 }
