@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/18 01:25:03 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/18 01:32:18 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int	do_redir(t_group *group, t_main *p, t_list_env *env, int *code)
         return (1);
     }
     if (is_built(group->cmd[0]) != 0)
-		exec_builtin(group, env, p, code);
+		exec_builtin(group, p, env, code);
 	else
 		ft_cmd(group, p, env, code);
     if (new_fd_in != &p->redir_fd[E_IN])
@@ -199,7 +199,7 @@ void	exec_child(t_group *group, t_main *p, t_list_env *env, int *code)
             return (free_parsed(p), free_envp_list(env), //replace with destroy
                 exit(1)); //fail
         if (is_built(group->cmd[0]) != 0)
-            exit(exec_builtin(group, env, p, code)); // to_do_bultin ?
+            exit(exec_builtin(group, p, env, code)); // to_do_bultin ?
         else
             ft_cmd(group, p, env, code);
     }
@@ -223,7 +223,7 @@ static int	ft_dispatch(t_group *group, t_main *p, t_list_env *env, int *code)
 	while (i < p->size)
 	{
 		if (p->size == 1 && is_built(group->cmd[0]) != 0)
-			return (exec_builtin(group, env, p, code)); //or do_builtin
+			return (exec_builtin(group, p, env, code)); //or do_builtin
 		if (p->size > 1)
 			if (pipe(p->pipefd) == -1)
 				return (1); // pipe error
@@ -282,7 +282,7 @@ void	ft_exec(t_main *p, t_list_env *env, int *code)
 
 	curr = p->group;
 	init_exec(p, env);
-	int ret_dispatch = ft_dispatch(p, curr, env, code);
+	int ret_dispatch = ft_dispatch(curr, p, env, code);
 	if (p->size == 1 && is_built(curr->cmd[0]) != 0)
     {
         free_parsed(p);
