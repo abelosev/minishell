@@ -72,9 +72,9 @@ D_FILES		= $(patsubst $(SE_DIR)/%.c,$(O_DIR)/%.d,$(SE_FILES)) \
 
 # Compilation
 CC			= cc
-CF          = -Wall -Wextra -Werror -g3 #-I/opt/homebrew/opt/readline/include
+CF          = -Wall -Wextra -Werror -g3 -I/opt/homebrew/opt/readline/include
 INC         = -I inc/ -I $(LIBFT_DIR)
-LDFLAGS     = -L $(LIBFT_DIR) -lft -lreadline #-L/opt/homebrew/opt/readline/lib 
+LDFLAGS     = -L $(LIBFT_DIR) -lft -lreadline -L/opt/homebrew/opt/readline/lib 
 
 # Cleaning
 RM			= rm -rf

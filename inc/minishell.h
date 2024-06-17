@@ -47,6 +47,7 @@ typedef struct s_group
 	char			*redir_in;
 	char			*redir_out;
 	char			*app_out;
+	int				id;
 	struct s_group	*next;
 }	t_group;
 
