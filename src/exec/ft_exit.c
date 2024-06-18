@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:20:01 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 20:43:30 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/17 23:44:16 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_exit(t_group *group, int *code)
 	// if (group->next == NULL)
 	//	 write(1, "exit\n", 5);
 	if (group->cmd[1] == NULL)
-		return (*code);				//PROBLEM
+		return (*code);				//PROBLEM !!!
 	i = 0;
 	if ((group->cmd[1][0] == '-' || group->cmd[1][0] == '+')
 			&& group->cmd[1][1] != '\0')
