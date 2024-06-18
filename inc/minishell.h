@@ -6,7 +6,7 @@
 /*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/18 04:19:25 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/06/18 07:01:20 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_group
 	char			*redir_in;
 	char			*redir_out;
 	char			*app_out;
-	int				id;
 	struct s_group	*next;
 }	t_group;
 
@@ -63,12 +62,9 @@ typedef struct s_main
 	char	*hd_del;
 	int		redir_fd[2];
 	int		pipefd[3];
-	int		size;
-	int		group_id;
-	pid_t	*cpid;
-	int		pipefd[3];
 	// int		*code;
 	int		size;
+	int		group_id;
 	pid_t	*cpid;
 	t_group	*group;
 }	t_main;
@@ -86,22 +82,11 @@ enum e_redir_type
 	E_OUT
 };
 
-typedef struct s_parsed
-{
-	char	*hd_del;
-	int		redir_fd[2];
-	int		pipefd[3];
-	int		size;
-	int		group_id;
-	pid_t	*cpid;
-	t_group	*group;
-}	t_parsed;
-
 ////////////////// FONCTIONS //////////////////
 
 //input and parsing
 int				only_spaces(char *str);
-t_parsed		*parser(char *input, t_list_env *env);
+t_main			*parser(char *input, t_list_env *env, int *code);
 
 //envp
 char			**get_envp(t_list_env *list);
@@ -128,19 +113,19 @@ int				ft_pwd(int fd);
 int				ft_unset(t_group *group, t_list_env **env);
 
 //exec
-unsigned int	ft_exec(t_parsed *p, t_list_env *env);
+void			ft_exec(t_main *p, t_list_env *env, int *code);
 
 //main_outils
-int				check_group(t_parsed *parsed, char *line);
-int				check_line(char *line);
+int				check_group(t_main *main, char *line, int *code);
+int				check_line(char *line, int *code);
 char			*get_line(char *prompt);
 t_list_env		*get_mini_env(void);
 t_list_env		*change_shlvl(t_list_env *env);
 
 //heredoc
 char			*uniq_name(char *prefix);
-char			*heredoc(t_list_env *env, char *del);
-int				get_hd_fd(t_parsed *p, t_list_env *env);
+char			*heredoc(t_list_env *env, char *del, int *code);
+int				get_hd_fd(t_main *p, t_list_env *env, int *code);
 
 //signals
 void			ft_sigint(int signal);
@@ -150,7 +135,7 @@ void			ft_sigint_hd(int signal);
 void			free_tab(char **tab);
 void			free_envp_list(t_list_env *list);
 void			free_group_list(t_group *group);
-void			free_parsed(t_parsed *parsed);
+void			free_main(t_main *main);
 
 //outils
 void			print_env_list(t_list_env *list, int fd);
@@ -158,5 +143,6 @@ void			print_tab(char **tab, int fd);
 void			ft_putstr_err(char *str);
 void			ft_putstr_fd(char *str, int fd);
 int				ft_error(char *name, int type, int exit_code);
+int				ft_strcmp(const char *s1, const char *s2); // to delete ?
 
 #endif

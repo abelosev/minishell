@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/18 04:20:18 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/06/18 01:42:15 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdbool.h>
 
-
-static void	close_pipefd(t_parsed *p, int is_in_loop)
+static void close_pipefd(t_main *p, bool is_in_loop)
 {
 	if (p->pipefd[WRITE_END] > 0)
 		close(p->pipefd[WRITE_END]);
@@ -52,54 +52,35 @@ int	open_redir(t_group *group, int *fd_in, int *fd_out)
 	return (0);
 }
 
-// main_builtin
-unsigned int	exec_builtin(t_group *group, t_parsed *p, t_list_env *env)
+int	exec_builtin(t_group *group, t_main *p, t_list_env *env, int *code)
 {
-	status = ft_do_builtin(group, env, p->redir_fd[E_OUT]);
+	*code = ft_do_builtin(group, env, p->redir_fd[E_OUT], code);
 	if(is_built(group->cmd[0]) == B_EXIT)
 	{
 		ft_putstr_err("exit\n");
 		free_envp_list(env);
 		if(p)
-			free_parsed(p);
+			free_main(p);
 		clear_history();
-		exit(status);
+		exit(*code);
 	}
-	return (status);
+    return (*code);
 }
 
-// unsigned int	ft_cmd_child(t_group *group, char **new_envp, int fd_in, int fd_out)
-// {
-// 	if (fd_in != STDIN_FILENO)
-// 	{
-// 		dup2(fd_in, STDIN_FILENO);
-// 		close(fd_in);
-// 	}
-// 	if (fd_out != STDOUT_FILENO)
-// 	{
-// 		dup2(fd_out, STDOUT_FILENO);
-// 		close(fd_out);
-// 	}
-// 	execve(group->cmd[0], group->cmd, new_envp);
-// 	return (1);
-// }
-
-unsigned int	ft_parent(pid_t *cpid, int nbr_child) // wait childs
+void	ft_parent(pid_t *cpid, int nbr_child, int *code) // wait childs
 {
 	int	i;
-	int	e_status;
 
 	i = 0;
-	e_status = 0;
-
+	*code = 0;
 	while( i < nbr_child)
 	{
-		waitpid(cpid[i], &e_status, 0);
+		waitpid(cpid[i], code, 0);
 		if (cpid[i] == cpid[nbr_child - 1])
 		{
-			if (e_status == SIGINT)
+			if (*code == SIGINT)
 				write(STDERR_FILENO, "\n", 1);
-			if (e_status == 131)
+			if (*code == 131)
 				write(STDERR_FILENO, "Quit (core dumped)\n", 19);
 		}
 		i++;
@@ -115,7 +96,7 @@ unsigned int	ft_parent(pid_t *cpid, int nbr_child) // wait childs
 	// 	status = WEXITSTATUS(e_status);
 	// else
 	// 	status = 1;
-	return (e_status);
+	// return (e_status);
 }
 
 static void	close_pipefd_on_error(int pipefd[3])
@@ -128,17 +109,19 @@ static void	close_pipefd_on_error(int pipefd[3])
 		close(pipefd[2]);
 }
 
-unsigned int ft_cmd(t_group *group, t_parsed *p, t_list_env *env)
+void ft_cmd(t_group *group, t_main *p, t_list_env *env, int *code)
 {
 	// pid_t	pid;
 	char	**new_envp;
-	int		cpy_pipefd[3];
+	int     cpy_pipefd[3];
 
 	new_envp = get_envp(env);
 	// env_destroy_list();
 	if (!new_envp)
 	{
-		return (ft_putstr_err("error : new_envp"), 1);
+        ft_putstr_err("error : new_envp");
+        *code = 1;
+		return ;
 	}
 	cpy_pipefd[0] = p->pipefd[0];
 	cpy_pipefd[1] = p->pipefd[1];
@@ -146,9 +129,9 @@ unsigned int ft_cmd(t_group *group, t_parsed *p, t_list_env *env)
 	free(p->cpid);
 	// free(p); need to ?
 	execve(group->cmd[0], group->cmd, new_envp);
-	free_tab(new_envp);
 	close_pipefd_on_error(cpy_pipefd);
-	return (1);
+    *code = 1;
+	return ;
 	// if (open_redir(group, &fd_in, &fd_out))
 	// {
 	// 	return (free_tab(new_envp), 1);
@@ -169,37 +152,37 @@ unsigned int ft_cmd(t_group *group, t_parsed *p, t_list_env *env)
 	// free_tab(new_envp);
 }
 
-int	do_redir(t_group *group, t_parsed *p, t_list_env *env) //to fix the 5 parameters situation
+int	do_redir(t_group *group, t_main *p, t_list_env *env, int *code)
 {
-	int new_fd_in;
-	int new_fd_out;
+    int new_fd_in;
+    int new_fd_out;
 
-	new_fd_in = p->redir_fd[E_IN];
+    new_fd_in = p->redir_fd[E_IN];
 	new_fd_out = p->redir_fd[E_OUT];
-	if (open_redir(group, &new_fd_in, &new_fd_out))
-	{
-		return (1);
-	}
-	if (is_built(group->cmd[0]) != 0)
-		status = exec_builtin(group, env, p);
+    if (open_redir(group, &p->redir_fd[E_IN], &p->redir_fd[E_OUT]))
+    {
+        return (1);
+    }
+    if (is_built(group->cmd[0]) != 0)
+		exec_builtin(group, p, env, code);
 	else
-		status = ft_cmd(group, p, env);
-	if (new_fd_in != p->redir_fd[E_IN])
+		ft_cmd(group, p, env, code);
+    if (new_fd_in != p->redir_fd[E_IN])
 	{
 		close(new_fd_in);
 		dup2(STDIN_FILENO, p->redir_fd[E_IN]);
 	}
-	if (new_fd_out != p->redir_fd[E_OUT])
+    if (new_fd_out != p->redir_fd[E_OUT])
 	{
 		close(new_fd_out);
 		dup2(STDOUT_FILENO, p->redir_fd[E_OUT]);
 	}
-	// if(p)
-	//     free_parsed(p);
-	return (status);
+    // if(p)
+    //     free_main(p);
+    return (*code);
 }
 
-void	no_redir(t_group *group, t_parsed *p)
+void	no_redir(t_group *group, t_main *p)
 {
 	if (p->group_id == 0)
 	{
@@ -216,7 +199,7 @@ void	no_redir(t_group *group, t_parsed *p)
 		close(p->pipefd[READ_END]);
 }
 
-void	ft_pipeline(t_group *group, t_parsed *p)
+void	ft_pipeline(t_group *group, t_main *p)
 {
 	if (!is_redir(group))
 		no_redir(group, p);
@@ -238,46 +221,57 @@ void	ft_pipeline(t_group *group, t_parsed *p)
 	}
 }
 
-void	exec_child(t_group *group, t_parsed *p, t_list_env *env)
+
+void	exec_child(t_group *group, t_main *p, t_list_env *env, int *code)
 {
-	if (p->size > 1)
-		ft_pipeline(group, p);
-	if (do_redir(group, p, env)) //to check
-		return (free_parsed(p), free_envp_list(env), exit(1));
-	if (is_built(group->cmd[0]) != 0)
-		exit(exec_builtin(group, p, env)); // to_do_bultin ?
+    if(group->flag_fail == 0)
+    {
+        if (p->size > 1)
+		    ft_pipeline(group, p); //to_replace
+        if (do_redir(group, p, env, code)) //to change
+            return (free_main(p), free_envp_list(env), //replace with destroy
+                exit(1)); //fail
+        if (is_built(group->cmd[0]) != 0)
+            exit(exec_builtin(group, p, env, code)); // to_do_bultin ?
+        else
+            ft_cmd(group, p, env, code);
+    }
 	else
-		ft_cmd(group, p, env);
+        exit(group->flag_fail);
 	// if (errno == -1 || errno == ENOENT)
 	// 	exit(127);
 	// if (errno == EACCES || errno == EISDIR
 	// 	|| errno == EPERM || errno == ENOEXEC || errno == EINVAL)
 	// 	exit(126);
 	//do we use errno ?
-	exit(127);
+    
+	// exit(127);
 }
 
-static int	ft_dispatch(t_parsed *p, t_group *group, t_list_env *env)
+static int	ft_dispatch(t_group *group, t_main *p, t_list_env *env, int *code)
 {
-	while (p->group_id < p->size)
+	int i;
+    
+    i = 0;
+	while (i < p->size)
 	{
 		if (p->size == 1 && is_built(group->cmd[0]) != 0)
-			return (exec_builtin(group, env, p)); //or do_builtin
+			return (exec_builtin(group, p, env, code)); //or do_builtin
 		if (p->size > 1)
 			if (pipe(p->pipefd) == -1)
 				return (1); // pipe error
-		p->cpid[p->group_id] = fork();
-		if (p->cpid[p->group_id] == -1)
-			return (close_pipefd(p, 0), 1);
-		if (p->cpid[p->group_id] == 0)
+		p->cpid[i] = fork();
+		if (p->cpid[i] == -1)
+			return (close_pipefd(p, false), EXIT_FAILURE);
+		if (p->cpid[i] == 0)
 		{
 			signal(SIGQUIT, SIG_DFL);
 			signal(SIGINT, SIG_DFL);
-			exec_child(group, p, env); // replace function
+			exec_child(group, p, env, code); // replace function
 		}
 		group = group->next;
-		p->group_id++;
-		close_pipefd(p, 1);
+		i++;
+		close_pipefd(p, true);
 		p->pipefd[TEMP_READ_END] = p->pipefd[READ_END];
 	}
 	return (0);
@@ -296,18 +290,17 @@ static int	cmd_lstsize(t_group *group)
 	return (i);
 }
 
-int	init_exec(t_parsed *p, t_list_env *env)
+void	init_exec(t_main *p)
 {
 	p->size = cmd_lstsize(p->group);
 	p->cpid = (pid_t *)malloc(sizeof(pid_t) * p->size);
 	if (!p->cpid)
 	{
 		free(p);
-		return (NULL);
 	}
 }
 
-unsigned int	ft_exec(t_parsed *p, t_list_env *env)
+void	ft_exec(t_main *p, t_list_env *env, int *code)
 {
 	t_group *curr;
 	// int fd_in;
@@ -320,90 +313,24 @@ unsigned int	ft_exec(t_parsed *p, t_list_env *env)
 	// int pipe_res;
 
 	curr = p->group;
-
-	init_exec(p, env);
-	int ret_dispatch = ft_dispatch(p, curr, env);
+	init_exec(p);
+	int ret_dispatch = ft_dispatch(curr, p, env, code);
 	if (p->size == 1 && is_built(curr->cmd[0]) != 0)
-		return (free_parsed(p), ret_dispatch);
+    {
+        free_main(p);
+        *code = ret_dispatch;
+        return ;
+    }
 	if (ret_dispatch == 1)
-		return (free_parsed(p), 1);
-	p->redir_fd[E_IN] = get_hd_fd(p, env);	// передавать ли fd_in параметром (?)
-
+    {
+        free_main(p);
+        *code = 1;
+        return ;
+    }
+	p->redir_fd[E_IN] = get_hd_fd(p, env, code);	// передавать ли fd_in параметром (?)
 	if (p->redir_fd[E_IN] != STDIN_FILENO)
 		close(p->redir_fd[E_IN]);
 	if(p)
-		free_parsed(p);
-	return (status);
-
-	// pipe_res = 0;
-	// while (curr)
-	// {
-	// 	if (curr->next)
-	// 	{
-	// 		pipe_res = pipe(pipefd);
-	// 		if (pipe_res == -1)
-	// 		{
-	// 			if(p)
-	// 				free_parsed(p);
-	// 			return (ft_putstr_err("pipe failed"), 1); // не удалось открыть пайп
-	// 		}
-	// 	}
-
-	// 	if (curr->flag_fail == 0 && curr->cmd && *(curr->cmd))
-	// 	{
-	// 		if (is_redir(curr))
-	// 		{
-	// 			if(open_redir(curr, &fd_in, &fd_out) || fd_out < 0)
-	// 			{
-	// 				if(p)
-	// 					free_parsed(p);
-	// 				return (ft_putstr_err("open output failed"), 1);
-	// 			}
-	// 			status = do_redir(curr, p, env, fd_in, fd_out);
-	// 			close(fd_out);
-	// 			if (curr->next)
-	// 			{
-	// 				file_fd = open(curr->redir_out, O_RDONLY);
-	// 				if (file_fd < 0)
-	// 				{
-	// 					if(p)
-	// 						free_parsed(p);
-	// 					return (ft_putstr_err("open output file failed"), 1);
-	// 				}
-	// 				while ((bytes_read = read(file_fd, buffer, sizeof(buffer))) > 0)
-	// 					write(pipefd[1], buffer, bytes_read);
-	// 				close(file_fd);
-	// 				close(pipefd[1]);
-	// 				fd_in = pipefd[0];
-	// 			}
-	// 		}
-	// 		else
-	// 		{
-	// 			if (is_built(curr->cmd[0]) != 0)
-	// 			{
-	// 				if (curr->next)
-	// 					status = exec_builtin(curr, env, p, pipefd[1]);
-	// 				else
-	// 					status = exec_builtin(curr, env, p, STDOUT_FILENO);
-	// 			}
-	// 			else
-	// 			{
-	// 				if (curr->next)
-	// 					status = ft_cmd(curr, env, fd_in, pipefd[1]);
-	// 				else
-	// 					status = ft_cmd(curr, env, fd_in, STDOUT_FILENO);
-	// 			}
-	// 		}
-	// 	}
-	// 	else
-	// 		status = curr->flag_fail;
-
-	// 	if (fd_in != STDIN_FILENO)
-	// 		close(fd_in);
-	// 	if (pipe_res != 0 && pipefd[1] != STDOUT_FILENO)
-	// 		close(pipefd[1]);
-	// 	if (curr->next)
-	// 		fd_in = pipefd[0];
-	// 	curr = curr->next;
-	// }
+		free_main(p);
+	// return (*code);
 }
