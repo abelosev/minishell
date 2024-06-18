@@ -6,14 +6,14 @@
 /*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/18 01:43:04 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/06/18 03:56:46 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdbool.h>
 
-
-static void	close_pipefd(t_parsed *p, int is_in_loop)
+static void	close_pipefd(t_main *p, bool is_in_loop)
 {
 	if (p->pipefd[WRITE_END] > 0)
 		close(p->pipefd[WRITE_END]);
@@ -53,19 +53,19 @@ int	open_redir(t_group *group, int *fd_in, int *fd_out)
 }
 
 // main_builtin
-unsigned int	exec_builtin(t_group *group, t_parsed *p, t_list_env *env)
+int   exec_builtin(t_group *group, t_main *p, t_list_env *env, int *code)
 {
-	status = ft_do_builtin(group, env, p->redir_fd[E_OUT]);
+	*code = ft_do_builtin(group, env, p->redir_fd[E_OUT], code);
 	if(is_built(group->cmd[0]) == B_EXIT)
 	{
 		ft_putstr_err("exit\n");
 		free_envp_list(env);
 		if(p)
-			free_parsed(p);
+			free_main(p);
 		clear_history();
-		exit(status);
+		exit(*code);
 	}
-	return (status);
+	return (*code);
 }
 
 // unsigned int	ft_cmd_child(t_group *group, char **new_envp, int fd_in, int fd_out)
@@ -128,7 +128,7 @@ static void	close_pipefd_on_error(int pipefd[3])
 		close(pipefd[2]);
 }
 
-unsigned int ft_cmd(t_group *group, t_parsed *p, t_list_env *env)
+unsigned int ft_cmd(t_group *group, t_main *p, t_list_env *env)
 {
 	// pid_t	pid;
 	char	**new_envp;
@@ -169,7 +169,7 @@ unsigned int ft_cmd(t_group *group, t_parsed *p, t_list_env *env)
 	// free_tab(new_envp);
 }
 
-int	do_redir(t_group *group, t_parsed *p, t_list_env *env) //to fix the 5 parameters situation
+int	do_redir(t_group *group, t_main *p, t_list_env *env) //to fix the 5 parameters situation
 {
 	int new_fd_in;
 	int new_fd_out;
@@ -199,7 +199,7 @@ int	do_redir(t_group *group, t_parsed *p, t_list_env *env) //to fix the 5 parame
 	return (status);
 }
 
-void	no_redir(t_group *group, t_parsed *p)
+void	no_redir(t_group *group, t_main *p)
 {
 	if (p->group_id == 0)
 	{
@@ -216,7 +216,7 @@ void	no_redir(t_group *group, t_parsed *p)
 		close(p->pipefd[READ_END]);
 }
 
-void	ft_pipeline(t_group *group, t_parsed *p)
+void	ft_pipeline(t_group *group, t_main *p)
 {
 	if (!is_redir(group))
 		no_redir(group, p);
@@ -238,7 +238,7 @@ void	ft_pipeline(t_group *group, t_parsed *p)
 	}
 }
 
-void	exec_child(t_group *group, t_parsed *p, t_list_env *env)
+void	exec_child(t_group *group, t_main *p, t_list_env *env)
 {
 	if (p->size > 1)
 		ft_pipeline(group, p);
@@ -257,7 +257,7 @@ void	exec_child(t_group *group, t_parsed *p, t_list_env *env)
 	exit(127);
 }
 
-static int	ft_dispatch(t_parsed *p, t_group *group, t_list_env *env)
+static int	ft_dispatch(t_main *p, t_group *group, t_list_env *env)
 {
 	while (p->group_id < p->size)
 	{
@@ -296,7 +296,7 @@ static int	cmd_lstsize(t_group *group)
 	return (i);
 }
 
-int	init_exec(t_parsed *p, t_list_env *env)
+int	init_exec(t_main *p, t_list_env *env)
 {
 	p->size = cmd_lstsize(p->group);
 	p->cpid = (pid_t *)malloc(sizeof(pid_t) * p->size);
@@ -307,7 +307,7 @@ int	init_exec(t_parsed *p, t_list_env *env)
 	}
 }
 
-unsigned int	ft_exec(t_parsed *p, t_list_env *env)
+unsigned int	ft_exec(t_main *p, t_list_env *env)
 {
 	t_group *curr;
 	// int fd_in;
