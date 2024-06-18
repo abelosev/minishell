@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/17 23:37:21 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/18 04:04:26 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@ typedef struct s_main
 	char	*hd_del;
 	int		redir_fd[2];
 	int		pipefd[3];
+	int		size;
+	int		group_id;
+	pid_t	*cpid;
+	int		pipefd[3];
 	// int		*code;
 	int		size;
 	pid_t	*cpid;
@@ -81,12 +85,14 @@ enum e_redir_type
 	E_IN,
 	E_OUT
 };
+}	t_main;
 
 ////////////////// FONCTIONS //////////////////
 
 //input and parsing
 int				only_spaces(char *str);
 t_main			*parser(char *input, t_list_env *env, int *code);
+t_main		*parser(char *input, t_list_env *env);
 
 //envp
 char			**get_envp(t_list_env *list);
