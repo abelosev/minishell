@@ -23,7 +23,7 @@ void	ft_write_export(t_list_env *env, int fd)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		ft_putstr_fd("declare -x ", fd);//протестировать, не появляется ли там лишних '='
+		ft_putstr_fd("declare -x ", fd);		//протестировать, не появляется ли там лишних '='
 		ft_putstr_fd(envp[i], fd);
 		ft_putstr_fd("\n", fd);
 		i++;
@@ -47,7 +47,7 @@ int	ft_export_is_valid(char *str)
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 		{
-			ft_putstr_err("minishell: export: `");
+			ft_putstr_err( "minishell: export: `");
 			ft_putstr_err(str);
 			ft_putstr_err("\': not a valid identifier\n");
 			return (0);
@@ -76,7 +76,7 @@ int	ft_export_replace_or_add(t_list_env **env, char *str)
 	the_env->key = new_key;
 	new_value = get_value(str);
 	if (!new_value)
-		return (0);//точно ли 0 ?
+		return (0);				//точно ли 0 ?
 	if (the_env->value)
 		free(the_env->value);
 	the_env->value = new_value;

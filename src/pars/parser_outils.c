@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 02:28:17 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 20:35:37 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 02:28:18 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,6 @@ t_parser	*create_init_p(void)
 	p->token_tab = NULL;
 	p->token_list = NULL;
 	return (p);
-}
-
-t_main	*create_init_m(t_parser *p)
-{
-	t_main	*m;
-
-	m = malloc(sizeof(t_main));
-	if (!m)
-	{
-		free_t_parser(p);
-		return (NULL);
-	}
-	m->group = NULL;
-	m->hd_del = NULL;
-	m->group = create_init_group();
-	if (!m->group)
-	{
-		free_t_parser(p);
-		free(m);
-		return (NULL);
-	}
-	return (m);
 }
 
 char	**spaces_between_quotes(char ***tab)

@@ -6,7 +6,7 @@
 #    By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/15 22:06:52 by abelosev          #+#    #+#              #
-#    Updated: 2024/06/18 01:33:13 by abelosev         ###   ########.fr        #
+#    Updated: 2024/06/16 02:51:08 by abelosev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SE_FILES 	= src/exec/exec_builtin.c \
 				src/exec/main.c \
 				src/exec/main_outils.c \
 				src/exec/signals.c \
-				src/exec/exec.c \
+				src/exec/ft_exec.c \
 				src/exec/heredoc.c \
 
 SP_FILES	= src/pars/cmd_check_outils.c \
@@ -72,9 +72,9 @@ D_FILES		= $(patsubst $(SE_DIR)/%.c,$(O_DIR)/%.d,$(SE_FILES)) \
 
 # Compilation
 CC			= cc
-CF          = -Wall -Wextra -Werror -g3 -I/opt/homebrew/opt/readline/include
+CF          = -Wall -Wextra -Werror -g3 #-I/opt/homebrew/opt/readline/include
 INC         = -I inc/ -I $(LIBFT_DIR)
-LDFLAGS     = -L $(LIBFT_DIR) -lft -lreadline -L/opt/homebrew/opt/readline/lib 
+LDFLAGS     = -L $(LIBFT_DIR) -lft -lreadline #-L/opt/homebrew/opt/readline/lib 
 
 # Cleaning
 RM			= rm -rf

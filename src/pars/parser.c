@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 21:13:51 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 20:34:46 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 02:54:10 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,40 +45,48 @@ t_group	*group_list(t_parser *p, t_group *group, t_list_env *env)
 	return (group);
 }
 
-t_main	*line_null(char *input, t_parser *p, t_main *m)
-{
-	free_t_parser(p);
-	if (input)
-	{
-		invalid_group(m->group, 127);
-		ft_putstr_err("Command not found\n");
-	}
-	else
-		invalid_group(m->group, 2);
-	return (m);
-}
-
-t_main	*parser(char *input, t_list_env *env, int *code)
+t_parsed	*parser(char *input, t_list_env *env)
 {
 	t_parser	*p;
-	t_main		*m;
+	t_parsed	*parsed;
 
 	p = create_init_p();
-	m = create_init_m(p);
-	if (!p || !m)
+	parsed = malloc(sizeof(t_parsed));
+	if(!parsed)
+	{
+		free_t_parser(p);
 		return (NULL);
+	}
+	parsed->group = NULL;
+	parsed->hd_del = NULL;
+	parsed->group = create_init_group();
 	if (quotes_ok(&input) == 0)
 	{
-		m->group = unclosed_quotes(m->group, p);
-		return (m);
+		free(parsed->hd_del);
+		parsed->group = unclosed_quotes(parsed->group, p);
+		return (parsed);
 	}
-	p->line = quotes_expand(input, env, code);
+
+	p->line = quotes_expand(input, env);
 	if (p->line == NULL)
-		return (line_null(input, p, m));
-	m->group = group_list(p, m->group, env);
-	m->hd_del = get_hd_delimiter(p->token_list);
+	{
+		free_t_parser(p);
+		if (input)
+		{
+			invalid_group(parsed->group, 127);
+			ft_putstr_err("Command not found\n");
+		}
+		else
+			invalid_group(parsed->group, 2);
+		return (parsed);
+	}
+	parsed->group = group_list(p, parsed->group, env);
+	parsed->hd_del = get_hd_delimiter(p->token_list);	//	как обработать malloc pb ?
 	free_t_parser(p);
-	if (!m->group && !m->hd_del)
-		return (free(m), NULL);
-	return (m);
+	if(!parsed->group && !parsed->hd_del)
+	{
+		free(parsed);
+		return (NULL);
+	}
+	return (parsed);
 }

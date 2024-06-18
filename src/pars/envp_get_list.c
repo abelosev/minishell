@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 02:22:11 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 19:34:28 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 02:33:02 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*get_key(char *str)
 	else if (equal && (*(equal + 1) == '\0'))
 		len = separate_pos(str) + 1;
 	else
-		len = ft_strlen(str);//добавлено на случай "export HOLA"
+		len = ft_strlen(str);		//добавлено на случай "export HOLA"
 	k = 0;
 	key = malloc(sizeof(char) * (len + 1));
 	if (!key)
@@ -61,7 +61,7 @@ char	*get_value(char *str)
 	int		k;
 	int		len;
 
-	if (ft_strchr(str, '=') && (*(ft_strchr(str, '=') + 1))) //добавлено на случай отсутствия значения
+	if (ft_strchr(str, '=') && (*(ft_strchr(str, '=') + 1)))	//добавлено на случай отсутствия значения
 		i = separate_pos(str) + 1;
 	else
 		return (NULL);

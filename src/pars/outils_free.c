@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 02:23:27 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 19:30:30 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 03:05:42 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	free_tab(char **tab)
 {
 	int	i;
 
-	if (!tab)
+	if(!tab)
 		return ;
-	if (tab && !(*tab))
+	if(tab && !(*tab))
 	{
 		free(tab);
 		return ;

@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 02:22:28 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 19:48:12 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 02:22:30 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*expanded_token(char *str, t_list_env *env)
 	return (res);
 }
 
-static void	replace_token(char **str, t_list_env *env, int *code)
+static void	replace_token(char **str, t_list_env *env)
 {
 	int		i;
 	char	*new;
@@ -61,7 +61,7 @@ static void	replace_token(char **str, t_list_env *env, int *code)
 		else if ((*str)[i + 1] && ft_isalpha((*str)[i + 1]))
 			new = expanded_token((*str) + 1, env);
 		else if ((*str)[i + 1] && (*str)[i + 1] == '?')
-			new = ft_itoa(*code);
+			new = ft_itoa(status);
 		else
 			new = no_null();
 	}
@@ -94,7 +94,7 @@ char	*from_tab_to_line(char **tab)
 	return (res);
 }
 
-char	*ft_expand(char *str, t_list_env *env, int *code)
+char	*ft_expand(char *str, t_list_env *env)
 {
 	char	*temp;
 	char	**token_tab;
@@ -114,7 +114,7 @@ char	*ft_expand(char *str, t_list_env *env, int *code)
 	i = 0;
 	while (token_tab[i])
 	{
-		replace_token(token_tab + i, env, code);
+		replace_token(token_tab + i, env);
 		i++;
 	}
 	free(temp);

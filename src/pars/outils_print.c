@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 02:28:11 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 19:31:30 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 06:03:46 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	print_env_list(t_list_env *list, int fd)
 	while (list != NULL)
 	{
 		ft_putstr_fd(list->key, fd);
-		if (!ft_strchr(list->key, '='))	//to keep ?
-			ft_putstr_fd("=", fd);
-		if (list->value)
+		// if (!ft_strchr(list->key, '='))
+		// 	ft_putstr_fd("=", fd);
+		if(list->value)
 			ft_putstr_fd(list->value, fd);
 		ft_putstr_fd("\n", fd);
 		list = list->next;

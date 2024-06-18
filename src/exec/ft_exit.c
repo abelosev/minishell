@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:20:01 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/17 23:44:16 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 03:21:56 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,14 @@ int	ft_exit_user_val(t_group *group)
 	return (val);
 }
 
-int	ft_exit(t_group *group, int *code)
+int	ft_exit(t_group *group)
 {
 	int	i;
-	// int exit_code;
 
-	// exit_code = *code;
 	// if (group->next == NULL)
 	//	 write(1, "exit\n", 5);
 	if (group->cmd[1] == NULL)
-		return (*code);				//PROBLEM !!!
+		return (status);		//la globale ("old_exit")
 	i = 0;
 	if ((group->cmd[1][0] == '-' || group->cmd[1][0] == '+')
 			&& group->cmd[1][1] != '\0')

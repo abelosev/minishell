@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:05:08 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 20:15:19 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 17:09:31 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ t_group		*get_group_list(t_tokens *list, t_list_env *env);
 t_group		*create_init_group(void);
 t_group		*get_group(t_tokens *list, t_list_env *env);
 t_group		*create_init_group(void);
-t_main		*create_init_m(t_parser *p);
 
 //quotes && expand
 int			delimiter_nb(char *str);
@@ -91,8 +90,8 @@ char		*add_spaces(char **tmp);
 char		*temp_tokenizer(char *str);
 char		*no_quotes(char *str, char c);
 char		*with_28(char **str);
-char		*ft_expand(char *str, t_list_env *env, int *code);
-char		*quotes_expand(char *str, t_list_env *env, int *code);
+char		*ft_expand(char *str, t_list_env *env);
+char		*quotes_expand(char *str, t_list_env *env);
 char		*expanded_token(char *str, t_list_env *env);
 char		*no_null(void);
 t_tokenizer	*init_data(char *s);

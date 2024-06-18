@@ -6,11 +6,12 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:19 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/16 19:14:04 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/16 03:14:17 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 int	ft_pwd(int fd)
 {
@@ -24,3 +25,7 @@ int	ft_pwd(int fd)
 	free(current_dir);
 	return (0);
 }
+
+//нет проверки на наличие опций, ок ли это
+
+//не нужно ли использовать это: cur_path = get_env_var("PWD", env_list); - вроде бы вызов pwd не зависит от переменных окружения
