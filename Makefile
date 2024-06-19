@@ -26,6 +26,9 @@ SE_FILES 	= src/exec/exec_builtin.c \
 				src/exec/signals.c \
 				src/exec/exec.c \
 				src/exec/heredoc.c \
+				src/exec/exec_cmd.c \
+				src/exec/exec_pipes.c \
+				src/exec/exec_redir.c \
 
 SP_FILES	= src/pars/cmd_check_outils.c \
 				src/pars/cmd_check.c \

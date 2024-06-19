@@ -51,3 +51,33 @@ int	get_hd_fd(t_main *p, t_list_env *env, int *code)
 		return (STDIN_FILENO);
 	return (fd_hd);
 }
+
+void	ft_wait(int num_pipes, int (*pipes)[2], int *code)
+{
+    int		status;
+    pid_t	pid;
+    int		i;
+
+    while ((pid = wait(&status)) > 0)
+    {
+        if (WIFEXITED(status)) {
+            *code = WEXITSTATUS(status);
+        } else if (WIFSIGNALED(status)) {
+            *code = WTERMSIG(status) + 128;
+            if (WTERMSIG(status) == SIGINT) {
+                write(STDERR_FILENO, "\n", 1);
+            } else if (WTERMSIG(status) == SIGQUIT) {
+                write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+            }
+        } else {
+            *code = 1;
+        }
+    }
+    i = 0;
+    while(i < num_pipes)
+	{
+        close(pipes[i][0]);
+        close(pipes[i][1]);
+        i++;
+    }
+}
