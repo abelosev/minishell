@@ -1,4 +1,4 @@
-# MINISHELL-TESTER
+#!/bin/bash
 
 RESET="\033[0m"
 BLACK="\033[30m"
