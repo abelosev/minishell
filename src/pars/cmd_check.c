@@ -94,7 +94,7 @@ int	cmd_check(char **str, t_list_env *env)
 
 	if (is_built(*str) != 0)
 		code = 0;
-	else if (is_folder(*str))
+	else if (is_folder(*str)) //++
 		code = 126;
 	else if (!ft_strchr(*str, '/'))
 		code = cmd_standart(str, env);

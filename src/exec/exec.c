@@ -26,19 +26,19 @@ void	close_all_pipes(int **pipes, int num_pipes)
 	free_tab_int(pipes, num_pipes);
 }
 
-void execute_command(t_main *p, t_list_env *env, int *code, int fd_in, int fd_out)
+void execute_command(t_main *p, t_list_env *env, t_exec *e, int *code)
 {
     if (is_built(p->group->cmd[0]) != 0)
-        exec_builtin(p->group, env, p, fd_out, code);
+        exec_builtin(p->group, env, p, e->fd_out, code);
     else
-        ft_cmd(p->group, env, fd_in, fd_out, code);
+        ft_cmd(p->group, env, e->fd_in, e->fd_out, code);
 }
 
-void	create_pipe_and_fork(t_main *p, t_list_env *env, int *code, int *fd_in, int pipe_fd[2])
+void	create_pipe_and_fork(t_main *p, t_list_env *env, t_exec *e, int *code)
 {
 	pid_t pid;
 
-    if (pipe(pipe_fd) == -1)
+    if (pipe(e->pipe_fd) == -1)
 	{
         perror("pipe failed");
         *code = 1;
@@ -53,45 +53,35 @@ void	create_pipe_and_fork(t_main *p, t_list_env *env, int *code, int *fd_in, int
     }
 	else if (pid == 0)
 	{
-        close(pipe_fd[0]);
-        dup2(pipe_fd[1], STDOUT_FILENO);
-        close(pipe_fd[1]);
-        execute_command(p, env, code, *fd_in, STDOUT_FILENO);
+        close(e->pipe_fd[0]);
+        dup2(e->pipe_fd[1], STDOUT_FILENO);
+        close(e->pipe_fd[1]);
+		e->fd_out = STDOUT_FILENO;
+        execute_command(p, env, e, code);
         *code = 1;
         exit(1);
     }
 	else
 	{
 		// exec->last_pid = pid; 
-        close(pipe_fd[1]);
-        *fd_in = pipe_fd[0];
+        close(e->pipe_fd[1]);
+        e->fd_in = e->pipe_fd[0];
     }
 }
 
-void handle_redirection_and_fork(t_main *p, t_list_env *env, int *code, int *fd_in, int *fd_out, int pipe_fd[2])
+void handle_redirection_and_fork(t_main *p, t_list_env *env, t_exec *e, int *code)
 {
-    if (open_redir(p->group, fd_in, fd_out) || *fd_out < 0)
+    if (open_redir(p->group, &e->fd_in, &e->fd_out) || e->fd_out < 0)
 	{
         ft_putstr_err("open output failed\n");
         *code = 1;
         return;
     }
-    do_redir(p->group, p, env, *fd_in, *fd_out, code);
-    close(*fd_out);
+    do_redir(p->group, p, env, e->fd_in, e->fd_out, code);
+    close(e->fd_out);
     if (p->group->next)
-        create_pipe_and_fork(p, env, code, fd_in, pipe_fd);
+        create_pipe_and_fork(p, env, e, code);
 }
-
-typedef struct s_exec
-{
-	int group_count;
-    int fd_in;
-    int fd_out;
-	int **pipes;
-	int pipe_index;
-	int pipe_fd[2];
-	int last_pid;
-}	t_exec;
 
 void ft_exec(t_main *p, t_list_env *env, int *code)
 {
@@ -122,9 +112,9 @@ void ft_exec(t_main *p, t_list_env *env, int *code)
         if (p->group->flag_fail == 0 && p->group->cmd && *(p->group->cmd))
 		{
             if (is_redir(p->group))
-                handle_redirection_and_fork(p, env, code, &e.fd_in, &e.fd_out, e.pipe_fd);
+                handle_redirection_and_fork(p, env, &e, code);
 			else
-                execute_command(p, env, code, e.fd_in, e.fd_out);
+                execute_command(p, env, &e, code);
         }
 		else if (p->group->flag_fail != 0)
             *code = p->group->flag_fail;
@@ -139,7 +129,8 @@ void ft_exec(t_main *p, t_list_env *env, int *code)
         }
         p->group = p->group->next;
     }
-    // ft_wait((group_count - 1) * 2, pipes, code);
+    // ft_wait((group_count - 1), pipes, code);
+
 	// if (exec.last_pid != -1)
     // {
     //     int status;
@@ -151,6 +142,7 @@ void ft_exec(t_main *p, t_list_env *env, int *code)
     // }
     if(e.group_count > 1)
 		close_all_pipes(e.pipes, e.group_count - 1);
+	p->group = start;
     if (p)
         free_main(p);
 }

@@ -52,13 +52,12 @@ int	get_hd_fd(t_main *p, t_list_env *env, int *code)
 	return (fd_hd);
 }
 
-void	ft_wait(int num_pipes, int (*pipes)[2], int *code)
+void	ft_wait(pid_t last_pid, int *code)
 {
     int		status;
-    pid_t	pid;
     int		i;
 
-    while ((pid = wait(&status)) > 0)
+    while ((last_pid = wait(&status)) > 0)
     {
         if (WIFEXITED(status)) {
             *code = WEXITSTATUS(status);
@@ -72,12 +71,5 @@ void	ft_wait(int num_pipes, int (*pipes)[2], int *code)
         } else {
             *code = 1;
         }
-    }
-    i = 0;
-    while(i < num_pipes)
-	{
-        close(pipes[i][0]);
-        close(pipes[i][1]);
-        i++;
     }
 }

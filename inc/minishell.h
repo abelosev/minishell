@@ -65,20 +65,16 @@ typedef struct s_main
 	t_group	*group;
 }	t_main;
 
-// typedef struct s_exec
-// {
-// //     t_main *p;
-// //     t_list_env *env;
-// //     int *code;
-//     // t_group *curr;
-//     int fd_in;
-//     int fd_out;
-//     int (*pipes)[2];
-//     int num_pipes;
-//     int pipe_index;
-//     int pipe_fd[2];
-// 	pid_t last_pid;
-// }	t_exec;
+typedef struct s_exec
+{
+	int group_count;
+    int fd_in;
+    int fd_out;
+	int **pipes;
+	int pipe_index;
+	int pipe_fd[2];
+	int last_pid;
+}	t_exec;
 
 
 ////////////////// FONCTIONS //////////////////
