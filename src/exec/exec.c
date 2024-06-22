@@ -26,15 +26,15 @@ void	close_all_pipes(int **pipes, int num_pipes)
 	free_tab_int(pipes, num_pipes);
 }
 
-void execute_command(t_main *p, t_list_env *env, int *code, t_group *curr, int fd_in, int fd_out)
+void execute_command(t_main *p, t_list_env *env, int *code, int fd_in, int fd_out)
 {
-    if (is_built(curr->cmd[0]) != 0)
-        exec_builtin(curr, env, p, fd_out, code);
+    if (is_built(p->group->cmd[0]) != 0)
+        exec_builtin(p->group, env, p, fd_out, code);
     else
-        ft_cmd(curr, env, fd_in, fd_out, code);
+        ft_cmd(p->group, env, fd_in, fd_out, code);
 }
 
-void	create_pipe_and_fork(t_main *p, t_list_env *env, int *code, t_group *curr, int *fd_in, int pipe_fd[2])
+void	create_pipe_and_fork(t_main *p, t_list_env *env, int *code, int *fd_in, int pipe_fd[2])
 {
 	pid_t pid;
 
@@ -56,7 +56,7 @@ void	create_pipe_and_fork(t_main *p, t_list_env *env, int *code, t_group *curr, 
         close(pipe_fd[0]);
         dup2(pipe_fd[1], STDOUT_FILENO);
         close(pipe_fd[1]);
-        execute_command(p, env, code, curr, *fd_in, STDOUT_FILENO);
+        execute_command(p, env, code, *fd_in, STDOUT_FILENO);
         *code = 1;
         exit(1);
     }
@@ -68,64 +68,76 @@ void	create_pipe_and_fork(t_main *p, t_list_env *env, int *code, t_group *curr, 
     }
 }
 
-void handle_redirection_and_fork(t_main *p, t_list_env *env, int *code, t_group *curr, int *fd_in, int *fd_out, int pipe_fd[2])
+void handle_redirection_and_fork(t_main *p, t_list_env *env, int *code, int *fd_in, int *fd_out, int pipe_fd[2])
 {
-    if (open_redir(curr, fd_in, fd_out) || *fd_out < 0)
+    if (open_redir(p->group, fd_in, fd_out) || *fd_out < 0)
 	{
         ft_putstr_err("open output failed\n");
         *code = 1;
         return;
     }
-    do_redir(curr, p, env, *fd_in, *fd_out, code);
+    do_redir(p->group, p, env, *fd_in, *fd_out, code);
     close(*fd_out);
-    if (curr->next)
-        create_pipe_and_fork(p, env, code, curr, fd_in, pipe_fd);
+    if (p->group->next)
+        create_pipe_and_fork(p, env, code, fd_in, pipe_fd);
 }
+
+typedef struct s_exec
+{
+	int group_count;
+    int fd_in;
+    int fd_out;
+	int **pipes;
+	int pipe_index;
+	int pipe_fd[2];
+	int last_pid;
+}	t_exec;
 
 void ft_exec(t_main *p, t_list_env *env, int *code)
 {
-    t_group *curr = p->group;
-    int group_count = group_nb(curr);
-    int fd_in = get_hd_fd(p, env, code);
-    int fd_out;
-    int **pipes = NULL;
-    int num_pipes = group_count - 1;
-    int pipe_index = 0;
-    int pipe_fd[2];
-	// exec.last_pid = -1;
+    t_group *start;
+	t_exec	e;
 
-    if (group_count > 1)
+	start = p->group;
+	e.group_count = group_nb(p->group);
+	// e.num_pipes = e.group_count - 1;
+	e.fd_in = get_hd_fd(p, env, code);
+	e.pipes = NULL;
+	e.pipe_index = 0;
+	e.last_pid = -1;
+
+    if (e.group_count > 1)
 	{
-		if(create_pipes((num_pipes) * 2, &pipes) != 0)
+		if(create_pipes((e.group_count - 1), &e.pipes) != 0)
 		{
 			*code = 1;
 			return ;
 		}
 	}
-    while (curr)
+    while (p->group)
 	{
-        fd_out = STDOUT_FILENO;
-        if (curr->next)
-            fd_out = pipes[pipe_index][1];
-        if (curr->flag_fail == 0 && curr->cmd && *(curr->cmd))
+        e.fd_out = STDOUT_FILENO;
+        if (p->group->next)
+            e.fd_out = e.pipes[e.pipe_index][1];
+        if (p->group->flag_fail == 0 && p->group->cmd && *(p->group->cmd))
 		{
-            if (is_redir(curr))
-                handle_redirection_and_fork(p, env, code, curr, &fd_in, &fd_out, pipe_fd);
+            if (is_redir(p->group))
+                handle_redirection_and_fork(p, env, code, &e.fd_in, &e.fd_out, e.pipe_fd);
 			else
-                execute_command(p, env, code, curr, fd_in, fd_out);
+                execute_command(p, env, code, e.fd_in, e.fd_out);
         }
-		else if (curr->flag_fail != 0)
-            *code = curr->flag_fail;
+		else if (p->group->flag_fail != 0)
+            *code = p->group->flag_fail;
 
-        if (fd_in != STDIN_FILENO)
-            close(fd_in);
-        if (curr->next)
+        if (e.fd_in != STDIN_FILENO)
+            close(e.fd_in);
+        if (p->group->next)
 		{
-            close(pipes[pipe_index][1]);
-            fd_in = pipes[pipe_index][0];
-            pipe_index += 1;
+            close(e.pipes[e.pipe_index][1]);
+            e.fd_in = e.pipes[e.pipe_index][0];
+            e.pipe_index += 1;
         }
-        curr = curr->next;
+        p->group = p->group->next;
     }
     // ft_wait((group_count - 1) * 2, pipes, code);
 	// if (exec.last_pid != -1)
@@ -137,8 +149,8 @@ void ft_exec(t_main *p, t_list_env *env, int *code)
     //     else
     //         *(exec.code) = 1;
     // }
-    if(group_count > 1)
-		close_all_pipes(pipes, num_pipes);
+    if(e.group_count > 1)
+		close_all_pipes(e.pipes, e.group_count - 1);
     if (p)
         free_main(p);
 }

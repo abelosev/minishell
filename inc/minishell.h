@@ -120,7 +120,7 @@ int				group_nb(t_group *group);
 void			ft_wait(int num_pipes, int (*pipes)[2], int *code);
 void			exec_builtin(t_group *group, t_list_env *env, t_main *p, int fd_out, int *code);
 void			ft_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out, int *code);
-int	create_pipes(int num_pipes, int ***pipes);
+int				create_pipes(int num_pipes, int ***pipes);
 
 //main_outils
 int				check_group(t_main *parsed, char *line, int *code);
