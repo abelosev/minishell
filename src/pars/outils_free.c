@@ -33,6 +33,26 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
+void	free_tab_int(int **tab, int len)
+{
+	int	i;
+
+	if (!tab)
+		return ;
+	if (tab && !(*tab))
+	{
+		free(tab);
+		return ;
+	}
+	i = 0;
+	while (i < len)
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
 void	free_tokens(t_tokens *list)
 {
 	t_tokens	*tmp;

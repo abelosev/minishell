@@ -61,11 +61,25 @@ typedef struct s_list_env
 typedef struct s_main
 {
 	char	*hd_del;
-	int		redir_fd[2];
-	int		pipe_fd[3];
 	// int		*code;
 	t_group	*group;
 }	t_main;
+
+// typedef struct s_exec
+// {
+// //     t_main *p;
+// //     t_list_env *env;
+// //     int *code;
+//     // t_group *curr;
+//     int fd_in;
+//     int fd_out;
+//     int (*pipes)[2];
+//     int num_pipes;
+//     int pipe_index;
+//     int pipe_fd[2];
+// 	pid_t last_pid;
+// }	t_exec;
+
 
 ////////////////// FONCTIONS //////////////////
 
@@ -106,7 +120,7 @@ int				group_nb(t_group *group);
 void			ft_wait(int num_pipes, int (*pipes)[2], int *code);
 void			exec_builtin(t_group *group, t_list_env *env, t_main *p, int fd_out, int *code);
 void			ft_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out, int *code);
-void			create_pipes(int num_pipes, int (*pipes)[2]);
+int	create_pipes(int num_pipes, int ***pipes);
 
 //main_outils
 int				check_group(t_main *parsed, char *line, int *code);
@@ -129,6 +143,7 @@ void			free_tab(char **tab);
 void			free_envp_list(t_list_env *list);
 void			free_group_list(t_group *group);
 void			free_main(t_main *parsed);
+void			free_tab_int(int **tab, int len);
 
 //outils
 void			print_env_list(t_list_env *list, int fd);

@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-
-void	close_all_pipes(int pipes[][2], int num_pipes)
+void	close_all_pipes(int **pipes, int num_pipes)
 {
 	int i;
 
@@ -24,6 +23,7 @@ void	close_all_pipes(int pipes[][2], int num_pipes)
         close(pipes[i][1]);
 		i++;
     }
+	free_tab_int(pipes, num_pipes);
 }
 
 void execute_command(t_main *p, t_list_env *env, int *code, t_group *curr, int fd_in, int fd_out)
@@ -62,6 +62,7 @@ void	create_pipe_and_fork(t_main *p, t_list_env *env, int *code, t_group *curr, 
     }
 	else
 	{
+		// exec->last_pid = pid; 
         close(pipe_fd[1]);
         *fd_in = pipe_fd[0];
     }
@@ -81,18 +82,26 @@ void handle_redirection_and_fork(t_main *p, t_list_env *env, int *code, t_group 
         create_pipe_and_fork(p, env, code, curr, fd_in, pipe_fd);
 }
 
-void ft_exec(t_main *p, t_list_env *env, int *code) {
+void ft_exec(t_main *p, t_list_env *env, int *code)
+{
     t_group *curr = p->group;
     int group_count = group_nb(curr);
     int fd_in = get_hd_fd(p, env, code);
     int fd_out;
-    int pipes[(group_count - 1) * 2][2];
+    int **pipes = NULL;
     int num_pipes = group_count - 1;
     int pipe_index = 0;
     int pipe_fd[2];
+	// exec.last_pid = -1;
 
     if (group_count > 1)
-        create_pipes((group_count - 1) * 2, pipes);
+	{
+		if(create_pipes((num_pipes) * 2, &pipes) != 0)
+		{
+			*code = 1;
+			return ;
+		}
+	}
     while (curr)
 	{
         fd_out = STDOUT_FILENO;
@@ -107,17 +116,29 @@ void ft_exec(t_main *p, t_list_env *env, int *code) {
         }
 		else if (curr->flag_fail != 0)
             *code = curr->flag_fail;
+
         if (fd_in != STDIN_FILENO)
             close(fd_in);
-        if (curr->next) {
+        if (curr->next)
+		{
             close(pipes[pipe_index][1]);
             fd_in = pipes[pipe_index][0];
             pipe_index += 1;
         }
         curr = curr->next;
     }
-    ft_wait((group_count - 1) * 2, pipes, code);
-    close_all_pipes(pipes, num_pipes);
+    // ft_wait((group_count - 1) * 2, pipes, code);
+	// if (exec.last_pid != -1)
+    // {
+    //     int status;
+    //     waitpid(exec.last_pid, &status, 0);
+    //     if (WIFEXITED(status))
+    //         *(exec.code) = WEXITSTATUS(status);
+    //     else
+    //         *(exec.code) = 1;
+    // }
+    if(group_count > 1)
+		close_all_pipes(pipes, num_pipes);
     if (p)
         free_main(p);
 }
