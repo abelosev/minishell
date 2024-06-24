@@ -58,31 +58,31 @@ int	open_redir(t_group *group, int *fd_in, int *fd_out)
 //     }
 // }
 
-void	do_redir(t_group *group, t_main *p, t_list_env *env, int fd_in, int fd_out, int *code)
+void	do_redir(t_group *group, t_main *p, t_list_env *env, t_exec *e, int *code)
 {
     int	new_fd_in;
     int	new_fd_out;
     
-    new_fd_in = fd_in;
-	new_fd_out = fd_out;
+    new_fd_in = e->fd_in;
+	new_fd_out = e->fd_out;
     if (open_redir(group, &new_fd_in, &new_fd_out))
     {
         *code = 1;
         return;
     }
     if (is_built(group->cmd[0]) != 0)
-        exec_builtin(group, env, p, fd_out, code);
+        exec_builtin(group, env, p, e->fd_out, e, code);
     else
-        ft_cmd(group, env, fd_in, fd_out, code);
-    if (new_fd_in != fd_in)
+        ft_cmd(group, env, e, code);
+    if (new_fd_in != e->fd_in)
     {
         close(new_fd_in);
-        dup2(STDIN_FILENO, fd_in);
+        dup2(STDIN_FILENO, e->fd_in);
     }
-    if (new_fd_out != fd_out)
+    if (new_fd_out != e->fd_out)
     {
         close(new_fd_out);
-        dup2(STDOUT_FILENO, fd_out);
+        dup2(STDOUT_FILENO, e->fd_out);
     }
 }
 

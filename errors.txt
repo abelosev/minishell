@@ -1,24 +1,30 @@
+
+************************************** Why signals don't work for mini-env situation?
+
 made-f0Ar11s10% env -i ./minishell
 >$ env
 PWD=/mnt/nfs/homes/abelosev/minishell
 SHLVL=1
 _=/usr/bin/env
->$ %                                                                                                                               
+>$ %                           //Ctrl + D (???) => code err = 1 (???)                                                                                                    
 made-f0Ar11s10% 
 
 
-**************************************
+************************************** Error code pb (should be 127) : due to fr_wait2 function
+
+>$ ls | iohiouh
+iohiouh: Command not found
+>$ echo $?
+0
 
 
+>$ wc -l | ihoiuhih
+ihoiuhih: Command not found
 
-abelosev@made-f0Ar11s10:~/minishell$ ./minishell 
->$ wc | lihihiuh
-lihihiuh: Command not found
->$ 
->$ 
-abelosev@made-f0Ar11s10:~/minishell$ /usr/bin/wc: 'standard input': Input/output error
+>$ echo $?
+0
 
-****
+************************************** Leaks (?)
 
 ./minishell from ./minishell
 
@@ -41,31 +47,6 @@ t_exec memory
 **************************************
 
 исправить сигналы + потестить вручную
-
-**************************************
-
-STILL WAITS FOR ENTER !!!
-
-after waitpid changes: 
-
-
-abelosev@made-f0Ar11s10:~/minishell$ ./minishell 
->$ cat t | wc - l
->$       1       1       4 -
-/usr/bin/wc: l: No such file or directory
-      1       1       4 total
-^C
->$ 
-
-
->$ iuhiouh
-iuhiouh: Command not found
->$ poujij | wc -l
-poujij: Command not found
->$ 0
-
->$ echo $?
-127                     // ?????
 
 **************************************
 
@@ -96,3 +77,231 @@ declare -x _=/Users/anabelosevich/minishell_perso/./minishell
 **************************************
 
 подумать, нужна ли g_status
+
+
+
+
+
+
+
+
+
+
+
+
+made-f0Br2s6% make valgrind 
+valgrind --suppressions=/mnt/nfs/homes/abelosev/minishell/ignore_readline --trace-children=yes \
+        --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
+        ./minishell
+==1358412== Memcheck, a memory error detector
+==1358412== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1358412== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1358412== Command: ./minishell
+==1358412== 
+.>$ ./minishell 
+==1358420== Memcheck, a memory error detector
+==1358420== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1358420== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1358420== Command: ./minishell
+==1358420== 
+>$ ls
+==1358452== Memcheck, a memory error detector
+==1358452== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1358452== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1358452== Command: /usr/bin/ls
+==1358452== 
+deps        file             inc    Makefile   obj  t
+errors.txt  ignore_readline  libft  minishell  src  tester
+==1358452== 
+==1358452== FILE DESCRIPTORS: 6 open (1 std) at exit.
+==1358452== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==1358452==    <inherited from parent>
+==1358452== 
+==1358452== Open file descriptor 42: /dev/ptmx
+==1358452==    <inherited from parent>
+==1358452== 
+==1358452== Open AF_UNIX socket 39: <unknown>
+==1358452==    <inherited from parent>
+==1358452== 
+==1358452== Open file descriptor 38: /usr/share/code/resources/app/node_modules.asar
+==1358452==    <inherited from parent>
+==1358452== 
+==1358452== Open file descriptor 37: /mnt/nfs/homes/abelosev/.config/Code/logs/20240624T162315/ptyhost.log
+==1358452==    <inherited from parent>
+==1358452== 
+==1358452== 
+==1358452== HEAP SUMMARY:
+==1358452==     in use at exit: 23,587 bytes in 19 blocks
+==1358452==   total heap usage: 56 allocs, 37 frees, 63,142 bytes allocated
+==1358452== 
+==1358452== LEAK SUMMARY:
+==1358452==    definitely lost: 0 bytes in 0 blocks
+==1358452==    indirectly lost: 0 bytes in 0 blocks
+==1358452==      possibly lost: 0 bytes in 0 blocks
+==1358452==    still reachable: 0 bytes in 0 blocks
+==1358452==         suppressed: 23,587 bytes in 19 blocks
+==1358452== 
+==1358452== For lists of detected and suppressed errors, rerun with: -s
+==1358452== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+>$ env
+USER=abelosev
+GIT_ASKPASS=/usr/share/code/resources/app/extensions/git/dist/askpass.sh
+XDG_SESSION_TYPE=x11
+SHLVL=4
+LD_LIBRARY_PATH=/usr/lib/debug
+OLDPWD=/mnt/nfs/homes/abelosev/minishell
+CHROME_DESKTOP=code-url-handler.desktop
+HOME=/mnt/nfs/homes/abelosev
+DESKTOP_SESSION=ubuntu
+TERM_PROGRAM_VERSION=1.89.1
+VSCODE_GIT_ASKPASS_MAIN=/usr/share/code/resources/app/extensions/git/dist/askpass-main.js
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+GTK_MODULES=gail:atk-bridge
+VSCODE_GIT_ASKPASS_NODE=/usr/share/code/code
+MANAGERPID=1273814
+MAKEFLAGS=
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/38961/bus
+SYSTEMD_EXEC_PID=1274550
+TERMINATOR_DBUS_NAME=net.tenshu.Terminator21a9d5db22c73a993ff0b42f64b396873
+LIBVIRT_DEFAULT_URI=qemu:///system
+GIO_LAUNCHED_DESKTOP_FILE_PID=1274865
+COLORTERM=truecolor
+MAKE_TERMERR=/dev/pts/3
+GTK_IM_MODULE=ibus
+LOGNAME=abelosev
+_=/usr/bin/make
+JOURNAL_STREAM=8:3579782
+USER_ZDOTDIR=/mnt/nfs/homes/abelosev
+XDG_SESSION_CLASS=user
+TERM=xterm-256color
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+PATH=/mnt/nfs/homes/abelosev/bin:/mnt/nfs/homes/abelosev/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/nfs/homes/abelosev/.local/bin:/mnt/nfs/homes/abelosev/.local/bin
+SESSION_MANAGER=local/made-f0Br2s6.clusters.42paris.fr:@/tmp/.ICE-unix/1274365,unix/made-f0Br2s6.clusters.42paris.fr:/tmp/.ICE-unix/1274365
+INVOCATION_ID=f24eefc129c04cb6a0ebab3df35146dc
+GDK_BACKEND=x11
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session14
+XDG_RUNTIME_DIR=/run/user/38961
+XDG_MENU_PREFIX=gnome-
+MAKELEVEL=1
+GLIBCPP_FORCE_NEW=1
+DISPLAY=:0
+VSCODE_INJECTION=1
+LANG=en_US.UTF-8
+TERMINATOR_DBUS_PATH=/net/tenshu/Terminator2
+IBUS_DISABLE_SNOOPER=1
+XDG_CURRENT_DESKTOP=Unity
+XAUTHORITY=/mnt/nfs/homes/abelosev/.Xauthority
+XDG_SESSION_DESKTOP=ubuntu
+XMODIFIERS=@im=ibus
+VSCODE_GIT_IPC_HANDLE=/run/user/38961/vscode-git-963f1fe986.sock
+TERM_PROGRAM=vscode
+SSH_AGENT_LAUNCHER=gnome-keyring
+SSH_AUTH_SOCK=/run/user/38961/keyring/ssh
+ORIGINAL_XDG_CURRENT_DESKTOP=ubuntu:GNOME
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/abelosev
+TERMINATOR_UUID=urn:uuid:5e2b5098-c2bd-4436-bb6c-2df6390fd992
+KRB5CCNAME=FILE:/tmp/krb5cc_38961_X5aP1e
+SHELL=/bin/zsh
+QT_ACCESSIBILITY=1
+MAKE_TERMOUT=/dev/pts/3
+GDMSESSION=ubuntu
+DOCKER_HOST=unix:///run/user/38961/docker.sock
+GPG_AGENT_INFO=/run/user/38961/gnupg/S.gpg-agent:0:1
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+QT_IM_MODULE=ibus
+PWD=/mnt/nfs/homes/abelosev/minishell
+XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/mnt/nfs/homes/abelosev/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+ZDOTDIR=/mnt/nfs/homes/abelosev
+MFLAGS=
+VTE_VERSION=6800
+GLIBCXX_FORCE_NEW=1
+LD_PRELOAD=/usr/libexec/valgrind/vgpreload_core-amd64-linux.so:/usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so:
+VALGRIND_LIB=/usr/libexec/valgrind
+>$ echo $?
+0
+>$ ^C
+>$ echo $?
+0
+>$ 
+==1358420== 
+==1358420== FILE DESCRIPTORS: 8 open (3 std) at exit.
+==1358420== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==1358420==    <inherited from parent>
+==1358420== 
+==1358420== Open file descriptor 42: /dev/ptmx
+==1358420==    <inherited from parent>
+==1358420== 
+==1358420== Open AF_UNIX socket 39: <unknown>
+==1358420==    <inherited from parent>
+==1358420== 
+==1358420== Open file descriptor 38: /usr/share/code/resources/app/node_modules.asar
+==1358420==    <inherited from parent>
+==1358420== 
+==1358420== Open file descriptor 37: /mnt/nfs/homes/abelosev/.config/Code/logs/20240624T162315/ptyhost.log
+==1358420==    <inherited from parent>
+==1358420== 
+==1358420== 
+==1358420== HEAP SUMMARY:
+==1358420==     in use at exit: 208,192 bytes in 222 blocks
+==1358420==   total heap usage: 1,138 allocs, 916 frees, 246,336 bytes allocated
+==1358420== 
+==1358420== LEAK SUMMARY:
+==1358420==    definitely lost: 0 bytes in 0 blocks
+==1358420==    indirectly lost: 0 bytes in 0 blocks
+==1358420==      possibly lost: 0 bytes in 0 blocks
+==1358420==    still reachable: 0 bytes in 0 blocks
+==1358420==         suppressed: 208,192 bytes in 222 blocks
+==1358420== 
+==1358420== For lists of detected and suppressed errors, rerun with: -s
+==1358420== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+256>$ echo $?
+256
+>$ exit
+exit
+==1358412== 
+==1358412== FILE DESCRIPTORS: 8 open (3 std) at exit.
+==1358412== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==1358412==    <inherited from parent>
+==1358412== 
+==1358412== Open file descriptor 42: /dev/ptmx
+==1358412==    <inherited from parent>
+==1358412== 
+==1358412== Open AF_UNIX socket 39: <unknown>
+==1358412==    <inherited from parent>
+==1358412== 
+==1358412== Open file descriptor 38: /usr/share/code/resources/app/node_modules.asar
+==1358412==    <inherited from parent>
+==1358412== 
+==1358412== Open file descriptor 37: /mnt/nfs/homes/abelosev/.config/Code/logs/20240624T162315/ptyhost.log
+==1358412==    <inherited from parent>
+==1358412== 
+==1358412== 
+==1358412== HEAP SUMMARY:
+==1358412==     in use at exit: 208,200 bytes in 224 blocks
+==1358412==   total heap usage: 922 allocs, 698 frees, 271,947 bytes allocated
+==1358412== 
+==1358412== 4 bytes in 1 blocks are still reachable in loss record 2 of 65
+==1358412==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1358412==    by 0x4036EB: init_exec (exec.c:112)
+==1358412==    by 0x403814: ft_exec (exec.c:135)
+==1358412==    by 0x402D51: minishell_loop (main.c:49)
+==1358412==    by 0x402E31: main (main.c:77)
+==1358412== 
+==1358412== 4 bytes in 1 blocks are definitely lost in loss record 4 of 65
+==1358412==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1358412==    by 0x4091F1: ft_itoa (ft_itoa.c:67)
+==1358412==    by 0x40172D: ft_wait2 (exec_outils.c:80)
+==1358412==    by 0x4039BA: ft_exec (exec.c:169)
+==1358412==    by 0x402D51: minishell_loop (main.c:49)
+==1358412==    by 0x402E31: main (main.c:77)
+==1358412== 
+==1358412== LEAK SUMMARY:
+==1358412==    definitely lost: 4 bytes in 1 blocks
+==1358412==    indirectly lost: 0 bytes in 0 blocks
+==1358412==      possibly lost: 0 bytes in 0 blocks
+==1358412==    still reachable: 4 bytes in 1 blocks
+==1358412==         suppressed: 208,192 bytes in 222 blocks
+==1358412== 
+==1358412== For lists of detected and suppressed errors, rerun with: -s
+==1358412== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

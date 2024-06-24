@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:13:32 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/24 15:47:58 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/24 20:12:53 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,33 @@ int	get_hd_fd(t_main *p, t_list_env *env, int *code)
 	return (fd_hd);
 }
 
-// void	ft_wait(pid_t last_pid, int *code)
-// {
-//     int		status;
+void ft_wait2(t_exec *e, int *code)
+{
+	int i;
 
-//     while ((last_pid = wait(&status)) > 0)
-//     {
-//         if (WIFEXITED(status)) {
-//             *code = WEXITSTATUS(status);
-//         } else if (WIFSIGNALED(status)) {
-//             *code = WTERMSIG(status) + 128;
-//             if (WTERMSIG(status) == SIGINT) {
-//                 write(STDERR_FILENO, "\n", 1);
-//             } else if (WTERMSIG(status) == SIGQUIT) {
-//                 write(STDERR_FILENO, "Quit (core dumped)\n", 19);
-//             }
-//         } else {
-//             *code = 1;
-//         }
-//     }
-// }
+	i = 0;
+	while(i < e->group_count)
+	{
+		if(e->cpid[i] != -1)
+		{
+			// signal(SIGINT, ft_sigint);
+        	// signal(SIGQUIT, ft_sigquit);
+			waitpid(e->cpid[i], code, 0);
+			// if(e->cpid[i] == e->last_pid)
+			// {
+				// if (*code == SIGINT)
+				// {
+				// 	// ft_putstr_err( "\n");
+				// 	*code = SIGINT + 128;
+				// }
+				// else if (*code == 131)
+				// {
+				// 	ft_putstr_err( "Quit (core dumped)\n");
+				// 	// *code = 131;
+				// }
+			// }
+		}
+		i++;
+	}
+	// free(e->cpid);
+}

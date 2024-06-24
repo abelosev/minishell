@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/24 15:52:31 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/24 20:07:56 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ typedef struct s_exec
 	int **pipes;
 	int pipe_index;
 	int pipe_fd[2];
-	int last_pid;
+	pid_t last_pid;
+	pid_t *cpid;
+	int	cpid_index;
 }	t_exec;
 
 
@@ -112,11 +114,13 @@ int				ft_unset(t_group *group, t_list_env **env);
 void			ft_exec(t_main *p, t_list_env *env, int *code);
 int				is_redir(t_group *group);
 int				open_redir(t_group *group, int *fd_in, int *fd_out);
-void			do_redir(t_group *group, t_main *p, t_list_env *env, int fd_in, int fd_out, int *code);
+void			do_redir(t_group *group, t_main *p, t_list_env *env, t_exec *e, int *code);
 int				group_nb(t_group *group);
-void    		ft_wait(pid_t last_pid, int *code);
-void			exec_builtin(t_group *group, t_list_env *env, t_main *p, int fd_out, int *code);
-void			ft_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out, int *code);
+// void    		ft_wait(pid_t last_pid, int *code);
+void ft_wait2(t_exec *e, int *code);
+
+void    exec_builtin(t_main *p, t_list_env *env, t_exec *e, int *code);
+void	ft_cmd(t_group *group, t_list_env *env, t_exec *e, int *code);
 int				create_pipes(int num_pipes, int ***pipes);
 
 //main_outils
@@ -132,8 +136,9 @@ char			*heredoc(t_list_env *env, char *del, int *code);
 int				get_hd_fd(t_main *p, t_list_env *env, int *code);
 
 //signals
-void			ft_sigint(int signal);
+void	ft_sigint(int signal);
 void			ft_sigint_hd(int signal);
+void ft_sigquit(int signal);
 
 //free
 void			free_tab(char **tab);

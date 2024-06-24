@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:14:34 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/24 15:02:26 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/24 20:12:20 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 int	exit_minishell(t_list_env *env, char *line, t_main *p, int code)
 {
-	// ft_putstr_err("exit\n");
 	free_envp_list(env);
 	if (line)
 		free(line);
@@ -53,6 +52,8 @@ void	minishell_loop(t_list_env *env, int *code)
 	if(env)
 		free_envp_list(env);
 	clear_history();
+	if (g_status != 0) //to make sure
+		*code = g_status;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -75,7 +76,7 @@ int	main(int argc, char **argv, char **envp)
 	minishell_loop(new_env, &code);
 	if(new_env)
 		free_envp_list(new_env);
-	if (g_status != 0) //to make sure
-		code = g_status;
+	// if (g_status != 0) //to make sure
+	// 	code = g_status;
 	return (code);
 }
