@@ -1,0 +1,98 @@
+made-f0Ar11s10% env -i ./minishell
+>$ env
+PWD=/mnt/nfs/homes/abelosev/minishell
+SHLVL=1
+_=/usr/bin/env
+>$ %                                                                                                                               
+made-f0Ar11s10% 
+
+
+**************************************
+
+
+
+abelosev@made-f0Ar11s10:~/minishell$ ./minishell 
+>$ wc | lihihiuh
+lihihiuh: Command not found
+>$ 
+>$ 
+abelosev@made-f0Ar11s10:~/minishell$ /usr/bin/wc: 'standard input': Input/output error
+
+****
+
+./minishell from ./minishell
+
+**************************************
+
+t_exec memory
+
+**************************************
+
+./Makefile и hola (разные codes d'erreurs: 126 et 127)
+
+**************************************
+
+убедиться, что нет leaks в случае env -i
+
+**************************************
+
+сделать нормальную структуру для exec и переписать функции (= сделать Norme)
+
+**************************************
+
+исправить сигналы + потестить вручную
+
+**************************************
+
+STILL WAITS FOR ENTER !!!
+
+after waitpid changes: 
+
+
+abelosev@made-f0Ar11s10:~/minishell$ ./minishell 
+>$ cat t | wc - l
+>$       1       1       4 -
+/usr/bin/wc: l: No such file or directory
+      1       1       4 total
+^C
+>$ 
+
+
+>$ iuhiouh
+iuhiouh: Command not found
+>$ poujij | wc -l
+poujij: Command not found
+>$ 0
+
+>$ echo $?
+127                     // ?????
+
+**************************************
+
+исправить exit (когда он не один)
+
+**************************************
+
+должен ли export выводить последнюю строку?
+declare -x _=/Users/anabelosevich/minishell_perso/./minishell
+добавить "" в вывод export
+
+**************************************
+
+проверить, запускается ли билтин env после unset PATH : why make: *** [Makefile:121: valgrind] Error 127 ?
+
+**************************************
+
+уточнить, нужно ли добавить в makefile удаление deps
+
+**************************************
+
+\ и ; - запрещенные символы (добавить чек?)
+
+**************************************
+
+уточнить, не нужно ли тут правило для valgrind : .PHONY: all clean fclean re
+
+**************************************
+
+подумать, нужна ли g_status

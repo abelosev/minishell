@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/16 19:49:33 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/24 16:15:17 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ void	create_pipe_and_fork(t_main *p, t_list_env *env, t_exec *e, int *code)
 		e->fd_out = STDOUT_FILENO;
         execute_command(p, env, e, code);
         *code = 1;
-        exit(1);
+        return ;
     }
 	else
 	{
-		// exec->last_pid = pid; 
+		e->last_pid = pid;      // last_pid from here
         close(e->pipe_fd[1]);
         e->fd_in = e->pipe_fd[0];
     }
@@ -78,24 +78,44 @@ void handle_redirection_and_fork(t_main *p, t_list_env *env, t_exec *e, int *cod
         return;
     }
     do_redir(p->group, p, env, e->fd_in, e->fd_out, code);
+    // do_redir(p, env, e, code);      // ???
     close(e->fd_out);
     if (p->group->next)
         create_pipe_and_fork(p, env, e, code);
 }
 
-void ft_exec(t_main *p, t_list_env *env, int *code)
+// typedef struct s_exec
+// {
+// 	int group_count;
+//  int fd_in;
+//  int fd_out;
+// 	int **pipes;
+// 	int pipe_index;
+// 	int pipe_fd[2];
+// 	int last_pid;
+// }	t_exec;
+
+
+void    init_exec(t_main *p, t_list_env *env, t_exec *e, int *code)
+{
+    e->group_count = group_nb(p->group);
+	e->fd_in = get_hd_fd(p, env, code);
+    e.fd_out = STDOUT_FILENO;
+	e->pipes = NULL;
+	e->pipe_index = 0;
+    e->pipe_fd[0] = -1;
+    e->pipe_fd[1] = -1;   
+	e->last_pid = -1;
+}
+
+void    ft_exec(t_main *p, t_list_env *env, int *code)
 {
     t_group *start;
-	t_exec	e;
+	t_exec  e;
+    int     status;
 
 	start = p->group;
-	e.group_count = group_nb(p->group);
-	// e.num_pipes = e.group_count - 1;
-	e.fd_in = get_hd_fd(p, env, code);
-	e.pipes = NULL;
-	e.pipe_index = 0;
-	e.last_pid = -1;
-
+    init_exec(p, env, &e, code);
     if (e.group_count > 1)
 	{
 		if(create_pipes((e.group_count - 1), &e.pipes) != 0)
@@ -118,7 +138,6 @@ void ft_exec(t_main *p, t_list_env *env, int *code)
         }
 		else if (p->group->flag_fail != 0)
             *code = p->group->flag_fail;
-
         if (e.fd_in != STDIN_FILENO)
             close(e.fd_in);
         if (p->group->next)
@@ -129,6 +148,15 @@ void ft_exec(t_main *p, t_list_env *env, int *code)
         }
         p->group = p->group->next;
     }
+    if (e.last_pid != -1)
+	{
+		waitpid(e.last_pid, &status, 0);
+		if (WIFEXITED(status))
+			*code = WEXITSTATUS(status);
+		else
+			*code = 1;
+	}
+    
     // ft_wait((group_count - 1), pipes, code);
 
 	// if (exec.last_pid != -1)

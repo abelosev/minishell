@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:14:34 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/17 00:02:54 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:02:26 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,14 @@ void	minishell_loop(t_list_env *env, int *code)
 		// print_group_list(parsed->group);
 		if (check_group(parsed, line, code))
 			continue ;
-		free(line);
+		if (line)
+			free(line);
 		ft_exec(parsed, env, code);//changer pour void plus tard
 	}
 	if (parsed)
 		free_main(parsed);
+	if(env)
+		free_envp_list(env);
 	clear_history();
 }
 

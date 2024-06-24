@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 20:15:11 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:52:31 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_list_env		*get_list(char **tab);
 t_list_env		*ft_find_in_env(t_list_env *env, char *target_key);
 t_list_env		*ft_new_env_node(char *key, char *value);
 t_list_env		*change_shlvl(t_list_env *env);
+void			ft_add_env(t_list_env **lst, t_list_env *new_node);
 int				ft_export_replace_or_add(t_list_env **env, char *str);
 int				ft_add_to_msh_env(t_list_env **env, char *new_str);
 
@@ -113,7 +114,7 @@ int				is_redir(t_group *group);
 int				open_redir(t_group *group, int *fd_in, int *fd_out);
 void			do_redir(t_group *group, t_main *p, t_list_env *env, int fd_in, int fd_out, int *code);
 int				group_nb(t_group *group);
-void			ft_wait(int num_pipes, int (*pipes)[2], int *code);
+void    		ft_wait(pid_t last_pid, int *code);
 void			exec_builtin(t_group *group, t_list_env *env, t_main *p, int fd_out, int *code);
 void			ft_cmd(t_group *group, t_list_env *env, int fd_in, int fd_out, int *code);
 int				create_pipes(int num_pipes, int ***pipes);

@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:14:30 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/16 19:07:57 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:01:25 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,34 @@
 t_list_env	*get_mini_env(void)
 {
 	t_list_env	*mini_env;
+	t_list_env	*new_node;
 	char		*cwd;
 
+	mini_env = NULL;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (NULL);
-	mini_env = ft_new_env_node("PWD", cwd);
-	if (ft_add_to_msh_env(&mini_env, "SHLVL=1"))
+	new_node = ft_new_env_node(strdup("PWD"), cwd);
+	if (!new_node)
 	{
 		free(cwd);
+		return (NULL);
+	}
+	ft_add_env(&mini_env, new_node);
+	new_node = ft_new_env_node(strdup("SHLVL"), strdup("1"));
+	if (!new_node)
+	{
 		free_envp_list(mini_env);
 		return (NULL);
 	}
-	if (ft_add_to_msh_env(&mini_env, "_=/usr/bin/env"))
+	ft_add_env(&mini_env, new_node);
+	new_node = ft_new_env_node(strdup("_"), strdup("/usr/bin/env"));
+	if (!new_node)
 	{
-		free(cwd);
 		free_envp_list(mini_env);
 		return (NULL);
 	}
+	ft_add_env(&mini_env, new_node);
 	return (mini_env);
 }
 
