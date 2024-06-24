@@ -114,7 +114,7 @@ int				ft_unset(t_group *group, t_list_env **env);
 void			ft_exec(t_main *p, t_list_env *env, int *code);
 int				is_redir(t_group *group);
 int				open_redir(t_group *group, int *fd_in, int *fd_out);
-void			do_redir(t_group *group, t_main *p, t_list_env *env, t_exec *e, int *code);
+void			do_redir(t_main *p, t_list_env *env, t_exec *e, int *code);
 int				group_nb(t_group *group);
 void			ft_wait(t_exec *e, int *code);
 

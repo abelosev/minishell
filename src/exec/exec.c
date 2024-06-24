@@ -78,8 +78,7 @@ void handle_redirection_and_fork(t_main *p, t_list_env *env, t_exec *e, int *cod
         *code = 1;
         return;
     }
-    do_redir(p->group, p, env, e, code);
-    // do_redir(p, env, e, code);      // ???
+    do_redir(p, env, e, code);
     close(e->fd_out);
     if (p->group->next)
         create_pipe_and_fork(p, env, e, code);

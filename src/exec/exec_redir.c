@@ -28,11 +28,13 @@ int	open_redir(t_group *group, int *fd_in, int *fd_out)
 	return (0);
 }
 
-void	do_redir(t_group *group, t_main *p, t_list_env *env, t_exec *e, int *code)
+void	do_redir(t_main *p, t_list_env *env, t_exec *e, int *code)
 {
-    int	new_fd_in;
-    int	new_fd_out;
-    
+    int		new_fd_in;
+    int		new_fd_out;
+	t_group	*group;
+
+	group = p->group;
     new_fd_in = e->fd_in;
 	new_fd_out = e->fd_out;
     if (open_redir(group, &new_fd_in, &new_fd_out))

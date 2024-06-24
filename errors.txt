@@ -45,7 +45,8 @@ declare -x SHLVL="1"
 
 **************************************
 
-исправить сигналы + потестить вручную + подумать, нужна ли g_status (!!!)
+исправить сигналы + потестить вручную + подумать, нужна ли g_status (!!!) + 
+	if ./minishell from ./minishell signals are not % 256 (??) for now
 
 **************************************
 
@@ -54,11 +55,20 @@ declare -x SHLVL="1"
 
 
 
+
+
 **************************************
+(ПОТЕСТИТЬ !)
 
 должен ли export выводить последнюю строку?
 declare -x _=/Users/anabelosevich/minishell_perso/./minishell
-добавить "" в вывод export
+
++ 
+
+declare -x PWD="/Users/anabelosevich/minishell"
+declare -x SHLVL="1"
+declare -x HOLA="II"
+declare -x HOLA=""
 
 **************************************
 

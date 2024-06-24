@@ -14,16 +14,27 @@
 
 void	ft_write_export(t_list_env *env, int fd)
 {
-	while (env != NULL)
+	while (env != NULL)		//no need to print "_=/usr/bin/env"
 	{
-		ft_putstr_fd("declare -x ", fd);
-		ft_putstr_fd(env->key, fd);
-		if (!ft_strchr(env->key, '='))
-			ft_putstr_fd("=", fd);
-		ft_putstr_fd("\"", fd);
-		if (env->value)
-			ft_putstr_fd(env->value, fd);
-		ft_putstr_fd("\"\n", fd);
+		if(ft_strncmp(env->key, "_", ft_strlen(env->key)) == 0)
+		{
+			env = env->next;
+			continue ;
+		}
+		if (env->key)
+		{
+			ft_putstr_fd("declare -x ", fd);
+			ft_putstr_fd(env->key, fd);
+			if (!env->value && ft_strchr(env->key, '='))
+				ft_putstr_fd("\"\"", fd);
+			else if (env->value)
+			{
+				ft_putstr_fd("=\"", fd);
+				ft_putstr_fd(env->value, fd);
+				ft_putstr_fd("\"", fd);
+			}
+			ft_putstr_fd("\n", fd);
+		}
 		env = env->next;
 	}
 }
