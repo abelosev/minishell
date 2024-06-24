@@ -37,7 +37,7 @@ declare -x OLDPWD
 declare -x PWD="/Users/anabelosevich/minishell"
 declare -x SHLVL="1"
 
-************************************** QUESTION : why no error msg ?
+************************************** QUESTION : why no error msg ? should I handle it?
 
 chmod 000 t | echo 123 > t | pwd | echo $?
 
@@ -54,6 +54,13 @@ Command not found
 127
 
 
+echo "" /Users/anabelosevich (не печатает пробел)
+
+
+export "" (выводит как при обычном export)
+
+
+$DONTEXIST (работает, как "")
 
 ///////////////////////////// СДЕЛАТЬ /////////////////////////////
 
