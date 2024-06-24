@@ -88,11 +88,29 @@ int	cmd_standart(char **str, t_list_env *env)
 	return (code);
 }
 
+void	with_slash(char **str, int *code)
+{
+	if (access(*str, F_OK))
+	{
+		*code = 127;
+		ft_putstr_err(*str);
+		ft_putstr_err(": No such file or directory\n");
+	}
+	else if ((access(*str, F_OK) == 0) && (access(*str, X_OK | R_OK)))
+	{
+		*code = 126;
+		ft_putstr_err(*str);
+		ft_putstr_err(": Permission denied\n");
+	}
+	else if (access(*str, F_OK | X_OK | R_OK) == 0)
+		*code = 0;
+}
+
 int	cmd_check(char **str, t_list_env *env)
 {
 	int		code;
 
-	if (is_built(*str) != 0)
+	if (is_built(*str))
 		code = 0;
 	else if (is_folder(*str))
 	{
@@ -100,28 +118,9 @@ int	cmd_check(char **str, t_list_env *env)
 		ft_putstr_err(*str);
 		ft_putstr_err(": is a directory\n");
 	}
-	else if (ft_strchr(*str, '/') && (access(*str, F_OK)))
-	{
-		code = 127;
-		ft_putstr_err(*str);
-		ft_putstr_err(": No such file or directory\n");
-	}
-	else if (ft_strchr(*str, '/') && (access(*str, F_OK) == 0)
-		&& (access(*str, X_OK | R_OK)))
-	{
-		code = 126;
-		ft_putstr_err(*str);
-		ft_putstr_err(": Permission denied\n");
-	}
-	else if (!ft_strchr(*str, '/'))
-		code = cmd_standart(str, env);
-	else if (ft_strchr(*str, '/') && (access(*str, F_OK | X_OK | R_OK) == 0))
-		code = 0;
+	else if (ft_strchr(*str, '/'))
+		with_slash(str, &code);
 	else
-	{
-		code = 127;
-		ft_putstr_err(*str);
-		ft_putstr_err(": Command not found\n");
-	}
+		code = cmd_standart(str, env);
 	return (code);
 }

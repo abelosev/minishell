@@ -77,7 +77,6 @@ void	process_group(t_main *p, t_list_env *env, t_exec *e, int *code)
     }
 }
 
-
 void	ft_exec_loop(t_main *p, t_list_env *env, t_exec *e, int *code)
 {
 	while (p->group)

@@ -69,7 +69,7 @@ void    exec_builtin(t_main *p, t_list_env *env, t_exec *e, int *code)
 
     group = p->group;
     *code = ft_do_builtin(group, env, e->fd_out, code);
-    if (is_built(group->cmd[0]) == B_EXIT)
+    if (is_built(group->cmd[0]) == B_EXIT  && e->group_count == 1)	//???
 	{
         ft_putstr_err("exit\n");
         free_envp_list(env);
