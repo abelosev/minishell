@@ -44,7 +44,7 @@ void	minishell_loop(t_list_env *env, int *code)
 			continue ;
 		if (line)
 			free(line);
-		ft_exec(parsed, env, code);
+		*code = ft_exec(parsed, env, code);
 	}
 	if (parsed)
 		free_main(parsed);

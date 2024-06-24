@@ -52,6 +52,47 @@ int	get_hd_fd(t_main *p, t_list_env *env, int *code)
 	return (fd_hd);
 }
 
+void    init_exec(t_main *p, t_list_env *env, t_exec *e, int *code)
+{
+    int		i;
+    t_group	*start;
+
+    i = 0;
+    start = p->group;
+    e->group_count = group_nb(p->group);
+	e->fd_in = get_hd_fd(p, env, code);
+    e->fd_out = STDOUT_FILENO;
+	e->pipes = NULL;
+	e->pipe_index = 0;
+    e->cpid = malloc(sizeof(pid_t) * e->group_count); //add protection (if(!e->cpid))
+    e->pipe_fd[0] = -1;
+    e->pipe_fd[1] = -1;   
+	e->last_pid = -1;
+    e->cpid_index = 0;
+	e->last_flag = 0;
+    while (i < e->group_count)
+    {
+        if (p->group->flag_fail != 0 || ((!p->group->cmd[0]
+			|| (is_built(p->group->cmd[0])))))
+            e->cpid[i] = -1;
+        else
+            e->cpid[i] = 0;
+        i++;
+        p->group = p->group->next; 
+    }
+    p->group = start;
+}
+
+void	execute_command(t_main *p, t_list_env *env, t_exec *e, int *code)
+{
+    if (is_built(p->group->cmd[0]) != 0)
+        exec_builtin(p, env, e, code);
+    else
+    {
+        ft_cmd(p->group, env, e, code);
+    }
+}
+
 void ft_wait(t_exec *e, int *code)
 {
 	int i;

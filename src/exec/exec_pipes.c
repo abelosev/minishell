@@ -38,3 +38,17 @@ int	create_pipes(int num_pipes, int ***pipes)
     }
 	return (0);
 }
+
+void	close_all_pipes(int **pipes, int num_pipes)
+{
+	int i;
+
+	i = 0;
+	while(i < num_pipes)
+	{
+        close(pipes[i][0]);
+        close(pipes[i][1]);
+		i++;
+    }
+	free_tab_int(pipes, num_pipes);
+}

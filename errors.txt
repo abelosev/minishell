@@ -35,6 +35,10 @@ declare -x OLDPWD
 declare -x PWD="/Users/anabelosevich/minishell"
 declare -x SHLVL="1"
 
+************************************** QUESTION : why no error msg ?
+
+chmod 000 t | echo 123 > t | pwd | echo $?
+
 
 
 

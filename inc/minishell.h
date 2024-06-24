@@ -76,6 +76,7 @@ typedef struct s_exec
 	pid_t last_pid;
 	pid_t *cpid;
 	int	cpid_index;
+	int last_flag;
 }	t_exec;
 
 
@@ -111,15 +112,17 @@ int				ft_pwd(int fd);
 int				ft_unset(t_group *group, t_list_env **env);
 
 //exec
-void			ft_exec(t_main *p, t_list_env *env, int *code);
+int				ft_exec(t_main *p, t_list_env *env, int *code);
+void			init_exec(t_main *p, t_list_env *env, t_exec *e, int *code);
+void			execute_command(t_main *p, t_list_env *env, t_exec *e, int *code);
 int				is_redir(t_group *group);
 int				open_redir(t_group *group, int *fd_in, int *fd_out);
 void			do_redir(t_main *p, t_list_env *env, t_exec *e, int *code);
 int				group_nb(t_group *group);
 void			ft_wait(t_exec *e, int *code);
-
-void    exec_builtin(t_main *p, t_list_env *env, t_exec *e, int *code);
-void	ft_cmd(t_group *group, t_list_env *env, t_exec *e, int *code);
+void			close_all_pipes(int **pipes, int num_pipes);
+void    		exec_builtin(t_main *p, t_list_env *env, t_exec *e, int *code);
+void			ft_cmd(t_group *group, t_list_env *env, t_exec *e, int *code);
 int				create_pipes(int num_pipes, int ***pipes);
 
 //main_outils
