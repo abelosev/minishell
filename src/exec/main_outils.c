@@ -25,24 +25,15 @@ t_list_env	*get_mini_env(void)
 		return (NULL);
 	new_node = ft_new_env_node(strdup("PWD"), cwd);
 	if (!new_node)
-	{
-		free(cwd);
-		return (NULL);
-	}
+		return (free(cwd), NULL);
 	ft_add_env(&mini_env, new_node);
 	new_node = ft_new_env_node(strdup("SHLVL"), strdup("1"));
 	if (!new_node)
-	{
-		free_envp_list(mini_env);
-		return (NULL);
-	}
+		return (free_envp_list(mini_env), NULL);
 	ft_add_env(&mini_env, new_node);
 	new_node = ft_new_env_node(strdup("_"), strdup("/usr/bin/env"));
 	if (!new_node)
-	{
-		free_envp_list(mini_env);
-		return (NULL);
-	}
+		return (free_envp_list(mini_env), NULL);
 	ft_add_env(&mini_env, new_node);
 	return (mini_env);
 }
@@ -81,8 +72,8 @@ char	*get_line(char *prompt)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	rl_outstream = stdout;
-	// if (errno == EINTR)
-	// 	g_status = 130;
+	if (errno == EINTR)
+		g_status = 130;			//???
 	return (line);
 }
 

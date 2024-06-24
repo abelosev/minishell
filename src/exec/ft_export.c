@@ -14,22 +14,37 @@
 
 void	ft_write_export(t_list_env *env, int fd)
 {
-	char	**envp;
-	int		i;
-
-	envp = get_envp(env);
-	if (!envp)
-		return ;
-	i = 0;
-	while (envp[i] != NULL)
+	while (env != NULL)
 	{
 		ft_putstr_fd("declare -x ", fd);//протестировать, не появляется ли там лишних '='
-		ft_putstr_fd(envp[i], fd);
-		ft_putstr_fd("\n", fd);
-		i++;
+		ft_putstr_fd(env->key, fd);
+		ft_putstr_fd("=\"", fd);
+		ft_putstr_fd(env->value, fd);
+		ft_putstr_fd("\"", fd);
+		if(env->next)
+			ft_putstr_fd("\n", fd);
+		env = env->next;
 	}
-	free_tab(envp);
 }
+
+// void	ft_write_export(t_list_env *env, int fd)
+// {
+// 	char	**envp;
+// 	int		i;
+
+// 	envp = get_envp(env);
+// 	if (!envp)
+// 		return ;
+// 	i = 0;
+// 	while (envp[i] != NULL)
+// 	{
+// 		ft_putstr_fd("declare -x ", fd);//протестировать, не появляется ли там лишних '='
+// 		ft_putstr_fd(envp[i], fd);
+// 		ft_putstr_fd("\n", fd);
+// 		i++;
+// 	}
+// 	free_tab(envp);
+// }
 
 int	ft_export_is_valid(char *str)
 {

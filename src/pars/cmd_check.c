@@ -94,8 +94,25 @@ int	cmd_check(char **str, t_list_env *env)
 
 	if (is_built(*str) != 0)
 		code = 0;
-	else if (is_folder(*str)) //++
+	else if (is_folder(*str))
+	{
 		code = 126;
+		ft_putstr_err(*str);
+		ft_putstr_err(": is a directory\n");
+	}
+	else if (ft_strchr(*str, '/') && (access(*str, F_OK)))
+	{
+		code = 127;
+		ft_putstr_err(*str);
+		ft_putstr_err(": No such file or directory\n");
+	}
+	else if (ft_strchr(*str, '/') && (access(*str, F_OK) == 0)
+		&& (access(*str, X_OK | R_OK)))
+	{
+		code = 126;
+		ft_putstr_err(*str);
+		ft_putstr_err(": Permission denied\n");
+	}
 	else if (!ft_strchr(*str, '/'))
 		code = cmd_standart(str, env);
 	else if (ft_strchr(*str, '/') && (access(*str, F_OK | X_OK | R_OK) == 0))

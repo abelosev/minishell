@@ -10,35 +10,28 @@ _=/usr/bin/env
 made-f0Ar11s10% 
 
 
-************************************** Error code pb (should be 127) : due to fr_wait2 function
+************************************** QUESTION : Pourquoi ce code?
 
->$ ls | iohiouh
-iohiouh: Command not found
->$ echo $?
-0
+bash-3.2$ wc -l | opijpoij
+bash: opijpoij: command not found
+
+^C
+bash-3.2$ echo $?
+127
+bash-3.2$ 
 
 
->$ wc -l | ihoiuhih
-ihoiuhih: Command not found
+Same comportement :
 
->$ echo $?
-0
+>$ wc -l | poijojio
+poijojio: Command not found
 
-************************************** Leaks (?)
+^C>$ echo $?
+127
 
-./minishell from ./minishell
 
-**************************************
 
-t_exec memory
 
-**************************************
-
-./Makefile и hola (разные codes d'erreurs: 126 et 127)
-
-**************************************
-
-убедиться, что нет leaks в случае env -i
 
 **************************************
 
@@ -46,21 +39,20 @@ t_exec memory
 
 **************************************
 
-исправить сигналы + потестить вручную
+исправить сигналы + потестить вручную + подумать, нужна ли g_status (!!!)
 
 **************************************
 
 исправить exit (когда он не один)
+
+
+
 
 **************************************
 
 должен ли export выводить последнюю строку?
 declare -x _=/Users/anabelosevich/minishell_perso/./minishell
 добавить "" в вывод export
-
-**************************************
-
-проверить, запускается ли билтин env после unset PATH : why make: *** [Makefile:121: valgrind] Error 127 ?
 
 **************************************
 
@@ -74,15 +66,16 @@ declare -x _=/Users/anabelosevich/minishell_perso/./minishell
 
 уточнить, не нужно ли тут правило для valgrind : .PHONY: all clean fclean re
 
-**************************************
-
-подумать, нужна ли g_status
 
 
+Решенные : 
 
-
-
-
+1/ проверить, запускается ли билтин env после unset PATH : why make: *** [Makefile:121: valgrind] Error 127 ?
+2/ убедиться, что нет leaks в случае env -i (?)
+3/ ./Makefile и hola (разные codes d'erreurs: 126 et 127)
+4/ ./minishell from ./minishell
+5/ wrong code : wc -l | ihoiuhih 
+6/ t_exec memory (?)
 
 
 

@@ -62,3 +62,22 @@ int	ft_do_builtin(t_group *group, t_list_env *env, int out_fd, int *code)
 	}
 	return (0);
 }
+
+void    exec_builtin(t_main *p, t_list_env *env, t_exec *e, int *code)
+{
+    t_group *group;
+
+    group = p->group;
+    *code = ft_do_builtin(group, env, e->fd_out, code);
+    if (is_built(group->cmd[0]) == B_EXIT)
+	{
+        ft_putstr_err("exit\n");
+        free_envp_list(env);
+        if (p)
+            free_main(p);
+        if (e->cpid)
+            free(e->cpid);
+        clear_history();
+        exit(*code);
+    }
+}

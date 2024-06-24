@@ -52,7 +52,7 @@ int	get_hd_fd(t_main *p, t_list_env *env, int *code)
 	return (fd_hd);
 }
 
-void ft_wait2(t_exec *e, int *code)
+void ft_wait(t_exec *e, int *code)
 {
 	int i;
 
@@ -80,5 +80,4 @@ void ft_wait2(t_exec *e, int *code)
 		}
 		i++;
 	}
-	// free(e->cpid);
 }

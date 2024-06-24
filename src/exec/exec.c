@@ -119,7 +119,9 @@ void    ft_exec(t_main *p, t_list_env *env, int *code)
 {
     t_group *start;
 	t_exec  e;
+	int		last_flag;
 
+	last_flag = 0;
 	start = p->group;
     init_exec(p, env, &e, code);
     if (e.group_count > 1)
@@ -142,8 +144,12 @@ void    ft_exec(t_main *p, t_list_env *env, int *code)
 			else
                 execute_command(p, env, &e, code);
         }
-		else if (p->group->flag_fail != 0)
-            *code = p->group->flag_fail;
+		if(p->group->flag_fail != 0)					// what about builtins?
+		{
+			*code = p->group->flag_fail;
+			if(!p->group->next)
+				last_flag = p->group->flag_fail;
+		}
         if (e.fd_in != STDIN_FILENO)
             close(e.fd_in);
         if (p->group->next)
@@ -155,14 +161,14 @@ void    ft_exec(t_main *p, t_list_env *env, int *code)
         p->group = p->group->next;
         e.cpid_index++;
     }
-    ft_wait2(&e, code);
-    //  waitpid(e.last_pid, code, 0);
+    ft_wait(&e, code);
     if(e.group_count > 1)
 		close_all_pipes(e.pipes, e.group_count - 1);
-    
 	p->group = start;
     if (p)
         free_main(p);
     if(e.cpid)
         free(e.cpid);
+	if(last_flag != 0)
+		*code = last_flag;
 }

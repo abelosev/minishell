@@ -40,19 +40,18 @@ void	minishell_loop(t_list_env *env, int *code)
 		parsed = parser(line, env, code);
 		if (!parsed)
 			exit_minishell(env, line, parsed, 1);
-		// print_group_list(parsed->group);
 		if (check_group(parsed, line, code))
 			continue ;
 		if (line)
 			free(line);
-		ft_exec(parsed, env, code);//changer pour void plus tard
+		ft_exec(parsed, env, code);
 	}
 	if (parsed)
 		free_main(parsed);
 	if(env)
 		free_envp_list(env);
 	clear_history();
-	if (g_status != 0) //to make sure
+	if (g_status != 0)			//???
 		*code = g_status;
 }
 

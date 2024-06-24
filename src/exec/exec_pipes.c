@@ -19,12 +19,12 @@ int	create_pipes(int num_pipes, int ***pipes)
     
     i = 0;
 	*pipes = malloc(sizeof(int *) * num_pipes);
-	if(!(*pipes))
+	if (!(*pipes))
 		return (1);
     while (i < num_pipes)
     {
 		(*pipes)[i] = malloc(sizeof(int) * 2);
-		if(!(*pipes)[i])
+		if (!(*pipes)[i])
 		{
 			free_tab_int(*pipes, i);
 			return (1);
