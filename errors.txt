@@ -29,6 +29,12 @@ poijojio: Command not found
 ^C>$ echo $?
 127
 
+************************************** QUESTION : Why OLDPWD ?
+
+declare -x OLDPWD
+declare -x PWD="/Users/anabelosevich/minishell"
+declare -x SHLVL="1"
+
 
 
 
