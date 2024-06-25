@@ -64,16 +64,16 @@ char	*get_line(char *prompt)
 {
 	char	*line;
 
-	rl_catch_signals = 0;
-	rl_outstream = stderr;
-	signal(SIGINT, ft_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	// rl_catch_signals = 0;
+	// rl_outstream = stderr;
+	// signal(SIGINT, ft_sigint);
+	// signal(SIGQUIT, SIG_IGN);
 	line = readline (prompt);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	rl_outstream = stdout;
-	if (errno == EINTR)
-		g_status = 130;			//???
+	// signal(SIGINT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
+	// rl_outstream = stdout;
+	// if (errno == EINTR)
+	// 	g_status = 130;			//???
 	return (line);
 }
 

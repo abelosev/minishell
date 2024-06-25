@@ -93,7 +93,7 @@ void	execute_command(t_main *p, t_list_env *env, t_exec *e, int *code)
     }
 }
 
-void ft_wait(t_exec *e, int *code)
+int ft_wait(t_exec *e, int *code)
 {
 	int i;
 
@@ -121,4 +121,7 @@ void ft_wait(t_exec *e, int *code)
 		}
 		i++;
 	}
+	if (WIFEXITED(code))
+		return (WEXITSTATUS(code));
+	return ((WTERMSIG(code) + 128));
 }

@@ -119,7 +119,7 @@ int				is_redir(t_group *group);
 int				open_redir(t_group *group, int *fd_in, int *fd_out);
 void			do_redir(t_main *p, t_list_env *env, t_exec *e, int *code);
 int				group_nb(t_group *group);
-void			ft_wait(t_exec *e, int *code);
+int			ft_wait(t_exec *e, int *code);
 void			close_all_pipes(int **pipes, int num_pipes);
 void    		exec_builtin(t_main *p, t_list_env *env, t_exec *e, int *code);
 void			ft_cmd(t_group *group, t_list_env *env, t_exec *e, int *code);
@@ -138,9 +138,11 @@ char			*heredoc(t_list_env *env, char *del, int *code);
 int				get_hd_fd(t_main *p, t_list_env *env, int *code);
 
 //signals
-void	ft_sigint(int signal);
-void			ft_sigint_hd(int signal);
-void ft_sigquit(int signal);
+// void	ft_sigint(int signal);
+// void			ft_sigint_hd(int signal);
+// void ft_sigquit(int signal);
+void	sigquit_handler(int signum);
+void	parent_signal(void);
 
 //free
 void			free_tab(char **tab);

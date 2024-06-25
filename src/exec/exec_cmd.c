@@ -29,8 +29,8 @@ void	ft_cmd(t_group *group, t_list_env *env, t_exec *e, int *code)
     pid = fork();
     if (pid == 0)
     {
-        signal(SIGINT, ft_sigint);          //???
-        signal(SIGQUIT, ft_sigquit);
+        // signal(SIGINT, ft_sigint);          //???
+        // signal(SIGQUIT, ft_sigquit);
         ft_cmd_child(group, new_envp, e);
     }
     else if (pid > 0)

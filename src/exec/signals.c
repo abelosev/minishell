@@ -12,29 +12,59 @@
 
 #include "minishell.h"
 
-void	ft_sigint(int signal)
+void	sigquit_handler(int signum)
 {
-	(void)signal;
-	ft_putstr_err("^C\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	g_status = 130;
+	g_status = signum;
+	write(2, "Quit (core dumped)\n", 19);
+	return ;
 }
 
-void	ft_sigint_hd(int signal)
+static int	check_rl_done(void)
 {
-	(void)signal;
-	close(STDIN_FILENO);
-	ft_putstr_err("^C\n");
+	return (0);
 }
 
-void ft_sigquit(int signal)
+static void	parent_signal_handler(int signal)
 {
-	(void)signal;
-	ft_putstr_err( "Quit (core dumped)\n");
-	rl_replace_line("", 0);
+	g_status = signal;
+	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_redisplay();
-	g_status = 131;
+	rl_replace_line("", 0);
+	rl_done = 1;
 }
+
+void	parent_signal(void)
+{
+	rl_event_hook = check_rl_done;
+	signal(SIGINT, &parent_signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
+}
+
+
+// void	ft_sigint(int signal)
+// {
+// 	(void)signal;
+// 	ft_putstr_err("^C\n");
+// 	rl_replace_line("", 0);
+// 	rl_on_new_line();
+// 	rl_redisplay();
+// 	g_status = 130;
+// }
+
+// void	ft_sigint_hd(int signal)
+// {
+// 	(void)signal;
+// 	close(STDIN_FILENO);
+// 	ft_putstr_err("^C\n");
+// }
+
+// void ft_sigquit(int signal)
+// {
+// 	(void)signal;
+// 	ft_putstr_err( "Quit (core dumped)\n");
+// 	rl_replace_line("", 0);
+// 	rl_on_new_line();
+// 	rl_redisplay();
+// 	g_status = 131;
+// }

@@ -57,7 +57,7 @@ char	*uniq_name(char *prefix)
 void	close_hd(int file_fd, int prev_fd, char *del)
 {
 	close (file_fd);
-	signal(SIGINT, SIG_IGN);
+	// signal(SIGINT, SIG_IGN);
 	dup2(prev_fd, STDIN_FILENO);
 	free(del);
 	close(prev_fd);
@@ -102,7 +102,7 @@ char	*heredoc(t_list_env *env, char *del, int *code)
 		free(file_name);
 		return (NULL);
 	}
-	signal(SIGINT, ft_sigint_hd);
+	// signal(SIGINT, ft_sigint_hd);
 	do_hd(del, env, file_fd, code);
 	close_hd(file_fd, prev_fd, del);
 	return (file_name);

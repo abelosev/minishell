@@ -29,8 +29,11 @@ void	minishell_loop(t_list_env *env, int *code)
 	char		*line;
 	t_main		*parsed;
 
+	parent_signal();
 	while (1)
 	{
+		signal(SIGQUIT, SIG_IGN);
+		g_status = 0;
 		line = get_line(">$ ");
 		if (!line)
 			exit_minishell(env, line, NULL, 1);
@@ -70,12 +73,12 @@ int	main(int argc, char **argv, char **envp)
 	if (!new_env)
 		return (perror("new_env"), 1);
 	code = 0;
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
 	minishell_loop(new_env, &code);
 	if(new_env)
 		free_envp_list(new_env);
-	// if (g_status != 0) //to make sure
-	// 	code = g_status;
+	if (g_status != 0) //to make sure
+		code = g_status;
 	return (code);
 }

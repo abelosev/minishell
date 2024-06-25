@@ -99,8 +99,9 @@ int    ft_exec(t_main *p, t_list_env *env, int *code)
 		if(create_pipes((e.group_count - 1), &e.pipes) != 0)
 			return (1);
 	}
+	signal(SIGQUIT, &sigquit_handler);	//???
 	ft_exec_loop(p, env, &e, code);
-    ft_wait(&e, code);
+    *code = ft_wait(&e, code);
     if(e.group_count > 1)
 		close_all_pipes(e.pipes, e.group_count - 1);
 	p->group = start;
