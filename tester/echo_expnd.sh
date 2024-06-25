@@ -29,7 +29,7 @@ chmod 755 minishell
 pipe=/tmp/testpipe
 trap "rm -f $pipe" EXIT
 if [ ! -p $pipe ]; then
-    mkfifo $pipe
+	mkfifo $pipe
 fi
 
 function exec_test()
@@ -87,7 +87,7 @@ exec_test "echo "" "
 exec_test "echo "
 exec_test "echo $LESS"
 exec_test "echo truc machin"
-exec_test "echo truc        machin"
+exec_test "echo truc		machin"
 exec_test "echo $?"
 exec_test "echo -n truc"
 exec_test "echo -n Hola"
@@ -210,11 +210,11 @@ exec_test "$LESS$VAR"
 exec_test "touch test2 ; chmod 000 test2 ; cat test2 ; echo $?" #вроде не нужно экранировать
 exec_test "echo $hola*" #not sure
 exec_test "\$FALSE"
-exec_test "echo '' $HOME"      #на самом деле норм (проверить на школьном баше)
+exec_test "echo '' $HOME"	  #на самом деле норм (проверить на школьном баше)
 exec_test "echo \"\" $HOME"
 exec_test ""$HOMEdskjhfkdshfsd""  # !!!
 exec_test "'$HOMEdskjhfkdshfsd'"
-exec_test "$DONTEXIST"         # не cmd not found, а просто перейти на новый промпт (code 0, а не 127)
+exec_test "$DONTEXIST"		 # не cmd not found, а просто перейти на новый промпт (code 0, а не 127)
 
 
 rm -rf minishell out1 test2 testpwd truc2

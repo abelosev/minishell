@@ -29,7 +29,7 @@ chmod 755 minishell
 pipe=/tmp/testpipe
 trap "rm -f $pipe" EXIT
 if [[ ! -p $pipe ]]; then
-    mkfifo $pipe
+	mkfifo $pipe
 fi
 
 function exec_test()
@@ -81,7 +81,7 @@ exec_test "/bin/ls"
 exec_test "ls"
 exec_test "env"
 exec_test ""
-exec_test "    "
+exec_test "	"
 exec_test "			"
 exec_test "   	 "
 exec_test "cat test_cases.c"

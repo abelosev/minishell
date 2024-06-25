@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_outils.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/16 03:13:32 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/25 15:46:27 by abelosev         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   exec_outils.c									  :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: abelosev <abelosev@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2024/06/16 03:13:32 by abelosev		  #+#	#+#			 */
+/*   Updated: 2024/06/25 15:46:27 by abelosev		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -33,8 +33,6 @@ int	ft_error(char *name, int type, int code)
 	return (code);
 }
 
-//need signals inside (except of heredoc)
-
 int	get_hd_fd(t_main *p, t_list_env *env, int *code)
 {
 	int		fd_hd;
@@ -54,82 +52,67 @@ int	get_hd_fd(t_main *p, t_list_env *env, int *code)
 
 void	init_cpid(t_main *p, t_exec *e)
 {
-	int	i;
+	int		i;
 	t_group	*start;
 
 	i = 0;
 	start = p->group;
 	while (i < e->group_count)
-    {
-        if (p->group->flag_fail != 0 || ((!p->group->cmd[0]
-			|| (is_built(p->group->cmd[0])))))
-            e->cpid[i] = -1;
-        else
-            e->cpid[i] = 0;
-        i++;
-        p->group = p->group->next; 
-    }
-    p->group = start;
+	{
+		if (p->group->flag_fail != 0 || ((!p->group->cmd[0]
+					|| (is_built(p->group->cmd[0])))))
+			e->cpid[i] = -1;
+		else
+			e->cpid[i] = 0;
+		i++;
+		p->group = p->group->next;
+	}
+	p->group = start;
 }
 
-int    init_exec(t_main *p, t_list_env *env, t_exec *e, int *code)
+int	init_exec(t_main *p, t_list_env *env, t_exec *e, int *code)
 {
-    e->group_count = group_nb(p->group);
+	e->group_count = group_nb(p->group);
 	e->fd_in = get_hd_fd(p, env, code);
-    e->fd_out = STDOUT_FILENO;
+	e->fd_out = STDOUT_FILENO;
 	e->pipes = NULL;
 	e->pipe_index = 0;
-    e->cpid = malloc(sizeof(pid_t) * e->group_count); //add protection (if(!e->cpid))
+	e->cpid = malloc(sizeof(pid_t) * e->group_count);
 	if (!e->cpid)
 		return (1);
-    e->pipe_fd[0] = -1;
-    e->pipe_fd[1] = -1;   
+	e->pipe_fd[0] = -1;
+	e->pipe_fd[1] = -1;
 	e->last_pid = -1;
-    e->cpid_index = 0;
+	e->cpid_index = 0;
 	e->last_flag = -1;
-	init_cpid(p, e);	//will it work?
+	init_cpid(p, e);
 	return (0);
 }
 
 void	execute_command(t_main *p, t_list_env *env, t_exec *e, int *code)
 {
-    if (is_built(p->group->cmd[0]) != 0)
-        exec_builtin(p, env, e, code);
-    else
-    {
-        ft_cmd(p->group, env, e, code);
-    }
+	if (is_built(p->group->cmd[0]) != 0)
+		exec_builtin(p, env, e, code);
+	else
+	{
+		ft_cmd(p->group, env, e, code);
+	}
 }
 
-int ft_wait(t_exec *e, int *code)
+int	ft_wait(t_exec *e, int *code)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(i < e->group_count)
+	while (i < e->group_count)
 	{
-		if(e->cpid[i] != -1)
+		if (e->cpid[i] != -1)
 		{
-			// signal(SIGINT, ft_sigint);
-        	// signal(SIGQUIT, ft_sigquit);
 			waitpid(e->cpid[i], code, 0);
-			// if(e->cpid[i] == e->last_pid)
-			// {
-				// if (*code == SIGINT)
-				// {
-				// 	// ft_putstr_err( "\n");
-				// 	*code = SIGINT + 128;
-				// }
-				// else if (*code == 131)
-				// {
-				// 	ft_putstr_err( "Quit (core dumped)\n");
-				// 	// *code = 131;
-				// }
-			// }
 		}
 		i++;
 	}
-	if (WIFEXITED(*code))				// if normal exit
-		return (WEXITSTATUS(*code));	// return code
-	return ((WTERMSIG(*code) + 128));	// if exit by signal
+	if (WIFEXITED(*code)) // if normal exit
+		return (WEXITSTATUS(*code));// return code
+	return ((WTERMSIG(*code) + 128));// if exit by signal
 }

@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main_outils.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/16 03:14:30 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/24 18:35:46 by abelosev         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   main_outils.c									  :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: abelosev <abelosev@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2024/06/16 03:14:30 by abelosev		  #+#	#+#			 */
+/*   Updated: 2024/06/24 18:35:46 by abelosev		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "parsing.h"
@@ -73,7 +73,7 @@ char	*get_line(char *prompt)
 	// signal(SIGQUIT, SIG_IGN);
 	// rl_outstream = stdout;
 	// if (errno == EINTR)
-	// 	g_status = 130;			//???
+	// 	g_status = 130;//???
 	return (line);
 }
 

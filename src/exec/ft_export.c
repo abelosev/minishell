@@ -14,9 +14,9 @@
 
 void	ft_write_export(t_list_env *env, int fd)
 {
-	while (env != NULL)		//no need to print "_=/usr/bin/env"
+	while (env != NULL)
 	{
-		if(ft_strncmp(env->key, "_", ft_strlen(env->key)) == 0)
+		if (ft_strncmp(env->key, "_", ft_strlen(env->key)) == 0)
 		{
 			env = env->next;
 			continue ;
@@ -84,7 +84,7 @@ int	ft_export_replace_or_add(t_list_env **env, char *str)
 	the_env->key = new_key;
 	new_value = get_value(str);
 	if (!new_value)
-		return (0);//точно ли 0 ?
+		return (0);
 	if (the_env->value)
 		free(the_env->value);
 	the_env->value = new_value;

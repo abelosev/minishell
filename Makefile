@@ -1,13 +1,13 @@
 # **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/06/15 22:06:52 by abelosev          #+#    #+#              #
-#    Updated: 2024/06/18 01:33:13 by abelosev         ###   ########.fr        #
-#                                                                              #
+#																			  #
+#														 :::	  ::::::::	#
+#	Makefile										   :+:	  :+:	:+:	#
+#													 +:+ +:+		 +:+	  #
+#	By: abelosev <abelosev@student.42.fr>		  +#+  +:+	   +#+		 #
+#												 +#+#+#+#+#+   +#+			#
+#	Created: 2024/06/15 22:06:52 by abelosev		  #+#	#+#			  #
+#	Updated: 2024/06/18 01:33:13 by abelosev		 ###   ########.fr		#
+#																			  #
 # **************************************************************************** #
 
 NAME		= minishell
@@ -65,7 +65,7 @@ LIBFT_DIR	= ./libft
 
 # Objects
 O_DIR		= obj
-D_DIR       = $(O_DIR)
+D_DIR	   = $(O_DIR)
 
 O_FILES		= $(patsubst $(SE_DIR)/%.c,$(O_DIR)/%.o,$(SE_FILES)) \
 				$(patsubst $(SP_DIR)/%.c,$(O_DIR)/%.o,$(SP_FILES))
@@ -75,9 +75,9 @@ D_FILES		= $(patsubst $(SE_DIR)/%.c,$(O_DIR)/%.d,$(SE_FILES)) \
 
 # Compilation
 CC			= cc
-CF          = -Wall -Wextra -Werror -g3 -I/opt/homebrew/opt/readline/include
-INC         = -I inc/ -I $(LIBFT_DIR)
-LDFLAGS     = -L $(LIBFT_DIR) -lft -lreadline -L/opt/homebrew/opt/readline/lib 
+CF		  = -Wall -Wextra -Werror -g3 -I/opt/homebrew/opt/readline/include
+INC		 = -I inc/ -I $(LIBFT_DIR)
+LDFLAGS	 = -L $(LIBFT_DIR) -lft -lreadline -L/opt/homebrew/opt/readline/lib 
 
 # Cleaning
 RM			= rm -rf
@@ -120,7 +120,7 @@ fclean:	clean
 valgrind: all
 		valgrind --suppressions=$(PWD)/ignore_readline --trace-children=yes \
 		--leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes \
-    	./minishell
+		./minishell
 
 re:		fclean all
 

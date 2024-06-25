@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/25 15:08:01 by abelosev         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   minishell.h										:+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: abelosev <abelosev@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2024/06/16 17:12:38 by abelosev		  #+#	#+#			 */
+/*   Updated: 2024/06/25 16:09:38 by abelosev		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -64,15 +64,14 @@ typedef struct s_list_env
 typedef struct s_main
 {
 	char	*hd_del;
-	// int		*code;
 	t_group	*group;
 }	t_main;
 
 typedef struct s_exec
 {
 	int group_count;
-    int fd_in;
-    int fd_out;
+	int fd_in;
+	int fd_out;
 	int **pipes;
 	int pipe_index;
 	int pipe_fd[2];
@@ -116,17 +115,17 @@ int				ft_unset(t_group *group, t_list_env **env);
 
 //exec
 int				ft_exec(t_main *p, t_list_env *env, int *code);
-int			init_exec(t_main *p, t_list_env *env, t_exec *e, int *code);
-void			execute_command(t_main *p, t_list_env *env, t_exec *e, int *code);
+int				create_pipes(int num_pipes, int ***pipes);
+int				init_exec(t_main *p, t_list_env *env, t_exec *e, int *code);
 int				is_redir(t_group *group);
 int				open_redir(t_group *group, int *fd_in, int *fd_out);
 int				do_redir(t_main *p, t_list_env *env, t_exec *e, int *code);
 int				group_nb(t_group *group);
 int				ft_wait(t_exec *e, int *code);
 void			close_all_pipes(int **pipes, int num_pipes);
-void    		exec_builtin(t_main *p, t_list_env *env, t_exec *e, int *code);
+void			exec_builtin(t_main *p, t_list_env *env, t_exec *e, int *code);
 void			ft_cmd(t_group *group, t_list_env *env, t_exec *e, int *code);
-int				create_pipes(int num_pipes, int ***pipes);
+void			execute_command(t_main *p, t_list_env *env, t_exec *e, int *code);
 
 //main_outils
 int				check_group(t_main *parsed, char *line, int *code);

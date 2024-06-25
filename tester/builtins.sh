@@ -29,7 +29,7 @@ chmod 755 minishell
 pipe=/tmp/testpipe
 trap "rm -f $pipe" EXIT
 if [[ ! -p $pipe ]]; then
-    mkfifo $pipe
+	mkfifo $pipe
 fi
 
 function exec_test()
@@ -82,7 +82,7 @@ function exec_test()
 # exec_test "exit truc"
 # exec_test "exit 42 56"
 # exec_test "exit"
-# exec_test "exit             "
+# exec_test "exit			 "
 # exec_test "exit -1"
 # exec_test "exit 255"
 # exec_test "exit 256"
@@ -118,7 +118,7 @@ exec_test "export HOLA=bonjour ; env"
 # #export
 # exec_test "export TRUC=machin ; echo \$TRUC"
 # exec_test "export TRUC=machin  CHOSE=chouette ; echo \$TRUC ; echo \$CHOSE"
-# exec_test 'export LOL="         truc machin     " ; cat $LOL'
+# exec_test 'export LOL="		 truc machin	 " ; cat $LOL'
 # exec_test "export TRUC=machin ; echo $TRUC"
 # exec_test "export"
 # exec_test "export Hola ; export"
