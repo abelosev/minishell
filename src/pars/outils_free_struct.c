@@ -54,6 +54,5 @@ void	free_main(t_main *parsed)
 		if (parsed->group)
 			free_group_list(parsed->group);
 		free(parsed);
-		//free(code); 				no need (?)
 	}
 }

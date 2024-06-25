@@ -27,7 +27,7 @@ void	print_env_list(t_list_env *list, int fd)
 	while (list != NULL)
 	{
 		ft_putstr_fd(list->key, fd);
-		if (!ft_strchr(list->key, '='))	//to keep ?
+		if (!ft_strchr(list->key, '='))
 			ft_putstr_fd("=", fd);
 		if (list->value)
 			ft_putstr_fd(list->value, fd);
