@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/25 14:14:27 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:08:01 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int				ft_unset(t_group *group, t_list_env **env);
 
 //exec
 int				ft_exec(t_main *p, t_list_env *env, int *code);
-void			init_exec(t_main *p, t_list_env *env, t_exec *e, int *code);
+int			init_exec(t_main *p, t_list_env *env, t_exec *e, int *code);
 void			execute_command(t_main *p, t_list_env *env, t_exec *e, int *code);
 int				is_redir(t_group *group);
 int				open_redir(t_group *group, int *fd_in, int *fd_out);

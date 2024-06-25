@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:13:32 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/25 14:15:18 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:46:27 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	init_cpid(t_main *p, t_exec *e)
     p->group = start;
 }
 
-void    init_exec(t_main *p, t_list_env *env, t_exec *e, int *code)
+int    init_exec(t_main *p, t_list_env *env, t_exec *e, int *code)
 {
     e->group_count = group_nb(p->group);
 	e->fd_in = get_hd_fd(p, env, code);
@@ -80,12 +80,15 @@ void    init_exec(t_main *p, t_list_env *env, t_exec *e, int *code)
 	e->pipes = NULL;
 	e->pipe_index = 0;
     e->cpid = malloc(sizeof(pid_t) * e->group_count); //add protection (if(!e->cpid))
+	if (!e->cpid)
+		return (1);
     e->pipe_fd[0] = -1;
     e->pipe_fd[1] = -1;   
 	e->last_pid = -1;
     e->cpid_index = 0;
-	e->last_flag = 0;
+	e->last_flag = -1;
 	init_cpid(p, e);	//will it work?
+	return (0);
 }
 
 void	execute_command(t_main *p, t_list_env *env, t_exec *e, int *code)
@@ -126,7 +129,7 @@ int ft_wait(t_exec *e, int *code)
 		}
 		i++;
 	}
-	if (WIFEXITED(*code))
-		return (WEXITSTATUS(*code));
-	return ((WTERMSIG(*code) + 128));
+	if (WIFEXITED(*code))				// if normal exit
+		return (WEXITSTATUS(*code));	// return code
+	return ((WTERMSIG(*code) + 128));	// if exit by signal
 }

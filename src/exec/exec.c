@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/25 14:17:27 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:02:09 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,14 @@ void	process_group(t_main *p, t_list_env *env, t_exec *e, int *code)
         else
             execute_command(p, env, e, code);
     }
-    if (p->group->flag_fail != 0)  // Handle flag_fail
+    else if (p->group->flag_fail != 0)  // Handle flag_fail
     {
         *code = p->group->flag_fail;
-        if (!p->group->next)
-            e->last_flag = p->group->flag_fail;
     }
+    // if (!p->group->next)
+    // {
+    //     e->last_flag = *code;
+    // }
     if (e->fd_in != STDIN_FILENO)
         close(e->fd_in);
     if (p->group->next)
@@ -82,6 +84,10 @@ void	ft_exec_loop(t_main *p, t_list_env *env, t_exec *e, int *code)
 	while (p->group)
 	{
 		process_group(p, env, e, code);
+        if (!p->group->next && (!p->group->cmd || is_built(p->group->cmd[0])))
+        {
+            e->last_flag = *code;
+        }
         p->group = p->group->next;
         e->cpid_index++;
     }
@@ -93,7 +99,8 @@ int    ft_exec(t_main *p, t_list_env *env, int *code)
 	t_exec  e;
 
 	start = p->group;
-    init_exec(p, env, &e, code);
+    if(init_exec(p, env, &e, code))
+        return (1);
     if (e.group_count > 1)
 	{
 		if(create_pipes((e.group_count - 1), &e.pipes) != 0)
@@ -104,7 +111,10 @@ int    ft_exec(t_main *p, t_list_env *env, int *code)
     *code = ft_wait(&e, code);
     if(e.group_count > 1)
 		close_all_pipes(e.pipes, e.group_count - 1);
-    if(e.last_flag != 0)
+    // ft_putstr_err(ft_itoa(e.last_flag));
+    // ft_putstr_err("\n");
+    // ft_putstr_err(ft_itoa(*code));
+    if(e.last_flag != -1)
 		*code = e.last_flag;
     p->group = start;
     if (p)
