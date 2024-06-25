@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/25 14:04:59 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:17:27 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	create_pipe_and_fork(t_main *p, t_list_env *env, t_exec *e, int *code) // co
     pid = fork();
     if (pid == -1)
         return (perror("fork failed"), 1);
-	if (pid == 0)
+	else if (pid == 0)
 	{
         close(e->pipe_fd[0]);
         dup2(e->pipe_fd[1], STDOUT_FILENO);
@@ -104,12 +104,14 @@ int    ft_exec(t_main *p, t_list_env *env, int *code)
     *code = ft_wait(&e, code);
     if(e.group_count > 1)
 		close_all_pipes(e.pipes, e.group_count - 1);
-	p->group = start;
+    if(e.last_flag != 0)
+		*code = e.last_flag;
+    p->group = start;
     if (p)
         free_main(p);
     if(e.cpid)
+    {
         free(e.cpid);
-	if(e.last_flag != 0)
-		*code = e.last_flag;
+    }
 	return (*code);
 }

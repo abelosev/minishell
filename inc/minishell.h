@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/25 14:11:55 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:14:27 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <curses.h>
-# include <term.h>
 # include "../libft/libft.h"
 
 # define B_ECHO 1

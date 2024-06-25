@@ -1,16 +1,41 @@
 
 ///////////////////////////// ВОПРОСЫ /////////////////////////////
 
+************************************** Why these codes?
+
+>$ cat | ls
+deps  errors.txt  exit  file  ignore_readline  inc  libft  Makefile  minishell  obj  src  t  tester
+
+
+>$ echo $?
+0
+>$ cat | ls
+deps  errors.txt  exit  file  ignore_readline  inc  libft  Makefile  minishell  obj  src  t  tester
+
+
+^\Quit (core dumped)
+>$ echo $?
+0
+
+************************************** Heredoc signals :
+
+Ctrl+C -> exit from hd + 130
+Ctrl+D ->exit from hd + 0
+Ctrl+\ ->nothing
+
 ************************************** Why signals don't work for mini-env situation?
 
-made-f0Ar11s10% env -i ./minishell
+made-f0Ar12s4% env -i ./minishell
 >$ env
 PWD=/mnt/nfs/homes/abelosev/minishell
 SHLVL=1
 _=/usr/bin/env
->$ %                           //Ctrl + D (???) => code err = 1 (???)                                                                                                    
-made-f0Ar11s10% 
-
+>$ ^C
+>$ echo $?
+0
+>$ %                                                                                                         
+made-f0Ar12s4% echo $?
+1
 
 ************************************** QUESTION : Pourquoi ce code?
 
@@ -66,12 +91,10 @@ export "" (выводит как при обычном export)
 
 $DONTEXIST (работает, как "")
 
-///////////////////////////// СДЕЛАТЬ /////////////////////////////
 
 
-сделать нормальную структуру для exec и переписать функции (= сделать Norme)
 
-**************************************
+///////////////////////////// TO FIX /////////////////////////////
 
 исправить сигналы + потестить вручную + подумать, нужна ли g_status (!!!) + 
 	if ./minishell from ./minishell signals are not % 256 (??) for now
@@ -90,7 +113,7 @@ cat | echo 123 > t | exit 42
 
 
 
-///////////////////////////// не так важно /////////////////////////////
+///////////////////////////// NOT SO IMPORTANT /////////////////////////////
 
 (ПОТЕСТИТЬ !)
 
@@ -118,7 +141,7 @@ declare -x HOLA=""
 
 
 
-///////////////////////////// решенные /////////////////////////////
+///////////////////////////// RESOLVED /////////////////////////////
 
 1/ проверить, запускается ли билтин env после unset PATH : why make: *** [Makefile:121: valgrind] Error 127 ?
 2/ убедиться, что нет leaks в случае env -i (?)
@@ -126,8 +149,6 @@ declare -x HOLA=""
 4/ ./minishell from ./minishell
 5/ wrong code : wc -l | ihoiuhih 
 6/ t_exec memory (?)
-
-
 
 
 

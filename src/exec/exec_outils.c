@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:13:32 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/25 14:10:03 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:15:18 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int ft_wait(t_exec *e, int *code)
 		}
 		i++;
 	}
-	if (WIFEXITED(code))
-		return (WEXITSTATUS(code));
-	return ((WTERMSIG(code) + 128));
+	if (WIFEXITED(*code))
+		return (WEXITSTATUS(*code));
+	return ((WTERMSIG(*code) + 128));
 }

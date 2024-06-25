@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:14:34 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/25 14:02:31 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:15:37 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exit_minishell(t_list_env *env, char *line, t_main *p, int code)
 	exit(code);
 }
 
-int	end_minishell_loop(t_main *p, t_list_env *env)
+void	end_minishell_loop(t_main *p, t_list_env *env)
 {
 	if (p)
 		free_main(p);
