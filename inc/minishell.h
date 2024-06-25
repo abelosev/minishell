@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 17:12:38 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/24 20:07:56 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:11:55 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@
 # include <errno.h>
 # include <limits.h>
 # include <dirent.h>
+# include <sys/ioctl.h>
+# include <termios.h>
+# include <curses.h>
+# include <term.h>
 # include "../libft/libft.h"
 
 # define B_ECHO 1
@@ -117,9 +121,9 @@ void			init_exec(t_main *p, t_list_env *env, t_exec *e, int *code);
 void			execute_command(t_main *p, t_list_env *env, t_exec *e, int *code);
 int				is_redir(t_group *group);
 int				open_redir(t_group *group, int *fd_in, int *fd_out);
-void			do_redir(t_main *p, t_list_env *env, t_exec *e, int *code);
+int				do_redir(t_main *p, t_list_env *env, t_exec *e, int *code);
 int				group_nb(t_group *group);
-int			ft_wait(t_exec *e, int *code);
+int				ft_wait(t_exec *e, int *code);
 void			close_all_pipes(int **pipes, int num_pipes);
 void    		exec_builtin(t_main *p, t_list_env *env, t_exec *e, int *code);
 void			ft_cmd(t_group *group, t_list_env *env, t_exec *e, int *code);

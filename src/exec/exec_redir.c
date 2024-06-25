@@ -28,7 +28,7 @@ int	open_redir(t_group *group, int *fd_in, int *fd_out)
 	return (0);
 }
 
-void	do_redir(t_main *p, t_list_env *env, t_exec *e, int *code)
+int	do_redir(t_main *p, t_list_env *env, t_exec *e, int *code)
 {
     int		new_fd_in;
     int		new_fd_out;
@@ -38,10 +38,7 @@ void	do_redir(t_main *p, t_list_env *env, t_exec *e, int *code)
     new_fd_in = e->fd_in;
 	new_fd_out = e->fd_out;
     if (open_redir(group, &new_fd_in, &new_fd_out))
-    {
-        *code = 1;
-        return;
-    }
+        return (1);
     if (is_built(group->cmd[0]) != 0)
         exec_builtin(p, env, e, code);
     else
@@ -56,5 +53,6 @@ void	do_redir(t_main *p, t_list_env *env, t_exec *e, int *code)
         close(new_fd_out);
         dup2(STDOUT_FILENO, e->fd_out);
     }
+    return (*code);
 }
 

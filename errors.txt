@@ -31,6 +31,10 @@ poijojio: Command not found
 ^C>$ echo $?
 127
 
+************************************** QUESTION : init_exec (?)
+
+init_exec : e->cpid = malloc(sizeof(pid_t) * e->group_count); //add protection (if(!e->cpid))
+
 ************************************** QUESTION : Why OLDPWD ?
 
 declare -x OLDPWD

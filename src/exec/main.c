@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:14:34 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/24 20:12:20 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:02:31 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,23 @@
 
 int	exit_minishell(t_list_env *env, char *line, t_main *p, int code)
 {
-	free_envp_list(env);
+	if(env)
+		free_envp_list(env);
+	if (p)
+		free_main(p);
 	if (line)
 		free(line);
 	clear_history();
+	exit(code);
+}
+
+int	end_minishell_loop(t_main *p, t_list_env *env)
+{
 	if (p)
 		free_main(p);
-	exit(code);
+	if(env)
+		free_envp_list(env);
+	clear_history();
 }
 
 void	minishell_loop(t_list_env *env, int *code)
@@ -49,11 +59,7 @@ void	minishell_loop(t_list_env *env, int *code)
 			free(line);
 		*code = ft_exec(parsed, env, code);
 	}
-	if (parsed)
-		free_main(parsed);
-	if(env)
-		free_envp_list(env);
-	clear_history();
+	end_minishell_loop(parsed, env);
 	if (g_status != 0)			//???
 		*code = g_status;
 }

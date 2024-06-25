@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 21:20:07 by aauthier          #+#    #+#             */
-/*   Updated: 2024/06/24 20:02:19 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:04:59 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	handle_redirection_and_fork(t_main *p, t_list_env *env, t_exec *e, int *cod
         *code = 1;
         return;
     }
-    do_redir(p, env, e, code);
+    *code = do_redir(p, env, e, code);
     close(e->fd_out);
     if (p->group->next)
         *code = create_pipe_and_fork(p, env, e, code);

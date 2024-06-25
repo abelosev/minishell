@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 03:13:32 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/24 20:12:53 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:10:03 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,28 @@ int	get_hd_fd(t_main *p, t_list_env *env, int *code)
 	return (fd_hd);
 }
 
+void	init_cpid(t_main *p, t_exec *e)
+{
+	int	i;
+	t_group	*start;
+
+	i = 0;
+	start = p->group;
+	while (i < e->group_count)
+    {
+        if (p->group->flag_fail != 0 || ((!p->group->cmd[0]
+			|| (is_built(p->group->cmd[0])))))
+            e->cpid[i] = -1;
+        else
+            e->cpid[i] = 0;
+        i++;
+        p->group = p->group->next; 
+    }
+    p->group = start;
+}
+
 void    init_exec(t_main *p, t_list_env *env, t_exec *e, int *code)
 {
-    int		i;
-    t_group	*start;
-
-    i = 0;
-    start = p->group;
     e->group_count = group_nb(p->group);
 	e->fd_in = get_hd_fd(p, env, code);
     e->fd_out = STDOUT_FILENO;
@@ -70,17 +85,7 @@ void    init_exec(t_main *p, t_list_env *env, t_exec *e, int *code)
 	e->last_pid = -1;
     e->cpid_index = 0;
 	e->last_flag = 0;
-    while (i < e->group_count)
-    {
-        if (p->group->flag_fail != 0 || ((!p->group->cmd[0]
-			|| (is_built(p->group->cmd[0])))))
-            e->cpid[i] = -1;
-        else
-            e->cpid[i] = 0;
-        i++;
-        p->group = p->group->next; 
-    }
-    p->group = start;
+	init_cpid(p, e);	//will it work?
 }
 
 void	execute_command(t_main *p, t_list_env *env, t_exec *e, int *code)
