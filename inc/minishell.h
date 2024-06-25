@@ -69,18 +69,17 @@ typedef struct s_main
 
 typedef struct s_exec
 {
-	int group_count;
-	int fd_in;
-	int fd_out;
-	int **pipes;
-	int pipe_index;
-	int pipe_fd[2];
-	pid_t last_pid;
-	pid_t *cpid;
-	int	cpid_index;
-	int last_flag;
+	int		group_count;
+	int		fd_in;
+	int		fd_out;
+	int		**pipes;
+	int		pipe_index;
+	int		pipe_fd[2];
+	pid_t	last_pid;
+	pid_t	*cpid;
+	int		cpid_index;
+	int		last_flag;
 }	t_exec;
-
 
 ////////////////// FONCTIONS //////////////////
 
@@ -104,7 +103,8 @@ int				ft_add_to_msh_env(t_list_env **env, char *new_str);
 
 //builtins
 int				is_built(char *str);
-int				ft_do_builtin(t_group *group, t_list_env *env, int out_fd, int *code);
+int				ft_do_builtin(t_group *group, t_list_env *env,
+					int out_fd, int *code);
 int				ft_cd(t_group *group, t_list_env *env, int fd);
 int				ft_echo(t_group *group, int fd);
 int				ft_env(t_group *group, t_list_env *env, int fd);
@@ -125,7 +125,8 @@ int				ft_wait(t_exec *e, int *code);
 void			close_all_pipes(int **pipes, int num_pipes);
 void			exec_builtin(t_main *p, t_list_env *env, t_exec *e, int *code);
 void			ft_cmd(t_group *group, t_list_env *env, t_exec *e, int *code);
-void			execute_command(t_main *p, t_list_env *env, t_exec *e, int *code);
+void			execute_command(t_main *p, t_list_env *env, t_exec *e,
+					int *code);
 
 //main_outils
 int				check_group(t_main *parsed, char *line, int *code);
@@ -140,11 +141,8 @@ char			*heredoc(t_list_env *env, char *del, int *code);
 int				get_hd_fd(t_main *p, t_list_env *env, int *code);
 
 //signals
-// void	ft_sigint(int signal);
-// void			ft_sigint_hd(int signal);
-// void ft_sigquit(int signal);
-void	sigquit_handler(int signum);
-void	parent_signal(void);
+void			sigquit_handler(int signum);
+void			parent_signal(void);
 
 //free
 void			free_tab(char **tab);
