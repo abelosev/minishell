@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:04:03 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/26 18:19:09 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:19:40 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,8 @@ int	ft_exec(t_main *p, t_list_env *env, int *code)
 	if (e.last_flag != -1)
 		*code = e.last_flag;
 	p->group = start;
-	// if (p)
-	// 	free_main(p);
-	// if (e.cpid)
-	// 	free(e.cpid);
+	free_main(p);
+	if (e.cpid)
+		free(e.cpid);
 	return (*code);
 }

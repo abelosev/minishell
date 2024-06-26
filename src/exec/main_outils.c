@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:06:45 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/26 18:08:23 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:28:01 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,11 @@ int	check_group(t_main *parsed, char *line, int *code)
 		return (1);
 	}
 	return (0);
+}
+
+void	line_p_null(t_list_env *env, int *code)
+{
+	if (*code == 0)
+		ft_putstr_err("exit\n");
+	exit_minishell(env, NULL, NULL, *code);
 }

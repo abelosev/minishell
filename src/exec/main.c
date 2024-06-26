@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:08:39 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/26 18:15:11 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:29:14 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,7 @@ void	minishell_loop(t_list_env *env, int *code)
 		line = readline(">$ ");
 		update_code(code);
 		if (!line)
-		{
-			if (*code == 0)
-				ft_putstr_err("exit\n");
-			exit_minishell(env, line, NULL, *code);
-		}
+			line_p_null(env, code);
 		if (check_line(line, code))
 			continue ;
 		add_history(line);

@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 17:57:11 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/26 17:57:15 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:27:51 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ void			execute_command(t_main *p, t_list_env *env, t_exec *e,
 //main_outils
 int				check_group(t_main *parsed, char *line, int *code);
 int				check_line(char *line, int *code);
-char			*get_line(char *prompt);
+void			line_p_null(t_list_env *env, int *code);
+void			exit_minishell(t_list_env *env, char *line, t_main *p, int code);
 t_list_env		*get_mini_env(void);
 t_list_env		*change_shlvl(t_list_env *env);
 
