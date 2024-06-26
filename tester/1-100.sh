@@ -50,8 +50,8 @@ function exec_test()
 	TEST1=$(cat msh_log)
 
 	rm -f msh_log
-	TEST1=$(echo $@ "; exit" | ./minishell 2>&-)
-	ES_1=$?
+	# TEST1=$(echo $@ "; exit" | ./minishell 2>&-)
+	# ES_1=$?
 	TEST2=$(echo $@ "; exit" | bash 2>&-)
 	ES_2=$?
 	if [ "$TEST1" == "$TEST2" ] && [ "$ES_1" == "$ES_2" ]; then
