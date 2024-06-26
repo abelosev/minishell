@@ -6,7 +6,7 @@
 /*   By: aauthier <aauthier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:05:48 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/26 19:17:47 by aauthier         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:20:35 by aauthier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,14 @@ void	do_hd(char *del, t_list_env *env, int file_fd, int *code)
 	line = readline("> ");
 	if (g_status || !line)
 	{
-		if(line)
+		if (line)
 			free(line);
 		return ;
 	}
 	while (line && ft_strcmp(line, del))
 	{
 		if (g_status)
-		{
-			// free(line);
 			return (free(line));
-		}
 		tmp = ft_expand(line, env, code);
 		if (tmp && *tmp)
 			ft_putstr_fd(tmp, file_fd);
