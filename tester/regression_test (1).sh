@@ -28,7 +28,7 @@ chmod 755 minishell
 
 pipe=/tmp/testpipe
 trap "rm -f $pipe" EXIT
-if [ ! -p $pipe ]; then
+if [[ ! -p $pipe ]]; then
 	mkfifo $pipe
 fi
 
