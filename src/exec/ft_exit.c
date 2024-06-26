@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:04:50 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/26 18:05:09 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/26 22:10:02 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	ft_exit(t_group *group, int *code)
 {
 	int	i;
 
-	*code = 0;
 	if (group->cmd[1] == NULL)
 		return (*code);
 	i = 0;

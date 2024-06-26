@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:09:37 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/26 18:09:45 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/26 21:59:14 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	check_rl_done(void)
 static void	parent_signal_handler(int signal)
 {
 	g_status = signal;
-	write(1, "\n", 1);
+	write(2, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_done = 1;
@@ -36,6 +36,7 @@ static void	parent_signal_handler(int signal)
 void	parent_signal(void)
 {
 	rl_event_hook = check_rl_done;
+	rl_outstream = stderr;
 	signal(SIGINT, &parent_signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);

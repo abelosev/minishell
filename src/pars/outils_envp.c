@@ -34,7 +34,7 @@ t_list_env	*ft_find_in_env(t_list_env *env, char *target_key)
 {
 	while (env != NULL)
 	{
-		if (ft_strcmp(env->key, target_key) == 0)
+		if (ft_strncmp(env->key, target_key, ft_strlen(target_key)) == 0)
 			return (env);
 		env = env->next;
 	}

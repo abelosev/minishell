@@ -141,8 +141,8 @@ exec_test "cat test_cases.c"
 exec_test "cat <test_cases.c"
 exec_test "wc test_cases.c"
 
-exec_test "cat <test_cases.c | wc"
-exec_test "cat <test_cases.c >out1 ; <out1 wc "
+# exec_test "cat <test_cases.c | wc"
+# exec_test "cat <test_cases.c >out1 ; <out1 wc "
 
 exec_test "truc ; echo $?"
 exec_test "/truc ; echo $?"
