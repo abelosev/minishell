@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   ft_exit.c										  :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: abelosev <abelosev@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/06/16 03:20:01 by abelosev		  #+#	#+#			 */
-/*   Updated: 2024/06/17 23:44:16 by abelosev		 ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 18:04:50 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/26 18:05:09 by abelosev         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -76,13 +76,10 @@ int	ft_exit_user_val(t_group *group)
 int	ft_exit(t_group *group, int *code)
 {
 	int	i;
-	// int exit_code;
 
-	// exit_code = *code;
-	// if (group->next == NULL)
-	//	 write(1, "exit\n", 5);
+	*code = 0;
 	if (group->cmd[1] == NULL)
-		return (*code);				//PROBLEM !!!
+		return (*code);
 	i = 0;
 	if ((group->cmd[1][0] == '-' || group->cmd[1][0] == '+')
 			&& group->cmd[1][1] != '\0')

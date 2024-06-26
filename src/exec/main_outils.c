@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   main_outils.c									  :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: abelosev <abelosev@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/06/16 03:14:30 by abelosev		  #+#	#+#			 */
-/*   Updated: 2024/06/24 18:35:46 by abelosev		 ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_outils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 18:06:45 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/26 18:08:23 by abelosev         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
@@ -58,23 +58,6 @@ t_list_env	*change_shlvl(t_list_env *env)
 	if (ft_export_replace_or_add(&env, new))
 		return (free(new), free(prev), NULL);
 	return (free(new), free(prev), env);
-}
-
-char	*get_line(char *prompt)
-{
-	char	*line;
-
-	// rl_catch_signals = 0;
-	// rl_outstream = stderr;
-	// signal(SIGINT, ft_sigint);
-	// signal(SIGQUIT, SIG_IGN);
-	line = readline (prompt);
-	// signal(SIGINT, SIG_IGN);
-	// signal(SIGQUIT, SIG_IGN);
-	// rl_outstream = stdout;
-	// if (errno == EINTR)
-	// 	g_status = 130;//???
-	return (line);
 }
 
 int	check_line(char *line, int *code)

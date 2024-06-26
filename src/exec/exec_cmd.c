@@ -6,7 +6,7 @@
 /*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:12:28 by abelosev          #+#    #+#             */
-/*   Updated: 2024/06/25 16:13:12 by abelosev         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:02:57 by abelosev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ void	ft_cmd(t_group *group, t_list_env *env, t_exec *e, int *code)
 	free_tab(new_envp);
 	e->cpid[e->cpid_index] = pid;
 	e->last_pid = pid;
-	// if(g_status != 0)					//???
-	//	 *code = g_status;
+}
+
+void	execute_command(t_main *p, t_list_env *env, t_exec *e, int *code)
+{
+	if (is_built(p->group->cmd[0]) != 0)
+		exec_builtin(p, env, e, code);
+	else
+	{
+		ft_cmd(p->group, env, e, code);
+	}
 }

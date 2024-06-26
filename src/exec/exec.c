@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   exec.c											 :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: abelosev <abelosev@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/06/15 21:20:07 by aauthier		  #+#	#+#			 */
-/*   Updated: 2024/06/25 16:02:09 by abelosev		 ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 18:04:03 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/26 18:19:09 by abelosev         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -96,13 +96,13 @@ int	ft_exec(t_main *p, t_list_env *env, int *code)
 
 	start = p->group;
 	if (init_exec(p, env, &e, code))
-		return (1);
+		return (free_main(p), 1);
 	if (e.group_count > 1)
 	{
 		if (create_pipes((e.group_count - 1), &e.pipes) != 0)
 			return (1);
 	}
-	signal(SIGQUIT, &sigquit_handler);//???
+	signal(SIGQUIT, &sigquit_handler);
 	ft_exec_loop(p, env, &e, code);
 	*code = ft_wait(&e, code);
 	if (e.group_count > 1)
@@ -110,9 +110,9 @@ int	ft_exec(t_main *p, t_list_env *env, int *code)
 	if (e.last_flag != -1)
 		*code = e.last_flag;
 	p->group = start;
-	if (p)
-		free_main(p);
-	if (e.cpid)
-		free(e.cpid);
+	// if (p)
+	// 	free_main(p);
+	// if (e.cpid)
+	// 	free(e.cpid);
 	return (*code);
 }

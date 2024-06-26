@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   exec_outils.c									  :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: abelosev <abelosev@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/06/16 03:13:32 by abelosev		  #+#	#+#			 */
-/*   Updated: 2024/06/25 15:46:27 by abelosev		 ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_outils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 18:01:53 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/26 18:02:35 by abelosev         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -74,6 +74,8 @@ int	init_exec(t_main *p, t_list_env *env, t_exec *e, int *code)
 {
 	e->group_count = group_nb(p->group);
 	e->fd_in = get_hd_fd(p, env, code);
+	if (g_status)
+		return (1);
 	e->fd_out = STDOUT_FILENO;
 	e->pipes = NULL;
 	e->pipe_index = 0;
@@ -89,16 +91,6 @@ int	init_exec(t_main *p, t_list_env *env, t_exec *e, int *code)
 	return (0);
 }
 
-void	execute_command(t_main *p, t_list_env *env, t_exec *e, int *code)
-{
-	if (is_built(p->group->cmd[0]) != 0)
-		exec_builtin(p, env, e, code);
-	else
-	{
-		ft_cmd(p->group, env, e, code);
-	}
-}
-
 int	ft_wait(t_exec *e, int *code)
 {
 	int	i;
@@ -112,7 +104,7 @@ int	ft_wait(t_exec *e, int *code)
 		}
 		i++;
 	}
-	if (WIFEXITED(*code)) // if normal exit
-		return (WEXITSTATUS(*code));// return code
-	return ((WTERMSIG(*code) + 128));// if exit by signal
+	if (WIFEXITED(*code))
+		return (WEXITSTATUS(*code));
+	return ((WTERMSIG(*code) + 128));
 }

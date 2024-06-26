@@ -1,19 +1,17 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   heredoc.c										  :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: abelosev <abelosev@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/06/16 18:39:12 by abelosev		  #+#	#+#			 */
-/*   Updated: 2024/06/16 19:53:26 by abelosev		 ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelosev <abelosev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 18:05:48 by abelosev          #+#    #+#             */
+/*   Updated: 2024/06/26 18:08:11 by abelosev         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "minishell.h"
-
-unsigned int	g_status;
 
 char	*get_hd_delimiter(t_tokens *list)
 {
@@ -57,7 +55,6 @@ char	*uniq_name(char *prefix)
 void	close_hd(int file_fd, int prev_fd, char *del)
 {
 	close (file_fd);
-	// signal(SIGINT, SIG_IGN);
 	dup2(prev_fd, STDIN_FILENO);
 	free(del);
 	close(prev_fd);
@@ -68,9 +65,16 @@ void	do_hd(char *del, t_list_env *env, int file_fd, int *code)
 	char	*line;
 	char	*tmp;
 
-	line = get_line("> ");
-	while (line && errno != EINTR && ft_strcmp(line, del))
+	line = readline("> ");
+	if (g_status || !line)
+		return ;
+	while (line && ft_strcmp(line, del))
 	{
+		if (g_status)
+		{
+			free(line);
+			return ;
+		}
 		tmp = ft_expand(line, env, code);
 		if (tmp && *tmp)
 			ft_putstr_fd(tmp, file_fd);
@@ -79,11 +83,6 @@ void	do_hd(char *del, t_list_env *env, int file_fd, int *code)
 			free(tmp);
 		free(line);
 		line = readline("> ");
-		if (errno == EINTR || errno == EBADF)
-		{
-			free(line);
-			g_status = 130;
-		}
 	}
 }
 
@@ -102,8 +101,12 @@ char	*heredoc(t_list_env *env, char *del, int *code)
 		free(file_name);
 		return (NULL);
 	}
-	// signal(SIGINT, ft_sigint_hd);
 	do_hd(del, env, file_fd, code);
 	close_hd(file_fd, prev_fd, del);
+	if (g_status)
+	{
+		free (file_name);
+		return (NULL);
+	}
 	return (file_name);
 }
